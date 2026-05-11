@@ -1,5 +1,6 @@
 /* ============================================================
-   OBM SYSTEM — interactions & animations
+   OBM SYSTEM — interactions & animations · v2
+   Mobile-friendly · Native cursor preserved · Idle-paused RAF
    ============================================================ */
 
 (() => {
@@ -7,6 +8,7 @@
 
   const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
   const isTouch = matchMedia('(hover: none)').matches;
+  const isFinePointer = matchMedia('(hover: hover) and (pointer: fine)').matches;
 
   // ============================================================
   // 1. NAV — scroll state + mobile burger
@@ -27,16 +29,26 @@
       burger.setAttribute('aria-expanded', String(!open));
       if (open) {
         mobileMenu.setAttribute('hidden', '');
+        document.body.style.overflow = '';
       } else {
         mobileMenu.removeAttribute('hidden');
+        document.body.style.overflow = 'hidden';
       }
     });
     mobileMenu.querySelectorAll('a').forEach(a =>
       a.addEventListener('click', () => {
         burger.setAttribute('aria-expanded', 'false');
         mobileMenu.setAttribute('hidden', '');
+        document.body.style.overflow = '';
       })
     );
+    // Close on Escape
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape' && burger.getAttribute('aria-expanded') === 'true') {
+        burger.click();
+        burger.focus();
+      }
+    });
   }
 
   // ============================================================
@@ -76,60 +88,84 @@
   }
 
   // ============================================================
-  // 3. CUSTOM CURSOR
+  // 3. DECORATIVE CURSOR — idle-paused RAF, native cursor preserved
+  //    The native browser cursor remains fully visible. This is a subtle
+  //    gold ring layer that lags for visual polish. Stops animating after
+  //    400ms of pointer inactivity, resumes on movement.
   // ============================================================
   const cursor = document.querySelector('.cursor');
-  if (cursor && !isTouch && !reducedMotion) {
-    const dot = cursor.querySelector('.cursor__dot');
+  if (cursor && isFinePointer && !reducedMotion) {
     const ring = cursor.querySelector('.cursor__ring');
     let mx = window.innerWidth / 2;
     let my = window.innerHeight / 2;
     let rx = mx, ry = my;
-    let dx = mx, dy = my;
+    let rafId = null;
+    let idleTimer = null;
+    let movingSinceMs = 0;
+    let darkAt = false;
 
-    document.addEventListener('mousemove', (e) => {
+    const startLoop = () => {
+      if (rafId) return;
+      const tick = () => {
+        const lerp = 0.18;
+        const dx = mx - rx;
+        const dy = my - ry;
+        rx += dx * lerp;
+        ry += dy * lerp;
+        ring.style.transform = `translate(${rx}px, ${ry}px) translate(-50%, -50%)`;
+
+        // Stop the loop when the ring has caught up AND the pointer has been still for 400ms
+        const stillness = Math.hypot(dx, dy);
+        if (stillness < 0.4 && performance.now() - movingSinceMs > 400) {
+          rafId = null;
+          return;
+        }
+        rafId = requestAnimationFrame(tick);
+      };
+      rafId = requestAnimationFrame(tick);
+    };
+
+    const handleMove = (e) => {
       mx = e.clientX;
       my = e.clientY;
+      movingSinceMs = performance.now();
+      startLoop();
+
+      // Detect dark sections without setInterval — sampled on movement only
+      clearTimeout(idleTimer);
+      idleTimer = setTimeout(() => {
+        const el = document.elementFromPoint(mx, my);
+        if (!el) return;
+        const onDark = !!el.closest('.engine, .cta, .footer, .marquee, .problem--lg, .pillar--featured, .why__col--good');
+        if (onDark !== darkAt) {
+          cursor.classList.toggle('is-dark', onDark);
+          darkAt = onDark;
+        }
+      }, 80);
+    };
+
+    document.addEventListener('mousemove', handleMove, { passive: true });
+    document.addEventListener('mouseleave', () => {
+      cursor.style.opacity = '0';
+    });
+    document.addEventListener('mouseenter', () => {
+      cursor.style.opacity = '';
     });
 
-    const loop = () => {
-      // Dot follows almost instantly
-      dx += (mx - dx) * 0.55;
-      dy += (my - dy) * 0.55;
-      dot.style.transform = `translate(${dx}px, ${dy}px) translate(-50%, -50%)`;
-
-      // Ring lags with smoothing
-      rx += (mx - rx) * 0.16;
-      ry += (my - ry) * 0.16;
-      ring.style.transform = `translate(${rx}px, ${ry}px) translate(-50%, -50%)`;
-
-      requestAnimationFrame(loop);
-    };
-    requestAnimationFrame(loop);
-
-    document.querySelectorAll('a, button, [data-magnetic], summary, input, textarea, label').forEach((el) => {
-      el.addEventListener('mouseenter', () => cursor.classList.add('is-hover'));
-      el.addEventListener('mouseleave', () => cursor.classList.remove('is-hover'));
+    // Hover states on interactive surfaces — event-driven, not polling
+    document.querySelectorAll('a, button, [data-magnetic], summary, .directory__row, .faq__item').forEach((el) => {
+      el.addEventListener('pointerenter', () => cursor.classList.add('is-hover'));
+      el.addEventListener('pointerleave', () => cursor.classList.remove('is-hover'));
     });
-
-    // Dark sections — invert cursor
-    const darkSelectors = '.engine, .cta, .footer, .marquee, .problem--lg, .pillar--featured, .step--featured, .why__col--good';
-    const checkDark = () => {
-      const el = document.elementFromPoint(mx, my);
-      if (!el) return;
-      const onDark = !!el.closest(darkSelectors);
-      cursor.classList.toggle('is-dark', onDark);
-    };
-    setInterval(checkDark, 120);
   }
 
   // ============================================================
-  // 4. MAGNETIC BUTTONS
+  // 4. MAGNETIC BUTTONS (desktop only, reduced motion respected)
   // ============================================================
-  if (!isTouch && !reducedMotion) {
+  if (isFinePointer && !reducedMotion) {
     document.querySelectorAll('[data-magnetic]').forEach((el) => {
-      const strength = 0.28;
-      el.addEventListener('mousemove', (e) => {
+      const strength = 0.25;
+      el.addEventListener('pointermove', (e) => {
         const rect = el.getBoundingClientRect();
         const cx = rect.left + rect.width / 2;
         const cy = rect.top + rect.height / 2;
@@ -137,7 +173,7 @@
         const dy = (e.clientY - cy) * strength;
         el.style.transform = `translate(${dx}px, ${dy}px)`;
       });
-      el.addEventListener('mouseleave', () => {
+      el.addEventListener('pointerleave', () => {
         el.style.transform = '';
       });
     });
@@ -150,21 +186,21 @@
     ...document.querySelectorAll('.section__header'),
     ...document.querySelectorAll('.problem'),
     ...document.querySelectorAll('.pillar'),
-    ...document.querySelectorAll('.treatment'),
-    ...document.querySelectorAll('.step'),
+    ...document.querySelectorAll('.directory__row'),
+    ...document.querySelectorAll('.stages__row'),
     ...document.querySelectorAll('.why__row'),
     ...document.querySelectorAll('.faq__item'),
     ...document.querySelectorAll('.cta__title'),
     ...document.querySelectorAll('.cta__form-wrap'),
+    ...document.querySelectorAll('.outcomes'),
   ];
-  revealTargets.forEach((el, idx) => {
+  revealTargets.forEach((el) => {
     el.setAttribute('data-reveal', '');
-    // Add slight stagger for siblings
     const parent = el.parentElement;
     const siblings = parent ? Array.from(parent.children).filter(c => c.matches('[data-reveal]')) : [];
     const indexAmongSiblings = siblings.indexOf(el);
     if (indexAmongSiblings > 0) {
-      el.style.setProperty('--reveal-delay', `${indexAmongSiblings * 70}ms`);
+      el.style.setProperty('--reveal-delay', `${Math.min(indexAmongSiblings * 60, 360)}ms`);
     }
   });
 
@@ -175,18 +211,18 @@
         revealObserver.unobserve(entry.target);
       }
     });
-  }, { threshold: 0.15, rootMargin: '0px 0px -50px 0px' });
+  }, { threshold: 0.12, rootMargin: '0px 0px -40px 0px' });
 
   document.querySelectorAll('[data-reveal]').forEach(el => revealObserver.observe(el));
 
   // ============================================================
-  // 6. COUNTER ANIMATIONS
+  // 6. COUNTER ANIMATIONS — works on any [data-counter] element
   // ============================================================
   const counters = document.querySelectorAll('[data-counter]');
   const animateCount = (el) => {
     const target = parseFloat(el.dataset.counter);
     const suffix = el.dataset.suffix || '';
-    const duration = 1800;
+    const duration = 1600;
     const start = performance.now();
     const easeOut = (t) => 1 - Math.pow(1 - t, 3);
 
@@ -210,19 +246,25 @@
   counters.forEach(c => counterObserver.observe(c));
 
   // ============================================================
-  // 7. ENGINE SCROLL — sticky-style progressive reveal
+  // 7. ENGINE SCROLL — progressive gold line + per-step reveal
   // ============================================================
   const engineFlow = document.querySelector('.engine__flow');
   const engineSteps = document.querySelectorAll('.engine__step');
   const engineStage = document.querySelector('.engine__stage');
 
   if (engineFlow && engineStage) {
+    let ticking = false;
     const updateEngineProgress = () => {
-      const rect = engineStage.getBoundingClientRect();
-      const total = rect.height + window.innerHeight * 0.5;
-      const passed = Math.max(0, window.innerHeight - rect.top);
-      const progress = Math.min(1, passed / total);
-      engineFlow.style.setProperty('--progress', progress);
+      if (ticking) return;
+      ticking = true;
+      requestAnimationFrame(() => {
+        const rect = engineStage.getBoundingClientRect();
+        const total = rect.height + window.innerHeight * 0.5;
+        const passed = Math.max(0, window.innerHeight - rect.top);
+        const progress = Math.min(1, passed / total);
+        engineFlow.style.setProperty('--progress', progress);
+        ticking = false;
+      });
     };
     window.addEventListener('scroll', updateEngineProgress, { passive: true });
     updateEngineProgress();
@@ -234,11 +276,11 @@
         entry.target.classList.add('is-visible');
       }
     });
-  }, { threshold: 0.35, rootMargin: '0px 0px -10% 0px' });
+  }, { threshold: 0.3, rootMargin: '0px 0px -10% 0px' });
   engineSteps.forEach(step => engineStepObserver.observe(step));
 
   // ============================================================
-  // 8. FAQ — only one open at a time (optional refinement)
+  // 8. FAQ — accordion behavior (only one open at a time)
   // ============================================================
   document.querySelectorAll('.faq__item').forEach((item) => {
     item.addEventListener('toggle', () => {
@@ -251,35 +293,57 @@
   });
 
   // ============================================================
-  // 9. FORM — basic UX + mailto fallback (no backend for now)
+  // 9. FORM — FormSubmit endpoint with in-page success state
   // ============================================================
   const form = document.getElementById('leadForm');
   const success = document.getElementById('formSuccess');
-  if (form) {
-    form.addEventListener('submit', (e) => {
-      e.preventDefault();
+
+  // If the user is returning from a successful submission (?envoye=1)
+  if (new URLSearchParams(window.location.search).get('envoye') === '1' && form && success) {
+    form.setAttribute('hidden', '');
+    success.removeAttribute('hidden');
+    setTimeout(() => success.scrollIntoView({ behavior: 'smooth', block: 'center' }), 200);
+  }
+
+  if (form && success) {
+    form.addEventListener('submit', async (e) => {
+      // Native validation first
       if (!form.checkValidity()) {
+        e.preventDefault();
         form.reportValidity();
         return;
       }
 
-      const data = new FormData(form);
-      const subject = encodeURIComponent('Nouvelle demande d\'audit — OBM SYSTEM');
-      const body = encodeURIComponent(
-        `Nom du contact : ${data.get('name') || ''}\n` +
-        `Cabinet : ${data.get('clinic') || ''}\n` +
-        `Téléphone : ${data.get('phone') || ''}\n` +
-        `Ville : ${data.get('city') || ''}\n\n` +
-        `Objectif principal :\n${data.get('message') || '—'}\n`
-      );
+      // Try AJAX submission for instant in-page success
+      try {
+        e.preventDefault();
+        const submitBtn = form.querySelector('button[type="submit"]');
+        if (submitBtn) {
+          submitBtn.disabled = true;
+          submitBtn.style.opacity = '0.7';
+          submitBtn.querySelector('span').textContent = 'Envoi en cours…';
+        }
 
-      // Open mail client as fallback delivery
-      window.location.href = `mailto:Admin@obm-system.com?subject=${subject}&body=${body}`;
+        const formData = new FormData(form);
+        const response = await fetch(form.action, {
+          method: 'POST',
+          body: formData,
+          headers: { 'Accept': 'application/json' }
+        });
 
-      // Show success state
-      form.setAttribute('hidden', '');
-      success.removeAttribute('hidden');
-      success.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        if (response.ok) {
+          form.setAttribute('hidden', '');
+          success.removeAttribute('hidden');
+          success.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        } else {
+          throw new Error('Submission failed');
+        }
+      } catch (err) {
+        // Fallback to standard form POST (FormSubmit handles the redirect via _next)
+        if (form.hasAttribute('data-fallback-tried')) return;
+        form.setAttribute('data-fallback-tried', '');
+        form.submit();
+      }
     });
   }
 
