@@ -23,31 +23,41 @@
   window.addEventListener('scroll', onScrollNav, { passive: true });
   onScrollNav();
 
-  if (burger) {
+  if (burger && mobileMenu) {
+    // Ensure the legacy hidden attribute doesn't fight our class-based toggle
+    mobileMenu.removeAttribute('hidden');
+
+    const closeMenu = () => {
+      mobileMenu.classList.remove('is-open');
+      burger.setAttribute('aria-expanded', 'false');
+      document.body.style.overflow = '';
+    };
+    const openMenu = () => {
+      mobileMenu.classList.add('is-open');
+      burger.setAttribute('aria-expanded', 'true');
+      document.body.style.overflow = 'hidden';
+    };
+
     burger.addEventListener('click', () => {
-      const open = burger.getAttribute('aria-expanded') === 'true';
-      burger.setAttribute('aria-expanded', String(!open));
-      if (open) {
-        mobileMenu.setAttribute('hidden', '');
-        document.body.style.overflow = '';
-      } else {
-        mobileMenu.removeAttribute('hidden');
-        document.body.style.overflow = 'hidden';
-      }
+      const isOpen = mobileMenu.classList.contains('is-open');
+      if (isOpen) closeMenu();
+      else openMenu();
     });
+
     mobileMenu.querySelectorAll('a').forEach(a =>
-      a.addEventListener('click', () => {
-        burger.setAttribute('aria-expanded', 'false');
-        mobileMenu.setAttribute('hidden', '');
-        document.body.style.overflow = '';
-      })
+      a.addEventListener('click', closeMenu)
     );
-    // Close on Escape
+
     document.addEventListener('keydown', (e) => {
-      if (e.key === 'Escape' && burger.getAttribute('aria-expanded') === 'true') {
-        burger.click();
+      if (e.key === 'Escape' && mobileMenu.classList.contains('is-open')) {
+        closeMenu();
         burger.focus();
       }
+    });
+
+    // Auto-close if viewport grows past the mobile breakpoint
+    matchMedia('(min-width: 920px)').addEventListener('change', (e) => {
+      if (e.matches) closeMenu();
     });
   }
 
@@ -71,20 +81,60 @@
       const text = textNode.textContent;
       if (!text.trim()) return;
       const frag = document.createDocumentFragment();
-      [...text].forEach((ch) => {
-        if (ch === ' ') {
-          frag.appendChild(document.createTextNode(' '));
+      // Tokenize keeping whitespace, then wrap each word so it stays atomic.
+      const tokens = text.split(/(\s+)/);
+      tokens.forEach((token) => {
+        if (!token) return;
+        if (/^\s+$/.test(token)) {
+          frag.appendChild(document.createTextNode(token));
           return;
         }
-        const span = document.createElement('span');
-        span.className = 'split-char';
-        span.textContent = ch;
-        span.style.animationDelay = `${0.3 + charIndex * 0.022}s`;
-        frag.appendChild(span);
-        charIndex++;
+        const word = document.createElement('span');
+        word.className = 'split-word';
+        [...token].forEach((ch) => {
+          const span = document.createElement('span');
+          span.className = 'split-char';
+          span.textContent = ch;
+          span.style.animationDelay = `${0.3 + charIndex * 0.022}s`;
+          word.appendChild(span);
+          charIndex++;
+        });
+        frag.appendChild(word);
       });
       textNode.parentNode.replaceChild(frag, textNode);
     });
+  }
+
+  // ============================================================
+  // 2b. HERO — mouse parallax on glow layers (depth + liveliness)
+  // ============================================================
+  const hero = document.querySelector('.hero');
+  const heroGlows = document.querySelectorAll('.hero__glow');
+  if (hero && heroGlows.length && isFinePointer && !reducedMotion) {
+    const maxOffset = 32;
+    let raf = null;
+    let tx = 0, ty = 0, cx = 0, cy = 0;
+
+    const animate = () => {
+      cx += (tx - cx) * 0.08;
+      cy += (ty - cy) * 0.08;
+      heroGlows.forEach((g, i) => {
+        const factor = i === 0 ? 1 : -1.2;
+        g.style.translate = `${cx * factor}px ${cy * factor}px`;
+      });
+      if (Math.abs(tx - cx) > 0.2 || Math.abs(ty - cy) > 0.2) {
+        raf = requestAnimationFrame(animate);
+      } else {
+        raf = null;
+      }
+    };
+
+    hero.addEventListener('pointermove', (e) => {
+      const rect = hero.getBoundingClientRect();
+      tx = ((e.clientX - rect.left) / rect.width - 0.5) * maxOffset * 2;
+      ty = ((e.clientY - rect.top) / rect.height - 0.5) * maxOffset * 2;
+      if (!raf) raf = requestAnimationFrame(animate);
+    }, { passive: true });
   }
 
   // ============================================================
