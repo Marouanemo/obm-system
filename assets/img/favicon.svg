@@ -1,0 +1,7 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32">
+  <rect width="32" height="32" rx="6" fill="#0B1E3F"/>
+  <text x="4" y="22" font-family="Inter, system-ui, sans-serif" font-weight="800" font-size="14" fill="#FFFFFF">O</text>
+  <text x="14" y="22" font-family="Inter, system-ui, sans-serif" font-weight="800" font-size="14" fill="#C8CCD4">B</text>
+  <text x="24" y="22" font-family="Inter, system-ui, sans-serif" font-weight="800" font-size="14" fill="#FFFFFF">M</text>
+  <path d="M22 13 L29 6 L25.5 6 M29 6 L29 9.5" stroke="#C9A961" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+</svg>
