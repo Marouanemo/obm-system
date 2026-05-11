@@ -262,14 +262,10 @@
 
   // ============================================================
   // 5. REVEAL ON SCROLL — IntersectionObserver
+  // (grouped grids are handled by Motion One stagger, see section 12)
   // ============================================================
   const revealTargets = [
     ...document.querySelectorAll('.section__header'),
-    ...document.querySelectorAll('.problem'),
-    ...document.querySelectorAll('.pillar'),
-    ...document.querySelectorAll('.directory__row'),
-    ...document.querySelectorAll('.stages__row'),
-    ...document.querySelectorAll('.why__row'),
     ...document.querySelectorAll('.faq__item'),
     ...document.querySelectorAll('.cta__title'),
     ...document.querySelectorAll('.cta__form-wrap'),
@@ -768,5 +764,209 @@
       window.scrollTo({ top, behavior: reducedMotion ? 'auto' : 'smooth' });
     });
   });
+
+  // ============================================================
+  // 12. MOTION ONE — premium animation layer
+  //     (loads via CDN; gracefully falls back if blocked)
+  // ============================================================
+  const startMotion = () => {
+    const M = window.Motion;
+    if (!M || reducedMotion) return;
+
+    const { animate, inView, stagger, spring } = M;
+
+    // -------- A. STAGGER REVEALS on grouped lists --------
+    const groups = [
+      { container: '.problems__grid', items: '.problem',       distance: 32, axis: 'y', delay: 0.06 },
+      { container: '.pillars__grid',  items: '.pillar',        distance: 40, axis: 'y', delay: 0.09 },
+      { container: '.directory',      items: '.directory__row',distance: 28, axis: 'x', delay: 0.05 },
+      { container: '.stages',         items: '.stages__row',   distance: 36, axis: 'y', delay: 0.12 },
+      { container: '.why__right',     items: '.why__row',      distance: 32, axis: 'y', delay: 0.08 },
+      { container: '.hero__trust',    items: 'li',             distance: 10, axis: 'y', delay: 0.05 },
+      { container: '.footer__inner',  items: '.footer__brand, .footer__col', distance: 20, axis: 'y', delay: 0.07 },
+    ];
+
+    groups.forEach(({ container, items, distance, axis, delay }) => {
+      const wrapper = document.querySelector(container);
+      if (!wrapper) return;
+      const elements = wrapper.querySelectorAll(items);
+      if (!elements.length) return;
+
+      // Initial hidden state
+      elements.forEach(el => {
+        el.style.opacity = '0';
+        el.style.willChange = 'opacity, transform';
+        if (axis === 'x') el.style.transform = `translateX(-${distance}px)`;
+        else el.style.transform = `translateY(${distance}px)`;
+      });
+
+      inView(wrapper, () => {
+        animate(
+          elements,
+          axis === 'x'
+            ? { opacity: [0, 1], x: [-distance, 0] }
+            : { opacity: [0, 1], y: [distance, 0] },
+          {
+            delay: stagger(delay),
+            duration: 0.85,
+            easing: spring({ stiffness: 110, damping: 18, mass: 0.9 }),
+          }
+        );
+      }, { amount: 0.12 });
+    });
+
+    // -------- B. 3D TILT on premium cards --------
+    const tiltSelector = '.pillar, .problem--lg, .step--featured';
+    document.querySelectorAll(tiltSelector).forEach(card => {
+      card.style.perspective = '1000px';
+      card.style.transformStyle = 'preserve-3d';
+      let leaveAnim = null;
+
+      const handleMove = (e) => {
+        const rect = card.getBoundingClientRect();
+        const px = (e.clientX - rect.left) / rect.width - 0.5;
+        const py = (e.clientY - rect.top) / rect.height - 0.5;
+        if (leaveAnim) leaveAnim.cancel();
+        animate(
+          card,
+          { rotateX: -py * 6, rotateY: px * 8, y: -6 },
+          { duration: 0.35, easing: [0.16, 1, 0.3, 1] }
+        );
+      };
+
+      const handleLeave = () => {
+        leaveAnim = animate(
+          card,
+          { rotateX: 0, rotateY: 0, y: 0 },
+          { duration: 0.7, easing: spring({ stiffness: 180, damping: 22 }) }
+        );
+      };
+
+      card.addEventListener('pointermove', handleMove);
+      card.addEventListener('pointerleave', handleLeave);
+    });
+
+    // -------- C. SPRING SCALE on every button (y included to preserve lift) --------
+    document.querySelectorAll('.btn').forEach(btn => {
+      btn.addEventListener('pointerenter', () => {
+        animate(btn, { scale: 1.035, y: -2 }, { duration: 0.4, easing: spring({ stiffness: 280, damping: 18 }) });
+      });
+      btn.addEventListener('pointerleave', () => {
+        animate(btn, { scale: 1, y: 0 }, { duration: 0.5, easing: spring({ stiffness: 220, damping: 22 }) });
+      });
+      btn.addEventListener('pointerdown', () => {
+        animate(btn, { scale: 0.97, y: 0 }, { duration: 0.12 });
+      });
+      btn.addEventListener('pointerup', () => {
+        animate(btn, { scale: 1.035, y: -2 }, { duration: 0.3, easing: spring({ stiffness: 300, damping: 18 }) });
+      });
+    });
+
+    // -------- D. HERO ACCENT — continuous breath --------
+    const heroAccent = document.querySelector('.hero__title-accent');
+    if (heroAccent) {
+      animate(
+        heroAccent,
+        { y: [0, -5, 0] },
+        { duration: 5.2, easing: 'ease-in-out', repeat: Infinity }
+      );
+    }
+
+    // -------- E. SECTION TITLES — slide up on scroll into view --------
+    document.querySelectorAll('.section__title').forEach(t => {
+      t.style.opacity = '0';
+      t.style.transform = 'translateY(20px)';
+      inView(t, () => {
+        animate(t, { opacity: [0, 1], y: [20, 0] }, {
+          duration: 0.95,
+          easing: spring({ stiffness: 130, damping: 20 }),
+        });
+      }, { amount: 0.3 });
+    });
+
+    // -------- F. ENGINE NODES — pulse-glow on enter --------
+    inView('.engine__step', (info) => {
+      const node = info.target.querySelector('.engine__node');
+      if (node) {
+        animate(node, { scale: [0.7, 1.15, 1] }, {
+          duration: 0.9, easing: spring({ stiffness: 200, damping: 14 }),
+        });
+      }
+    }, { amount: 0.4 });
+
+    // -------- G. PILLAR ICONS — soft rotate on hover --------
+    document.querySelectorAll('.pillar').forEach(p => {
+      const icon = p.querySelector('.pillar__icon');
+      if (!icon) return;
+      p.addEventListener('pointerenter', () => {
+        animate(icon, { rotate: 6, scale: 1.08 }, { duration: 0.5, easing: spring({ stiffness: 260, damping: 18 }) });
+      });
+      p.addEventListener('pointerleave', () => {
+        animate(icon, { rotate: 0, scale: 1 }, { duration: 0.6, easing: spring({ stiffness: 200, damping: 22 }) });
+      });
+    });
+
+    // -------- H. CTA TREATMENTS ICON-LESS list hover glow --------
+    document.querySelectorAll('.directory__row').forEach(row => {
+      const name = row.querySelector('.directory__name');
+      if (!name) return;
+      row.addEventListener('pointerenter', () => {
+        animate(name, { x: 10 }, { duration: 0.45, easing: spring({ stiffness: 220, damping: 18 }) });
+      });
+      row.addEventListener('pointerleave', () => {
+        animate(name, { x: 0 }, { duration: 0.5, easing: spring({ stiffness: 180, damping: 22 }) });
+      });
+    });
+
+    // -------- I. STAGES NUMBERS — count-up on enter --------
+    inView('.stages__row', (info) => {
+      const num = info.target.querySelector('.stages__num');
+      if (num) {
+        animate(num, { scale: [0.85, 1] }, {
+          duration: 0.7, easing: spring({ stiffness: 200, damping: 16 }),
+        });
+      }
+    }, { amount: 0.3 });
+
+    // -------- J. FAQ — smooth height with spring on open --------
+    document.querySelectorAll('.faq__item').forEach(item => {
+      const icon = item.querySelector('.faq__icon');
+      if (!icon) return;
+      item.addEventListener('toggle', () => {
+        if (item.open) {
+          animate(icon, { rotate: 45 }, { duration: 0.35, easing: spring({ stiffness: 260, damping: 18 }) });
+        } else {
+          animate(icon, { rotate: 0 }, { duration: 0.35, easing: spring({ stiffness: 260, damping: 18 }) });
+        }
+      });
+    });
+
+    // -------- K. DIAGNOSTIC option buttons — spring on hover --------
+    document.querySelectorAll('.diag__option').forEach(opt => {
+      opt.addEventListener('pointerenter', () => {
+        animate(opt, { x: 6 }, { duration: 0.35, easing: spring({ stiffness: 250, damping: 18 }) });
+      });
+      opt.addEventListener('pointerleave', () => {
+        animate(opt, { x: 0 }, { duration: 0.4, easing: spring({ stiffness: 200, damping: 22 }) });
+      });
+    });
+
+    // -------- L. FAB pulse → spring-driven breath --------
+    const fab = document.querySelector('.fab');
+    if (fab) {
+      animate(fab, { scale: [1, 1.06, 1] }, {
+        duration: 2.6, easing: 'ease-in-out', repeat: Infinity,
+      });
+    }
+  };
+
+  // Wait for Motion One CDN to load
+  if (window.Motion) {
+    startMotion();
+  } else {
+    window.addEventListener('load', () => {
+      if (window.Motion) startMotion();
+    });
+  }
 
 })();
