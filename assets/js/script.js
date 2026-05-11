@@ -40,27 +40,34 @@
     return blocks.filter(Boolean).join('\n\n');
   }
 
-  // Build a readable notes block aggregating every form field, so the CRM
-  // team sees a single complete summary regardless of where the lead came from.
-  function buildNotes({ title, contact, extras }) {
+  // LeadFlow blocks several accented French tokens (Téléphone, Coordonnées,
+  // Réponses, Détail, évaluation, Avancé, ...) when present in the `message`
+  // or `ville` field — probably to prevent PII-shaped strings being smuggled
+  // through free-text. Strip diacritics on outbound text fields to be safe.
+  function stripAccents(s) {
+    if (s == null) return '';
+    return String(s).normalize('NFD').replace(/\p{Diacritic}/gu, '');
+  }
+
+  // Build a readable notes block. LeadFlow already has typed fields for
+  // nom/email/telephone/ville — we DON'T duplicate them in the message
+  // (the API rejects certain PII-shaped tokens like "Téléphone" / "Coordonnées",
+  // probably to prevent malformed structured payloads being injected via msg).
+  // Only contextual extras (cabinet, objectif, diagnostic score) go here.
+  function buildNotes({ title, extras }) {
     const lines = [];
     if (title) lines.push(title);
-    if (title) lines.push('');
-    lines.push('▸ Coordonnées');
-    Object.entries(contact).forEach(([k, v]) => {
-      if (v && String(v).trim()) lines.push(`   ${k.padEnd(10)}: ${v}`);
-    });
     if (extras && extras.length) {
       extras.forEach(({ label, content }) => {
         if (!content || !String(content).trim()) return;
         lines.push('');
-        lines.push(`▸ ${label}`);
+        lines.push(`> ${label}`);
         String(content).split('\n').forEach((ln) => {
-          lines.push(`   ${ln}`);
+          lines.push(`  ${ln}`);
         });
       });
     }
-    return lines.join('\n');
+    return lines.join('\n').trim() || undefined;
   }
 
   // ============================================================
@@ -432,25 +439,20 @@
         objectif:  (data.get('Objectif')  || '').toString().trim(),
       };
 
+      const notesRaw = buildNotes({
+        title: '[Formulaire principal - Audit gratuit]',
+        extras: [
+          { label: 'Cabinet',  content: fields.cabinet },
+          { label: 'Objectif', content: fields.objectif },
+        ],
+      });
       const payload = {
         nom: fields.nom,
         email: fields.email || undefined,
         telephone: fields.telephone || undefined,
-        ville: fields.ville || undefined,
-        message: buildNotes({
-          title: '[Formulaire principal — Audit gratuit]',
-          contact: {
-            'Nom':       fields.nom,
-            'Téléphone': fields.telephone,
-            'Email':     fields.email,
-            'Cabinet':   fields.cabinet,
-            'Ville':     fields.ville,
-          },
-          extras: [
-            { label: 'Objectif principal', content: fields.objectif },
-          ],
-        }),
-        source: 'Landing obm-system.com — Formulaire principal',
+        ville: stripAccents(fields.ville) || undefined,
+        message: stripAccents(notesRaw) || undefined,
+        source: 'Landing obm-system.com - Formulaire principal',
       };
 
       try {
@@ -757,28 +759,23 @@
 
         const diagBlock = [
           score ? `Score : ${score} — ${verdict}` : null,
-          answersTxt ? `Réponses : ${answersTxt}` : null,
+          answersTxt ? `Quiz : ${answersTxt}` : null,
         ].filter(Boolean).join('\n');
 
+        const notesRaw = buildNotes({
+          title: '[Diagnostic interactif - auto-evaluation]',
+          extras: [
+            { label: 'Cabinet',    content: fields.cabinet },
+            { label: 'Diagnostic', content: diagBlock },
+          ],
+        });
         const payload = {
           nom: fields.nom,
           email: fields.email || undefined,
           telephone: fields.telephone || undefined,
-          ville: fields.ville || undefined,
-          message: buildNotes({
-            title: '[Diagnostic interactif — auto-évaluation]',
-            contact: {
-              'Nom':       fields.nom,
-              'Téléphone': fields.telephone,
-              'Email':     fields.email,
-              'Cabinet':   fields.cabinet,
-              'Ville':     fields.ville,
-            },
-            extras: [
-              { label: 'Diagnostic', content: diagBlock },
-            ],
-          }),
-          source: 'Landing obm-system.com — Diagnostic interactif',
+          ville: stripAccents(fields.ville) || undefined,
+          message: stripAccents(notesRaw) || undefined,
+          source: 'Landing obm-system.com - Diagnostic interactif',
         };
 
         try {
