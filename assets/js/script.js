@@ -40,6 +40,29 @@
     return blocks.filter(Boolean).join('\n\n');
   }
 
+  // Build a readable notes block aggregating every form field, so the CRM
+  // team sees a single complete summary regardless of where the lead came from.
+  function buildNotes({ title, contact, extras }) {
+    const lines = [];
+    if (title) lines.push(title);
+    if (title) lines.push('');
+    lines.push('▸ Coordonnées');
+    Object.entries(contact).forEach(([k, v]) => {
+      if (v && String(v).trim()) lines.push(`   ${k.padEnd(10)}: ${v}`);
+    });
+    if (extras && extras.length) {
+      extras.forEach(({ label, content }) => {
+        if (!content || !String(content).trim()) return;
+        lines.push('');
+        lines.push(`▸ ${label}`);
+        String(content).split('\n').forEach((ln) => {
+          lines.push(`   ${ln}`);
+        });
+      });
+    }
+    return lines.join('\n');
+  }
+
   // ============================================================
   // 1. NAV — scroll state + mobile burger
   // ============================================================
@@ -400,14 +423,33 @@
       }
 
       const data = new FormData(form);
+      const fields = {
+        nom:       (data.get('Nom')       || '').toString().trim(),
+        email:     (data.get('Email')     || '').toString().trim(),
+        telephone: (data.get('Telephone') || '').toString().trim(),
+        ville:     (data.get('Ville')     || '').toString().trim(),
+        cabinet:   (data.get('Cabinet')   || '').toString().trim(),
+        objectif:  (data.get('Objectif')  || '').toString().trim(),
+      };
+
       const payload = {
-        nom: (data.get('Nom') || '').toString().trim(),
-        telephone: (data.get('Telephone') || '').toString().trim() || undefined,
-        ville: (data.get('Ville') || '').toString().trim() || undefined,
-        message: buildMessageBlocks([
-          data.get('Cabinet') ? `Cabinet : ${data.get('Cabinet')}` : null,
-          data.get('Objectif') ? `Objectif :\n${data.get('Objectif')}` : null,
-        ]) || undefined,
+        nom: fields.nom,
+        email: fields.email || undefined,
+        telephone: fields.telephone || undefined,
+        ville: fields.ville || undefined,
+        message: buildNotes({
+          title: '[Formulaire principal — Audit gratuit]',
+          contact: {
+            'Nom':       fields.nom,
+            'Téléphone': fields.telephone,
+            'Email':     fields.email,
+            'Cabinet':   fields.cabinet,
+            'Ville':     fields.ville,
+          },
+          extras: [
+            { label: 'Objectif principal', content: fields.objectif },
+          ],
+        }),
         source: 'Landing obm-system.com — Formulaire principal',
       };
 
@@ -702,18 +744,40 @@
         }
 
         const data = new FormData(diagForm);
-        const score = data.get('Score_Maturite') || '';
-        const verdict = data.get('Maturite') || '';
-        const answersTxt = data.get('Reponses') || '';
+        const fields = {
+          nom:       (data.get('Nom')       || '').toString().trim(),
+          telephone: (data.get('Telephone') || '').toString().trim(),
+          email:     (data.get('Email')     || '').toString().trim(),
+          ville:     (data.get('Ville')     || '').toString().trim(),
+          cabinet:   (data.get('Cabinet')   || '').toString().trim(),
+        };
+        const score = (data.get('Score_Maturite') || '').toString();
+        const verdict = (data.get('Maturite') || '').toString();
+        const answersTxt = (data.get('Reponses') || '').toString();
+
+        const diagBlock = [
+          score ? `Score : ${score} — ${verdict}` : null,
+          answersTxt ? `Réponses : ${answersTxt}` : null,
+        ].filter(Boolean).join('\n');
 
         const payload = {
-          nom: (data.get('Nom') || '').toString().trim(),
-          telephone: (data.get('Telephone') || '').toString().trim() || undefined,
-          message: buildMessageBlocks([
-            data.get('Cabinet') ? `Cabinet : ${data.get('Cabinet')}` : null,
-            score ? `Score de maturité : ${score} — ${verdict}` : null,
-            answersTxt ? `Réponses détaillées : ${answersTxt}` : null,
-          ]) || undefined,
+          nom: fields.nom,
+          email: fields.email || undefined,
+          telephone: fields.telephone || undefined,
+          ville: fields.ville || undefined,
+          message: buildNotes({
+            title: '[Diagnostic interactif — auto-évaluation]',
+            contact: {
+              'Nom':       fields.nom,
+              'Téléphone': fields.telephone,
+              'Email':     fields.email,
+              'Cabinet':   fields.cabinet,
+              'Ville':     fields.ville,
+            },
+            extras: [
+              { label: 'Diagnostic', content: diagBlock },
+            ],
+          }),
           source: 'Landing obm-system.com — Diagnostic interactif',
         };
 

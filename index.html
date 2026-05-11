@@ -32,7 +32,7 @@
   <link rel="preconnect" href="https://cdn.fontshare.com" crossorigin />
   <link href="https://api.fontshare.com/v2/css?f[]=clash-display@500,600,700&f[]=switzer@400,500,600,700&f[]=jetbrains-mono@400,500&display=swap" rel="stylesheet" />
 
-  <link rel="stylesheet" href="assets/css/styles.css?v=8" />
+  <link rel="stylesheet" href="assets/css/styles.css?v=9" />
 
   <!-- Motion One — vanilla JS animation engine (same author as Framer Motion) -->
   <script src="https://cdn.jsdelivr.net/npm/motion@10.18.0/dist/motion.min.js" defer></script>
@@ -243,6 +243,14 @@
                 <div class="field">
                   <label for="d-phone">Téléphone</label>
                   <input type="tel" id="d-phone" name="Telephone" required autocomplete="tel" placeholder="06 12 34 56 78" pattern="[0-9 ]{10,14}" />
+                </div>
+                <div class="field">
+                  <label for="d-email">Email (optionnel)</label>
+                  <input type="email" id="d-email" name="Email" autocomplete="email" placeholder="vous@cabinet.ma" />
+                </div>
+                <div class="field">
+                  <label for="d-city">Ville (optionnel)</label>
+                  <input type="text" id="d-city" name="Ville" autocomplete="address-level2" placeholder="Casablanca, Rabat..." />
                 </div>
                 <div class="field field--full">
                   <label for="d-clinic">Cabinet (optionnel)</label>
@@ -901,6 +909,10 @@
             <input type="text" id="f-name" name="Nom" required autocomplete="name" placeholder="Dr. Mohammed Bennani" />
           </div>
           <div class="field">
+            <label for="f-email">Email (optionnel)</label>
+            <input type="email" id="f-email" name="Email" autocomplete="email" placeholder="vous@cabinet.ma" />
+          </div>
+          <div class="field">
             <label for="f-clinic">Nom du cabinet</label>
             <input type="text" id="f-clinic" name="Cabinet" required autocomplete="organization" placeholder="Cabinet Dr. ..." />
           </div>
@@ -908,7 +920,7 @@
             <label for="f-phone">Téléphone</label>
             <input type="tel" id="f-phone" name="Telephone" required autocomplete="tel" placeholder="06 12 34 56 78" pattern="[0-9 ]{10,14}" />
           </div>
-          <div class="field">
+          <div class="field field--full">
             <label for="f-city">Ville</label>
             <input type="text" id="f-city" name="Ville" autocomplete="address-level2" placeholder="Casablanca, Rabat, Marrakech..." />
           </div>
@@ -994,6 +1006,6 @@
     </svg>
   </a>
 
-  <script src="assets/js/script.js?v=8" defer></script>
+  <script src="assets/js/script.js?v=9" defer></script>
 </body>
 </html>
