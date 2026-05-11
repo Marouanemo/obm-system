@@ -32,7 +32,7 @@
   <link rel="preconnect" href="https://cdn.fontshare.com" crossorigin />
   <link href="https://api.fontshare.com/v2/css?f[]=clash-display@500,600,700&f[]=switzer@400,500,600,700&f[]=jetbrains-mono@400,500&display=swap" rel="stylesheet" />
 
-  <link rel="stylesheet" href="assets/css/styles.css?v=10" />
+  <link rel="stylesheet" href="assets/css/styles.css?v=11" />
 
   <!-- Motion One — vanilla JS animation engine (same author as Framer Motion) -->
   <script src="https://cdn.jsdelivr.net/npm/motion@10.18.0/dist/motion.min.js" defer></script>
@@ -116,8 +116,7 @@
   <section class="hero hero--diag" id="top">
     <div class="hero__bg" aria-hidden="true">
       <div class="hero__grid"></div>
-      <div class="hero__glow hero__glow--gold"></div>
-      <div class="hero__glow hero__glow--blue"></div>
+      <div class="hero__vignette"></div>
     </div>
 
     <div class="hero__inner">
@@ -170,7 +169,7 @@
                 <path d="M22 32l8 8 14-16"/>
               </svg>
             </div>
-            <h3 class="diag__intro-title">Démarrez votre diagnostic</h3>
+            <p class="diag__intro-title">Démarrez votre diagnostic</p>
             <p class="diag__intro-text">
               Sept questions précises. Vous repartez avec un score sur 100 et vos trois leviers d'action immédiats.
             </p>
@@ -188,32 +187,18 @@
           <!-- QUESTIONS — rendered dynamically by JS into this container -->
           <div class="diag__questions" id="diagQuestions" hidden></div>
 
-          <!-- RESULT PANEL -->
+          <!-- RESULT PANEL — editorial typographic score (no gauge cliche) -->
           <div class="diag__panel diag__panel--result" data-panel="result">
             <div class="diag__result-top">
-              <div class="diag__gauge-wrap">
-                <svg viewBox="0 0 200 200" class="diag__gauge" aria-hidden="true">
-                  <defs>
-                    <linearGradient id="diagGoldGrad" x1="0%" y1="0%" x2="100%" y2="100%">
-                      <stop offset="0%" stop-color="#E0CB9A"/>
-                      <stop offset="100%" stop-color="#A88842"/>
-                    </linearGradient>
-                  </defs>
-                  <circle cx="100" cy="100" r="84" fill="none" stroke="rgba(255,255,255,0.07)" stroke-width="14"/>
-                  <circle cx="100" cy="100" r="84" fill="none" stroke="url(#diagGoldGrad)" stroke-width="14"
-                          stroke-dasharray="527.79" stroke-dashoffset="527.79"
-                          stroke-linecap="round"
-                          transform="rotate(-90 100 100)"
-                          id="diagGaugeArc"/>
-                </svg>
-                <div class="diag__gauge-center">
-                  <span class="diag__score-num" id="diagScoreNum">0</span>
-                  <span class="diag__score-unit">/100</span>
+              <div class="diag__result-score">
+                <span class="diag__result-kicker">Score</span>
+                <div class="diag__result-num">
+                  <span id="diagScoreNum">0</span><span class="diag__result-unit">/100</span>
                 </div>
               </div>
-              <div class="diag__verdict">
-                <span class="diag__verdict-kicker">Votre maturité</span>
-                <h3 class="diag__verdict-label" id="diagVerdictLabel">—</h3>
+              <div class="diag__result-verdict">
+                <span class="diag__result-kicker">Maturité</span>
+                <p class="diag__verdict-label" id="diagVerdictLabel">—</p>
                 <p class="diag__verdict-text" id="diagVerdictText">—</p>
               </div>
             </div>
@@ -1006,6 +991,6 @@
     </svg>
   </a>
 
-  <script src="assets/js/script.js?v=10" defer></script>
+  <script src="assets/js/script.js?v=11" defer></script>
 </body>
 </html>

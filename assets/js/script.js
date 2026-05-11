@@ -36,10 +36,6 @@
     return response.json();
   }
 
-  function buildMessageBlocks(blocks) {
-    return blocks.filter(Boolean).join('\n\n');
-  }
-
   // LeadFlow blocks several accented French tokens (Téléphone, Coordonnées,
   // Réponses, Détail, évaluation, Avancé, ...) when present in the `message`
   // or `ville` field — probably to prevent PII-shaped strings being smuggled
@@ -695,15 +691,6 @@
         else scoreEl.textContent = score;
       };
       requestAnimationFrame(tick);
-
-      // Animate gauge arc
-      const arc = document.getElementById('diagGaugeArc');
-      const circumference = 2 * Math.PI * 84; // r=84
-      const offset = circumference * (1 - score / 100);
-      // small delay so the CSS transition catches the change
-      requestAnimationFrame(() => {
-        arc.style.strokeDashoffset = offset;
-      });
 
       // Render top-3 insights (lowest answers first)
       const sorted = Object.entries(answers)
