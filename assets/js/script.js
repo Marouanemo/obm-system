@@ -399,6 +399,287 @@
   }
 
   // ============================================================
+  // 9b. DIAGNOSTIC — interactive maturity assessment
+  // ============================================================
+  const diagApp = document.getElementById('diagApp');
+  if (diagApp) {
+    const QUESTIONS = [
+      {
+        id: 1,
+        q: "Combien de demandes patients gérez-vous par mois ?",
+        opts: [
+          { v: 1, label: "0 à 10",   desc: "Démarrage / pas d'acquisition active" },
+          { v: 2, label: "10 à 30",  desc: "Bouche-à-oreille principalement" },
+          { v: 3, label: "30 à 100", desc: "Acquisition mixte (organique + pub)" },
+          { v: 4, label: "100+",     desc: "Système d'acquisition rodé" },
+        ],
+      },
+      {
+        id: 2,
+        q: "Comment vos leads sont-ils centralisés ?",
+        opts: [
+          { v: 1, label: "WhatsApp, téléphone, mémoire", desc: "Aucune centralisation" },
+          { v: 2, label: "Excel ou cahier",              desc: "Suivi basique manuel" },
+          { v: 3, label: "CRM généraliste",              desc: "Outil non spécialisé dentaire" },
+          { v: 4, label: "CRM dentaire complet",         desc: "Pipeline, statuts, historique" },
+        ],
+      },
+      {
+        id: 3,
+        q: "Avez-vous des relances automatiques ?",
+        opts: [
+          { v: 1, label: "Aucune relance",              desc: "Tout dépend de la mémoire de l'équipe" },
+          { v: 2, label: "Relances manuelles ponctuelles", desc: "Quand on a le temps" },
+          { v: 3, label: "Confirmations automatiques",  desc: "RDV J-1, H-2" },
+          { v: 4, label: "Séquences complètes",         desc: "Capture, qualification, suivi, no-show" },
+        ],
+      },
+      {
+        id: 4,
+        q: "Connaissez-vous votre coût par patient acquis ?",
+        opts: [
+          { v: 1, label: "Aucune idée",                desc: "Pas de tracking" },
+          { v: 2, label: "Estimation approximative",   desc: "On sent que ça marche ou pas" },
+          { v: 3, label: "Suivi par campagne",         desc: "On voit ce qui performe" },
+          { v: 4, label: "Patient-level précis",       desc: "Du clic au RDV, du RDV au CA" },
+        ],
+      },
+      {
+        id: 5,
+        q: "Quel pourcentage de vos demandes deviennent des RDV ?",
+        opts: [
+          { v: 1, label: "Moins de 20%", desc: "Beaucoup de fuite" },
+          { v: 2, label: "20 à 40%",     desc: "Conversion irrégulière" },
+          { v: 3, label: "40 à 60%",     desc: "Système qui fonctionne" },
+          { v: 4, label: "Plus de 60%",  desc: "Excellence commerciale" },
+        ],
+      },
+      {
+        id: 6,
+        q: "Quel budget mensuel en publicité (Meta / Google) ?",
+        opts: [
+          { v: 1, label: "Pas de publicité",      desc: "Uniquement organique" },
+          { v: 2, label: "Moins de 5 000 dh",     desc: "Tests, expérimentation" },
+          { v: 3, label: "5 000 à 15 000 dh",     desc: "Investissement structuré" },
+          { v: 4, label: "Plus de 15 000 dh",     desc: "Acquisition à l'échelle" },
+        ],
+      },
+      {
+        id: 7,
+        q: "Avez-vous une stratégie d'acquisition claire ?",
+        opts: [
+          { v: 1, label: "Pas vraiment",                  desc: "Ça se fait au feeling" },
+          { v: 2, label: "Quelques actions ponctuelles",  desc: "Pas structuré" },
+          { v: 3, label: "Stratégie définie",             desc: "Mais pas pilotée au quotidien" },
+          { v: 4, label: "Pilotage complet",              desc: "Objectifs mensuels, ajustements en continu" },
+        ],
+      },
+    ];
+
+    const INSIGHTS = {
+      1: "Votre volume de demandes est sous-exploité. Un système d'acquisition structuré peut multiplier votre flux mensuel par 2 à 3 en quelques mois.",
+      2: "Vos leads sont dispersés. Sans centralisation, 30 à 50% des opportunités sont perdues — vous ne pouvez ni les suivre ni les optimiser.",
+      3: "L'absence de relances automatiques est votre fuite numéro un. Chaque jour qui passe sans relance fait chuter le taux de conversion de 10%.",
+      4: "Aucune visibilité sur le ROI publicitaire. Vous investissez à l'aveugle — impossible d'identifier ce qui rapporte, ce qui coûte.",
+      5: "Votre taux de conversion est faible. Dans 90% des cas, le problème n'est pas la demande — c'est le système de suivi qui laisse filer les patients.",
+      6: "Votre investissement publicitaire est insuffisant pour générer un volume stable. Vos concurrents captent les patients à forte valeur pendant ce temps.",
+      7: "Votre acquisition repose sur la chance. Sans stratégie pilotée, impossible de prévoir, mesurer ou amplifier ce qui fonctionne.",
+    };
+
+    const VERDICTS = [
+      { min: 0,  max: 30,  label: "Embryonnaire",   text: "Tout est à construire — et c'est exactement là que les gains sont les plus rapides. Le potentiel est énorme." },
+      { min: 31, max: 60,  label: "En construction", text: "Vous avez posé des bases. Les leviers d'optimisation sont évidents et activables en quelques semaines." },
+      { min: 61, max: 85,  label: "Avancé",          text: "Votre système fonctionne. Les marges restent significatives sur l'optimisation continue et le pilotage data." },
+      { min: 86, max: 100, label: "Mature",          text: "Système d'élite. Nous vous aidons à scaler intelligemment vers le niveau supérieur." },
+    ];
+
+    const panels = {
+      intro: diagApp.querySelector('[data-panel="intro"]'),
+      questions: diagApp.querySelector('#diagQuestions'),
+      result: diagApp.querySelector('[data-panel="result"]'),
+    };
+
+    const answers = {};
+
+    // Build all question panels into the container
+    QUESTIONS.forEach((Q) => {
+      const panel = document.createElement('div');
+      panel.className = 'diag__panel diag__panel--question';
+      panel.dataset.panel = 'q' + Q.id;
+      panel.innerHTML = `
+        <header class="diag__panel-header">
+          <span class="diag__step-label">Question ${Q.id} / ${QUESTIONS.length}</span>
+          <div class="diag__progress"><div class="diag__progress-fill" style="width:${(Q.id / QUESTIONS.length) * 100}%"></div></div>
+        </header>
+        <h3 class="diag__question">${Q.q}</h3>
+        <div class="diag__options"></div>
+        ${Q.id > 1 ? `<button type="button" class="diag__back" data-back="${Q.id - 1}">← Question précédente</button>` : `<button type="button" class="diag__back" data-back="intro">← Annuler</button>`}
+      `;
+      const optsWrap = panel.querySelector('.diag__options');
+      Q.opts.forEach((opt) => {
+        const btn = document.createElement('button');
+        btn.type = 'button';
+        btn.className = 'diag__option';
+        btn.dataset.q = Q.id;
+        btn.dataset.v = opt.v;
+        btn.innerHTML = `
+          <span class="diag__option-label">${opt.label}</span>
+          <span class="diag__option-desc">${opt.desc}</span>
+        `;
+        optsWrap.appendChild(btn);
+      });
+      panels.questions.appendChild(panel);
+    });
+    panels.questions.removeAttribute('hidden');
+
+    const showPanel = (name) => {
+      // hide all panels first
+      diagApp.querySelectorAll('.diag__panel').forEach((p) => p.classList.remove('is-active'));
+      if (name === 'intro') {
+        panels.intro.classList.add('is-active');
+      } else if (name === 'result') {
+        panels.result.classList.add('is-active');
+        renderResult();
+      } else {
+        const p = diagApp.querySelector(`[data-panel="${name}"]`);
+        if (p) p.classList.add('is-active');
+      }
+      // Scroll the app into view smoothly
+      const top = diagApp.getBoundingClientRect().top + window.scrollY - 100;
+      window.scrollTo({ top, behavior: reducedMotion ? 'auto' : 'smooth' });
+    };
+
+    // Wire intro start
+    diagApp.querySelector('[data-action="start"]').addEventListener('click', () => {
+      showPanel('q1');
+    });
+
+    // Wire option clicks (event delegation)
+    panels.questions.addEventListener('click', (e) => {
+      const optBtn = e.target.closest('.diag__option');
+      if (optBtn) {
+        const q = parseInt(optBtn.dataset.q, 10);
+        const v = parseInt(optBtn.dataset.v, 10);
+        answers[q] = v;
+        if (q < QUESTIONS.length) {
+          showPanel('q' + (q + 1));
+        } else {
+          showPanel('result');
+        }
+        return;
+      }
+      const backBtn = e.target.closest('.diag__back');
+      if (backBtn) {
+        const target = backBtn.dataset.back;
+        if (target === 'intro') showPanel('intro');
+        else showPanel('q' + target);
+      }
+    });
+
+    // Restart
+    panels.result.querySelector('[data-action="restart"]').addEventListener('click', () => {
+      Object.keys(answers).forEach((k) => delete answers[k]);
+      const form = document.getElementById('diagForm');
+      const success = document.getElementById('diagFormSuccess');
+      if (form) form.removeAttribute('hidden');
+      if (success) success.setAttribute('hidden', '');
+      showPanel('intro');
+    });
+
+    // Compute score, animate gauge + insights
+    const renderResult = () => {
+      const totalPts = Object.values(answers).reduce((a, b) => a + b, 0);
+      const maxPts = QUESTIONS.length * 4;
+      const score = Math.round((totalPts / maxPts) * 100);
+
+      const verdict = VERDICTS.find((v) => score >= v.min && score <= v.max) || VERDICTS[1];
+
+      document.getElementById('diagVerdictLabel').textContent = verdict.label;
+      document.getElementById('diagVerdictText').textContent = verdict.text;
+
+      // Animate score number
+      const scoreEl = document.getElementById('diagScoreNum');
+      const start = performance.now();
+      const duration = 1400;
+      const easeOut = (t) => 1 - Math.pow(1 - t, 3);
+      const tick = (now) => {
+        const p = Math.min(1, (now - start) / duration);
+        scoreEl.textContent = Math.round(score * easeOut(p));
+        if (p < 1) requestAnimationFrame(tick);
+        else scoreEl.textContent = score;
+      };
+      requestAnimationFrame(tick);
+
+      // Animate gauge arc
+      const arc = document.getElementById('diagGaugeArc');
+      const circumference = 2 * Math.PI * 84; // r=84
+      const offset = circumference * (1 - score / 100);
+      // small delay so the CSS transition catches the change
+      requestAnimationFrame(() => {
+        arc.style.strokeDashoffset = offset;
+      });
+
+      // Render top-3 insights (lowest answers first)
+      const sorted = Object.entries(answers)
+        .sort((a, b) => a[1] - b[1])
+        .slice(0, 3);
+      const list = document.getElementById('diagInsights');
+      list.innerHTML = '';
+      sorted.forEach(([qid]) => {
+        const li = document.createElement('li');
+        li.textContent = INSIGHTS[qid];
+        list.appendChild(li);
+      });
+
+      // Populate hidden form fields
+      document.getElementById('diagFormScore').value = score + '/100';
+      document.getElementById('diagFormLabel').value = verdict.label;
+      const answersTxt = Object.entries(answers)
+        .map(([q, v]) => `Q${q}=${v}`).join(' · ');
+      document.getElementById('diagFormAnswers').value = answersTxt;
+    };
+
+    // Diagnostic form submission — FormSubmit endpoint with in-page success
+    const diagForm = document.getElementById('diagForm');
+    const diagSuccess = document.getElementById('diagFormSuccess');
+    if (diagForm && diagSuccess) {
+      diagForm.addEventListener('submit', async (e) => {
+        if (!diagForm.checkValidity()) {
+          e.preventDefault();
+          diagForm.reportValidity();
+          return;
+        }
+        try {
+          e.preventDefault();
+          const submitBtn = diagForm.querySelector('button[type="submit"]');
+          if (submitBtn) {
+            submitBtn.disabled = true;
+            submitBtn.style.opacity = '0.7';
+            const sp = submitBtn.querySelector('span');
+            if (sp) sp.textContent = 'Envoi…';
+          }
+          const formData = new FormData(diagForm);
+          const response = await fetch(diagForm.action, {
+            method: 'POST',
+            body: formData,
+            headers: { 'Accept': 'application/json' },
+          });
+          if (response.ok) {
+            diagForm.setAttribute('hidden', '');
+            diagSuccess.removeAttribute('hidden');
+          } else {
+            throw new Error('Submission failed');
+          }
+        } catch (err) {
+          if (diagForm.hasAttribute('data-fallback-tried')) return;
+          diagForm.setAttribute('data-fallback-tried', '');
+          diagForm.submit();
+        }
+      });
+    }
+  }
+
+  // ============================================================
   // 10. YEAR
   // ============================================================
   const yearEl = document.getElementById('year');

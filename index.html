@@ -32,7 +32,7 @@
   <link rel="preconnect" href="https://cdn.fontshare.com" crossorigin />
   <link href="https://api.fontshare.com/v2/css?f[]=clash-display@500,600,700&f[]=switzer@400,500,600,700&f[]=jetbrains-mono@400,500&display=swap" rel="stylesheet" />
 
-  <link rel="stylesheet" href="assets/css/styles.css" />
+  <link rel="stylesheet" href="assets/css/styles.css?v=5" />
 
   <script type="application/ld+json">
   {
@@ -80,6 +80,7 @@
       <nav class="nav__links" aria-label="Navigation principale">
         <a href="#problemes">Problème</a>
         <a href="#systeme">Système</a>
+        <a href="#diagnostic">Diagnostic</a>
         <a href="#process">Process</a>
         <a href="#faq">FAQ</a>
       </nav>
@@ -96,9 +97,10 @@
       </button>
     </div>
 
-    <div class="nav__mobile" id="mobile-menu">
+    <div class="nav__mobile" id="mobile-menu" hidden>
       <a href="#problemes">Problème</a>
       <a href="#systeme">Système</a>
+      <a href="#diagnostic">Diagnostic</a>
       <a href="#process">Process</a>
       <a href="#faq">FAQ</a>
       <a href="#contact" class="btn btn--gold btn--full">Audit gratuit</a>
@@ -362,6 +364,138 @@
           </ul>
         </article>
 
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ DIAGNOSTIC — interactive lead magnet ============ -->
+  <section class="diag" id="diagnostic">
+    <div class="diag__bg" aria-hidden="true">
+      <div class="diag__bg-grid"></div>
+      <div class="diag__bg-glow"></div>
+    </div>
+
+    <div class="container">
+      <header class="section__header section__header--center">
+        <span class="eyebrow eyebrow--gold">Diagnostic offert · interactif</span>
+        <h2 class="section__title">
+          Mesurez votre maturité
+          <em>d'acquisition.</em>
+        </h2>
+        <p class="section__lead">
+          Sept questions pour évaluer votre système actuel et identifier les trois leviers qui changeront le plus vite vos résultats.
+        </p>
+      </header>
+
+      <div class="diag__app" id="diagApp">
+
+        <!-- INTRO PANEL -->
+        <div class="diag__panel diag__panel--intro is-active" data-panel="intro">
+          <div class="diag__intro-icon" aria-hidden="true">
+            <svg viewBox="0 0 64 64" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+              <circle cx="32" cy="32" r="26"/>
+              <path d="M22 32l8 8 14-16"/>
+            </svg>
+          </div>
+          <h3 class="diag__intro-title">Découvrez votre score de maturité</h3>
+          <p class="diag__intro-text">
+            Sept questions précises, analysées contre les standards des cabinets dentaires les plus performants au Maroc. Vous repartez avec un score sur 100 et vos trois leviers d'action immédiats.
+          </p>
+          <button class="btn btn--gold btn--lg" data-action="start">
+            <span>Commencer le diagnostic</span>
+            <svg viewBox="0 0 16 16" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 8h10M9 4l4 4-4 4"/></svg>
+          </button>
+          <ul class="diag__meta" aria-hidden="true">
+            <li>7 questions</li><li>·</li>
+            <li>90 secondes</li><li>·</li>
+            <li>100% confidentiel</li>
+          </ul>
+        </div>
+
+        <!-- QUESTIONS — rendered dynamically by JS into this container -->
+        <div class="diag__questions" id="diagQuestions" hidden></div>
+
+        <!-- RESULT PANEL -->
+        <div class="diag__panel diag__panel--result" data-panel="result">
+          <div class="diag__result-top">
+            <div class="diag__gauge-wrap">
+              <svg viewBox="0 0 200 200" class="diag__gauge" aria-hidden="true">
+                <defs>
+                  <linearGradient id="diagGoldGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+                    <stop offset="0%" stop-color="#E0CB9A"/>
+                    <stop offset="100%" stop-color="#A88842"/>
+                  </linearGradient>
+                </defs>
+                <circle cx="100" cy="100" r="84" fill="none" stroke="rgba(255,255,255,0.07)" stroke-width="14"/>
+                <circle cx="100" cy="100" r="84" fill="none" stroke="url(#diagGoldGrad)" stroke-width="14"
+                        stroke-dasharray="527.79" stroke-dashoffset="527.79"
+                        stroke-linecap="round"
+                        transform="rotate(-90 100 100)"
+                        id="diagGaugeArc"/>
+              </svg>
+              <div class="diag__gauge-center">
+                <span class="diag__score-num" id="diagScoreNum">0</span>
+                <span class="diag__score-unit">/100</span>
+              </div>
+            </div>
+            <div class="diag__verdict">
+              <span class="diag__verdict-kicker">Votre maturité</span>
+              <h3 class="diag__verdict-label" id="diagVerdictLabel">—</h3>
+              <p class="diag__verdict-text" id="diagVerdictText">—</p>
+            </div>
+          </div>
+
+          <div class="diag__insights">
+            <h4>Vos 3 leviers prioritaires</h4>
+            <ol id="diagInsights"></ol>
+          </div>
+
+          <div class="diag__cta-block">
+            <h4>Recevoir mon analyse détaillée</h4>
+            <p>On prépare votre plan d'action personnalisé et on vous rappelle sous 24h ouvrées. Confidentiel, sans engagement.</p>
+            <form class="diag__form" id="diagForm" action="https://formsubmit.co/Admin@obm-system.com" method="POST" novalidate>
+              <input type="hidden" name="_subject" value="Nouveau diagnostic — OBM SYSTEM" />
+              <input type="hidden" name="_template" value="table" />
+              <input type="hidden" name="_captcha" value="false" />
+              <input type="hidden" name="_next" value="https://obm-system.com/?envoye=1" />
+              <input type="hidden" name="Score_Maturite" id="diagFormScore" value="" />
+              <input type="hidden" name="Maturite" id="diagFormLabel" value="" />
+              <input type="hidden" name="Reponses" id="diagFormAnswers" value="" />
+              <input type="text" name="_honey" tabindex="-1" autocomplete="off" aria-hidden="true" style="position:absolute;left:-9999px;opacity:0;pointer-events:none" />
+
+              <div class="field">
+                <label for="d-name">Nom</label>
+                <input type="text" id="d-name" name="Nom" required autocomplete="name" placeholder="Dr. Bennani" />
+              </div>
+              <div class="field">
+                <label for="d-phone">Téléphone</label>
+                <input type="tel" id="d-phone" name="Telephone" required autocomplete="tel" placeholder="06 12 34 56 78" pattern="[0-9 ]{10,14}" />
+              </div>
+              <div class="field field--full">
+                <label for="d-clinic">Cabinet (optionnel)</label>
+                <input type="text" id="d-clinic" name="Cabinet" autocomplete="organization" placeholder="Cabinet Dr. ..." />
+              </div>
+              <div class="field field--full">
+                <button type="submit" class="btn btn--gold btn--full btn--lg">
+                  <span>Recevoir mon analyse complète</span>
+                  <svg viewBox="0 0 16 16" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 8h10M9 4l4 4-4 4"/></svg>
+                </button>
+              </div>
+            </form>
+
+            <div class="diag__form-success" id="diagFormSuccess" hidden role="status" aria-live="polite">
+              <svg viewBox="0 0 48 48" width="48" height="48" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                <circle cx="24" cy="24" r="20"/>
+                <path d="M14 24 L21 31 L34 18"/>
+              </svg>
+              <h5>Demande reçue.</h5>
+              <p>Votre plan d'action arrive dans votre boîte. Pour aller plus vite&nbsp;:</p>
+              <a href="https://wa.me/212712348034?text=Bonjour%2C%20je%20viens%20de%20faire%20le%20diagnostic%20OBM." class="btn btn--gold" target="_blank" rel="noopener">Continuer sur WhatsApp</a>
+            </div>
+
+            <button type="button" class="diag__restart" data-action="restart">↺ Refaire le diagnostic</button>
+          </div>
+        </div>
       </div>
     </div>
   </section>
@@ -888,6 +1022,6 @@
     </svg>
   </a>
 
-  <script src="assets/js/script.js" defer></script>
+  <script src="assets/js/script.js?v=5" defer></script>
 </body>
 </html>
