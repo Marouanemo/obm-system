@@ -129,6 +129,7 @@
       mx = e.clientX;
       my = e.clientY;
       movingSinceMs = performance.now();
+      if (!cursor.classList.contains('is-ready')) cursor.classList.add('is-ready');
       startLoop();
 
       // Detect dark sections without setInterval — sampled on movement only

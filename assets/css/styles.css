@@ -320,13 +320,17 @@ ul, ol { list-style: none; }
 }
 .cursor__ring {
   position: absolute;
+  top: 0; left: 0;
   width: 28px; height: 28px;
   border: 1.5px solid rgba(201, 169, 97, 0.45);
   border-radius: 50%;
-  transform: translate(-50%, -50%);
-  transition: width .3s var(--ease-out), height .3s var(--ease-out), border-color .25s ease, background-color .25s ease;
+  /* Start far off-screen so no corner artifact shows before first pointer move */
+  transform: translate(-9999px, -9999px);
+  opacity: 0;
+  transition: opacity .25s ease, width .3s var(--ease-out), height .3s var(--ease-out), border-color .25s ease, background-color .25s ease;
   mix-blend-mode: multiply;
 }
+.cursor.is-ready .cursor__ring { opacity: 1; }
 .cursor.is-hover .cursor__ring {
   width: 52px; height: 52px;
   border-color: var(--gold-600);
@@ -1042,21 +1046,24 @@ ul, ol { list-style: none; }
   .engine__flow { left: 50%; transform: translateX(-50%); }
   .engine__steps { padding-inline: 0; }
   .engine__step {
-    grid-template-columns: 1fr auto 1fr;
+    grid-template-columns: 1fr 56px 1fr;
     align-items: center;
-    gap: 28px;
+    gap: clamp(20px, 4vw, 56px);
   }
+  /* The node always sits dead-center on the timeline */
+  .engine__node { grid-column: 2; justify-self: center; }
+  /* Odd steps → content reads from the LEFT */
   .engine__step:nth-child(odd) .engine__content {
     grid-column: 1;
     text-align: right;
     justify-self: end;
   }
-  .engine__step:nth-child(odd) > :nth-child(2) { grid-column: 2; }
+  /* Even steps → content reads from the RIGHT */
   .engine__step:nth-child(even) .engine__content {
     grid-column: 3;
     text-align: left;
+    justify-self: start;
   }
-  .engine__step:nth-child(even) > :first-child { grid-column: 2; }
 }
 
 /* ---- OUTCOMES (replaces metric grid; no gradient text) ---- */
