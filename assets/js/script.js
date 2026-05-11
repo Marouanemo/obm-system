@@ -11,6 +11,36 @@
   const isFinePointer = matchMedia('(hover: hover) and (pointer: fine)').matches;
 
   // ============================================================
+  // LEADFLOW — CRM integration
+  // CORS restricted to obm-system.com on the server side. Rate limiting
+  // and abuse protection live on the LeadFlow side.
+  // ============================================================
+  const LEADFLOW = {
+    endpoint: 'https://leadflow-production-d68a.up.railway.app/web-leads',
+    apiKey:   '1b5bb99f4de498b44ff6ef9aef6f33607a8e4c48860150ad351122ac00ab79d0',
+  };
+
+  async function sendLead(payload) {
+    const response = await fetch(LEADFLOW.endpoint, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'x-api-key': LEADFLOW.apiKey,
+      },
+      body: JSON.stringify(payload),
+    });
+    if (!response.ok) {
+      const text = await response.text().catch(() => '');
+      throw new Error(`LeadFlow ${response.status}: ${text}`);
+    }
+    return response.json();
+  }
+
+  function buildMessageBlocks(blocks) {
+    return blocks.filter(Boolean).join('\n\n');
+  }
+
+  // ============================================================
   // 1. NAV — scroll state + mobile burger
   // ============================================================
   const nav = document.getElementById('nav');
@@ -358,42 +388,58 @@
 
   if (form && success) {
     form.addEventListener('submit', async (e) => {
-      // Native validation first
+      e.preventDefault();
       if (!form.checkValidity()) {
-        e.preventDefault();
         form.reportValidity();
         return;
       }
 
-      // Try AJAX submission for instant in-page success
+      const submitBtn = form.querySelector('button[type="submit"]');
+      const submitSpan = submitBtn?.querySelector('span');
+      const originalLabel = submitSpan?.textContent;
+      if (submitBtn) {
+        submitBtn.disabled = true;
+        submitBtn.style.opacity = '0.7';
+        if (submitSpan) submitSpan.textContent = 'Envoi en cours…';
+      }
+
+      const data = new FormData(form);
+      const payload = {
+        nom: (data.get('Nom') || '').toString().trim(),
+        telephone: (data.get('Telephone') || '').toString().trim() || undefined,
+        ville: (data.get('Ville') || '').toString().trim() || undefined,
+        message: buildMessageBlocks([
+          data.get('Cabinet') ? `Cabinet : ${data.get('Cabinet')}` : null,
+          data.get('Objectif') ? `Objectif :\n${data.get('Objectif')}` : null,
+        ]) || undefined,
+        source: 'Landing obm-system.com — Formulaire principal',
+      };
+
       try {
-        e.preventDefault();
-        const submitBtn = form.querySelector('button[type="submit"]');
-        if (submitBtn) {
-          submitBtn.disabled = true;
-          submitBtn.style.opacity = '0.7';
-          submitBtn.querySelector('span').textContent = 'Envoi en cours…';
+        const result = await sendLead(payload);
+        // result: { success: true, leadId, duplicate? }
+        if (result.duplicate && success.querySelector('p')) {
+          success.querySelector('p').textContent =
+            "Nous avons déjà votre demande, notre équipe vous recontacte très rapidement. Vous pouvez aussi nous écrire sur WhatsApp pour aller plus vite.";
         }
-
-        const formData = new FormData(form);
-        const response = await fetch(form.action, {
-          method: 'POST',
-          body: formData,
-          headers: { 'Accept': 'application/json' }
-        });
-
-        if (response.ok) {
-          form.setAttribute('hidden', '');
-          success.removeAttribute('hidden');
-          success.scrollIntoView({ behavior: 'smooth', block: 'center' });
-        } else {
-          throw new Error('Submission failed');
-        }
+        form.setAttribute('hidden', '');
+        success.removeAttribute('hidden');
+        success.scrollIntoView({ behavior: 'smooth', block: 'center' });
       } catch (err) {
-        // Fallback to standard form POST (FormSubmit handles the redirect via _next)
-        if (form.hasAttribute('data-fallback-tried')) return;
-        form.setAttribute('data-fallback-tried', '');
-        form.submit();
+        console.warn('LeadFlow failed, falling back to FormSubmit:', err);
+        // Graceful fallback: native form POST to FormSubmit endpoint
+        if (!form.hasAttribute('data-fallback-tried')) {
+          form.setAttribute('data-fallback-tried', '');
+          form.submit();
+          return;
+        }
+        // Last-resort error UI
+        if (submitBtn) {
+          submitBtn.disabled = false;
+          submitBtn.style.opacity = '';
+          if (submitSpan) submitSpan.textContent = originalLabel || 'Réserver mon audit gratuit';
+        }
+        alert("Une erreur réseau est survenue. Merci d'utiliser le bouton WhatsApp ou de réessayer dans un instant.");
       }
     });
   }
@@ -639,41 +685,63 @@
       document.getElementById('diagFormAnswers').value = answersTxt;
     };
 
-    // Diagnostic form submission — FormSubmit endpoint with in-page success
+    // Diagnostic form submission — LeadFlow with score/verdict/answers attached
     const diagForm = document.getElementById('diagForm');
     const diagSuccess = document.getElementById('diagFormSuccess');
     if (diagForm && diagSuccess) {
       diagForm.addEventListener('submit', async (e) => {
+        e.preventDefault();
         if (!diagForm.checkValidity()) {
-          e.preventDefault();
           diagForm.reportValidity();
           return;
         }
+
+        const submitBtn = diagForm.querySelector('button[type="submit"]');
+        const submitSpan = submitBtn?.querySelector('span');
+        const originalLabel = submitSpan?.textContent;
+        if (submitBtn) {
+          submitBtn.disabled = true;
+          submitBtn.style.opacity = '0.7';
+          if (submitSpan) submitSpan.textContent = 'Envoi…';
+        }
+
+        const data = new FormData(diagForm);
+        const score = data.get('Score_Maturite') || '';
+        const verdict = data.get('Maturite') || '';
+        const answersTxt = data.get('Reponses') || '';
+
+        const payload = {
+          nom: (data.get('Nom') || '').toString().trim(),
+          telephone: (data.get('Telephone') || '').toString().trim() || undefined,
+          message: buildMessageBlocks([
+            data.get('Cabinet') ? `Cabinet : ${data.get('Cabinet')}` : null,
+            score ? `Score de maturité : ${score} — ${verdict}` : null,
+            answersTxt ? `Réponses détaillées : ${answersTxt}` : null,
+          ]) || undefined,
+          source: 'Landing obm-system.com — Diagnostic interactif',
+        };
+
         try {
-          e.preventDefault();
-          const submitBtn = diagForm.querySelector('button[type="submit"]');
-          if (submitBtn) {
-            submitBtn.disabled = true;
-            submitBtn.style.opacity = '0.7';
-            const sp = submitBtn.querySelector('span');
-            if (sp) sp.textContent = 'Envoi…';
+          const result = await sendLead(payload);
+          if (result.duplicate && diagSuccess.querySelector('p')) {
+            diagSuccess.querySelector('p').textContent =
+              "Votre demande précédente est déjà dans notre pipeline. Pour aller plus vite :";
           }
-          const formData = new FormData(diagForm);
-          const response = await fetch(diagForm.action, {
-            method: 'POST',
-            body: formData,
-            headers: { 'Accept': 'application/json' },
-          });
-          if (response.ok) {
-            diagForm.setAttribute('hidden', '');
-            diagSuccess.removeAttribute('hidden');
-          } else {
-            throw new Error('Submission failed');
-          }
+          diagForm.setAttribute('hidden', '');
+          diagSuccess.removeAttribute('hidden');
         } catch (err) {
-          if (diagForm.hasAttribute('data-fallback-tried')) return;
-          diagForm.setAttribute('data-fallback-tried', '');
-          diagForm.submit();
+          console.warn('LeadFlow failed (diagnostic), falling back to FormSubmit:', err);
+          if (!diagForm.hasAttribute('data-fallback-tried')) {
+            diagForm.setAttribute('data-fallback-tried', '');
+            diagForm.submit();
+            return;
+          }
+          if (submitBtn) {
+            submitBtn.disabled = false;
+            submitBtn.style.opacity = '';
+            if (submitSpan) submitSpan.textContent = originalLabel || 'Recevoir mon analyse complète';
+          }
+          alert("Une erreur réseau est survenue. Merci d'utiliser WhatsApp ou de réessayer dans un instant.");
         }
       });
     }
