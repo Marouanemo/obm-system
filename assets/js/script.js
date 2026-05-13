@@ -11,6 +11,16 @@
   const isFinePointer = matchMedia('(hover: hover) and (pointer: fine)').matches;
 
   // ============================================================
+  // GTM — dataLayer helper (no-op safely if GTM is blocked)
+  // ============================================================
+  window.dataLayer = window.dataLayer || [];
+  function gtmEvent(name, params) {
+    try {
+      window.dataLayer.push(Object.assign({ event: name }, params || {}));
+    } catch (e) { /* never break the page over analytics */ }
+  }
+
+  // ============================================================
   // LEADFLOW — CRM integration
   // CORS restricted to obm-system.com on the server side. Rate limiting
   // and abuse protection live on the LeadFlow side.
@@ -458,6 +468,13 @@
           success.querySelector('p').textContent =
             "Nous avons déjà votre demande, notre équipe vous recontacte très rapidement. Vous pouvez aussi nous écrire sur WhatsApp pour aller plus vite.";
         }
+        gtmEvent('form_submitted', {
+          form_source: 'main_audit',
+          duplicate: !!result.duplicate,
+          lead_id: result.leadId || null,
+          has_email: !!fields.email,
+          has_ville: !!fields.ville,
+        });
         form.setAttribute('hidden', '');
         success.removeAttribute('hidden');
         success.scrollIntoView({ behavior: 'smooth', block: 'center' });
@@ -633,6 +650,7 @@
 
     // Wire intro start
     diagApp.querySelector('[data-action="start"]').addEventListener('click', () => {
+      gtmEvent('diagnostic_started');
       showPanel('q1');
     });
 
@@ -643,6 +661,7 @@
         const q = parseInt(optBtn.dataset.q, 10);
         const v = parseInt(optBtn.dataset.v, 10);
         answers[q] = v;
+        gtmEvent('diagnostic_question_answered', { question: q, value: v });
         if (q < QUESTIONS.length) {
           showPanel('q' + (q + 1));
         } else {
@@ -710,6 +729,13 @@
       const answersTxt = Object.entries(answers)
         .map(([q, v]) => `Q${q}=${v}`).join(' · ');
       document.getElementById('diagFormAnswers').value = answersTxt;
+
+      // Track completion in GTM
+      gtmEvent('diagnostic_completed', {
+        score: score,
+        score_band: verdict.label,
+        total_points: totalPts,
+      });
     };
 
     // Diagnostic form submission — LeadFlow with score/verdict/answers attached
@@ -771,6 +797,15 @@
             diagSuccess.querySelector('p').textContent =
               "Votre demande précédente est déjà dans notre pipeline. Pour aller plus vite :";
           }
+          gtmEvent('form_submitted', {
+            form_source: 'diagnostic',
+            duplicate: !!result.duplicate,
+            lead_id: result.leadId || null,
+            score: parseInt(score, 10) || null,
+            score_band: verdict,
+            has_email: !!fields.email,
+            has_ville: !!fields.ville,
+          });
           diagForm.setAttribute('hidden', '');
           diagSuccess.removeAttribute('hidden');
         } catch (err) {
@@ -796,6 +831,37 @@
   // ============================================================
   const yearEl = document.getElementById('year');
   if (yearEl) yearEl.textContent = new Date().getFullYear();
+
+  // ============================================================
+  // 10b. GTM — outbound click tracking (WhatsApp, phone, email)
+  // ============================================================
+  const labelFor = (el) => {
+    // Use data-source first, fall back to the visible button label
+    if (el.dataset && el.dataset.source) return el.dataset.source;
+    const txt = (el.textContent || '').replace(/\s+/g, ' ').trim();
+    return txt.slice(0, 60) || 'unknown';
+  };
+  document.querySelectorAll('a[href*="wa.me"], a[href*="api.whatsapp.com"]').forEach((a) => {
+    a.addEventListener('click', () => {
+      gtmEvent('whatsapp_clicked', { source: labelFor(a) });
+    });
+  });
+  document.querySelectorAll('a[href^="tel:"]').forEach((a) => {
+    a.addEventListener('click', () => {
+      gtmEvent('phone_clicked', {
+        number: a.getAttribute('href').replace('tel:', ''),
+        source: labelFor(a),
+      });
+    });
+  });
+  document.querySelectorAll('a[href^="mailto:"]').forEach((a) => {
+    a.addEventListener('click', () => {
+      gtmEvent('email_clicked', {
+        address: a.getAttribute('href').replace('mailto:', ''),
+        source: labelFor(a),
+      });
+    });
+  });
 
   // ============================================================
   // 11. SMOOTH SCROLL FOR INTERNAL LINKS
