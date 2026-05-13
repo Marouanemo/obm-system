@@ -1,7 +1,37 @@
 # OBM SYSTEM — Guide de configuration GTM + GA4
 
 > Référence de configuration analytics pour `obm-system.com`.
-> Container GTM : `GTM-TTPCSLV9`
+> **Container GTM** : `GTM-TTPCSLV9` (pour Meta Pixel, Google Ads, autres pixels)
+> **GA4 Measurement ID** : `G-JGDV0VS9B9` (installé en direct via gtag.js)
+
+## 🏗️ Architecture choisie
+
+Le site utilise une **architecture hybride** :
+
+```
+                    ┌────────────────────┐
+                    │  Site (browser)    │
+                    │  dataLayer.push()  │
+                    └─────────┬──────────┘
+                              │
+                ┌─────────────┴─────────────┐
+                ▼                           ▼
+        ┌───────────────┐         ┌──────────────────┐
+        │     GTM       │         │   gtag.js        │
+        │ GTM-TTPCSLV9  │         │  G-JGDV0VS9B9    │
+        │               │         │                  │
+        │ Triggers →    │         │ → GA4 direct     │
+        │ Meta Pixel,   │         │ (pageviews +     │
+        │ Google Ads,   │         │  events bridged) │
+        │ autres pixels │         │                  │
+        └───────────────┘         └──────────────────┘
+```
+
+**Pourquoi cette archi :**
+- ✅ GA4 reçoit les events DIRECTEMENT via gtag (pas besoin de tags GA4 dans GTM)
+- ✅ Pas de duplication
+- ✅ GTM reste utile pour Meta Pixel, Google Ads conversion, etc.
+- ⚠️ **NE PAS créer de tag "GA4 Configuration" ni "GA4 Event" dans GTM** — ça causerait des doublons
 
 ---
 
@@ -124,28 +154,32 @@ Pour chaque trigger :
 | `T - Phone Clicked` | `phone_clicked` | — |
 | `T - Email Clicked` | `email_clicked` | — |
 
-### Étape C — Créer les tags GA4 (après avoir créé la propriété GA4)
+### Étape C — Tags dans GTM
 
-#### C.1 — Tag GA4 Configuration (un seul)
+**🚫 NE PAS créer de tags GA4** (Configuration ni Event) dans GTM. GA4 reçoit déjà les events directement via gtag.js installé en `<head>`. Créer des tags GA4 dans GTM causerait des **doublons** dans tes rapports.
 
-- **Type de tag** : Google Tag (ou GA4 Configuration selon ta version GTM)
-- **ID de balise** : `G-XXXXXXXXXX` (ton Measurement ID GA4)
-- **Trigger** : All Pages — Initialization
-- **Nom** : `GA4 - Config`
+GTM te sert maintenant à connecter **d'autres pixels** :
 
-#### C.2 — Tags GA4 Event (un par événement)
+#### Exemples de tags utiles à créer dans GTM
 
-Pour chacun, **Type de tag** : `Google Analytics: GA4 Event`
-**Configuration Tag** : sélectionner `GA4 - Config`
+**Meta Pixel — Lead** (si tu lances des Meta Ads)
+- Type : Custom HTML ou Meta Pixel template
+- Trigger : `T - Lead Acquired (New Only)`
+- Code : `fbq('track', 'Lead');`
 
-| Nom du tag | Event Name | Trigger | Paramètres d'événement |
-|------------|-----------|---------|------------------------|
-| `GA4 - Diagnostic Started` | `diagnostic_started` | `T - Diagnostic Started` | — |
-| `GA4 - Diagnostic Completed` | `diagnostic_completed` | `T - Diagnostic Completed` | `score: {{DLV - score}}`, `score_band: {{DLV - score_band}}`, `total_points: {{DLV - total_points}}` |
-| `GA4 - Lead Submitted` | `lead_submitted` | `T - Lead Acquired (New Only)` | `form_source: {{DLV - form_source}}`, `score: {{DLV - score}}`, `score_band: {{DLV - score_band}}`, `has_email: {{DLV - has_email}}`, `has_ville: {{DLV - has_ville}}` |
-| `GA4 - WhatsApp Click` | `whatsapp_click` | `T - WhatsApp Clicked` | `source: {{DLV - source}}` |
-| `GA4 - Phone Click` | `phone_click` | `T - Phone Clicked` | `number: {{DLV - number}}`, `source: {{DLV - source}}` |
-| `GA4 - Email Click` | `email_click` | `T - Email Clicked` | `address: {{DLV - address}}`, `source: {{DLV - source}}` |
+**Google Ads Conversion — Lead**
+- Type : Google Ads Conversion Tracking
+- ID de conversion + Étiquette : ceux de ton compte Google Ads
+- Trigger : `T - Lead Acquired (New Only)`
+- Valeur de conversion : `{{DLV - score}}` (optionnel, pour valoriser les leads à fort score)
+
+**LinkedIn Insight Tag — Lead** (B2B)
+- Type : LinkedIn Insight (Custom HTML)
+- Trigger : `T - Lead Acquired (New Only)`
+
+**TikTok Pixel** (si pertinent)
+- Trigger : `T - Lead Acquired (New Only)`
+- Event : `CompletePayment` ou `SubmitForm`
 
 ### Étape D — Publier le container
 
@@ -157,33 +191,20 @@ Pour chacun, **Type de tag** : `Google Analytics: GA4 Event`
 
 ## 3. Configuration GA4
 
-### Étape A — Créer la propriété (si pas déjà fait)
+✅ **GA4 est déjà installé** sur le site via gtag.js (Measurement ID : `G-JGDV0VS9B9`). Les pageviews et tous les events du dataLayer (diagnostic_*, form_submitted, whatsapp_clicked, etc.) arrivent directement dans GA4 sans aucune config supplémentaire.
 
-1. Aller sur https://analytics.google.com → **Admin** → **Créer une propriété**
-2. Nom de la propriété : `OBM SYSTEM`
-3. Fuseau horaire : `(GMT+01:00) Casablanca`
-4. Devise : `MAD - Dirham marocain` (ou EUR si tu factures en euros)
-5. Catégorie : `Business and industrial markets`
-6. Taille : `Small`
-7. **Configurer un flux de données** :
-   - Plateforme : `Web`
-   - URL : `https://obm-system.com`
-   - Nom du flux : `OBM SYSTEM Web`
-   - **Mesure améliorée** : laisser activée par défaut
-8. Récupérer le **Measurement ID** (format `G-XXXXXXXXXX`) — c'est lui à mettre dans le tag GA4 Config de GTM
+### Étape A — Marquer les événements de conversion
 
-### Étape B — Marquer les événements de conversion
-
-Après la publication GTM, attendre 24-48h que les événements apparaissent dans GA4.
+Attendre 24-48h que les événements apparaissent dans GA4 (Admin → Événements).
 
 Puis dans **GA4 → Admin → Événements** → activer le toggle "Marquer comme conversion" pour :
 
-- ✅ `lead_submitted` (conversion principale)
+- ✅ `form_submitted` (conversion business principale)
 - ✅ `diagnostic_completed` (soft conversion qualifiée)
-- ⬜ `whatsapp_click` (soft conversion, optionnel)
-- ⬜ `phone_click` (soft conversion, optionnel)
+- ⬜ `whatsapp_clicked` (soft conversion, optionnel)
+- ⬜ `phone_clicked` (soft conversion, optionnel)
 
-### Étape C — Créer les dimensions personnalisées
+### Étape B — Créer les dimensions personnalisées
 
 Dans **GA4 → Admin → Définitions personnalisées → Créer dimensions personnalisées** :
 

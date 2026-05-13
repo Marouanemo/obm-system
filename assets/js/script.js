@@ -11,12 +11,25 @@
   const isFinePointer = matchMedia('(hover: hover) and (pointer: fine)').matches;
 
   // ============================================================
-  // GTM — dataLayer helper (no-op safely if GTM is blocked)
+  // GTM + GA4 — event helper (no-op safely if either is blocked)
+  //
+  // Events are pushed in TWO forms to the shared dataLayer:
+  //   1. dataLayer.push({event: 'foo', ...})  → consumed by GTM custom-event triggers
+  //   2. gtag('event', 'foo', {...})          → consumed by gtag.js, sent to GA4 directly
+  // GA4 only listens to the gtag-shape, GTM only listens to the {event} shape,
+  // so there is no duplication even though both live on the same dataLayer.
+  //
+  // Do NOT create a GA4 Configuration / GA4 Event tag in GTM — that would
+  // duplicate the events. Use GTM only for OTHER pixels (Meta, Google Ads).
   // ============================================================
   window.dataLayer = window.dataLayer || [];
   function gtmEvent(name, params) {
     try {
       window.dataLayer.push(Object.assign({ event: name }, params || {}));
+      // Bridge to gtag.js (direct GA4 ingestion)
+      if (typeof window.gtag === 'function') {
+        window.gtag('event', name, params || {});
+      }
     } catch (e) { /* never break the page over analytics */ }
   }
 
