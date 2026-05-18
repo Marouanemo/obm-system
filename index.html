@@ -5,6 +5,12 @@
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
   <meta name="theme-color" content="#0B1E3F" />
 
+  <!-- Geo / Local SEO signals -->
+  <meta name="geo.region" content="MA-06" />
+  <meta name="geo.placename" content="Casablanca" />
+  <meta name="geo.position" content="33.5731;-7.5898" />
+  <meta name="ICBM" content="33.5731, -7.5898" />
+
   <!-- Google Tag Manager -->
   <script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
   new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
@@ -57,7 +63,7 @@
   <link rel="preconnect" href="https://cdn.fontshare.com" crossorigin />
   <link href="https://api.fontshare.com/v2/css?f[]=clash-display@500,600,700&f[]=switzer@400,500,600,700&f[]=jetbrains-mono@400,500&display=swap" rel="stylesheet" />
 
-  <link rel="stylesheet" href="assets/css/styles.css?v=16" />
+  <link rel="stylesheet" href="assets/css/styles.css?v=17" />
 
   <!-- Motion One — vanilla JS animation engine (same author as Framer Motion) -->
   <script src="https://cdn.jsdelivr.net/npm/motion@10.18.0/dist/motion.min.js" defer></script>
@@ -73,8 +79,8 @@
       {
         "@type": "Organization",
         "@id": "https://obm-system.com/#organization",
-        "name": "OBM SYSTEM",
-        "alternateName": "OBM System Digital Agency",
+        "name": "OBM System",
+        "alternateName": ["OBM SYSTEM", "OBM System Digital Agency"],
         "url": "https://obm-system.com",
         "logo": {
           "@type": "ImageObject",
@@ -96,6 +102,8 @@
         }],
         "address": {
           "@type": "PostalAddress",
+          "addressLocality": "Casablanca",
+          "addressRegion": "Casablanca-Settat",
           "addressCountry": "MA"
         },
         "areaServed": [
@@ -103,7 +111,54 @@
           { "@type": "City", "name": "Casablanca" },
           { "@type": "City", "name": "Rabat" },
           { "@type": "City", "name": "Marrakech" }
+        ],
+        "sameAs": [
+          "https://www.google.com/maps?cid=OBM+System+Casablanca",
+          "https://share.google/90pqXWX9cefSs8cPP"
         ]
+      },
+      {
+        "@type": "LocalBusiness",
+        "@id": "https://obm-system.com/#localbusiness",
+        "name": "OBM System",
+        "alternateName": "OBM System Digital Agency",
+        "image": "https://obm-system.com/assets/img/og-cover.svg",
+        "url": "https://obm-system.com",
+        "telephone": "+212712348034",
+        "email": "Admin@obm-system.com",
+        "priceRange": "$$$",
+        "description": "Agence digitale spécialisée dans l'acquisition et l'automatisation pour cabinets dentaires au Maroc.",
+        "address": {
+          "@type": "PostalAddress",
+          "addressLocality": "Casablanca",
+          "addressRegion": "Casablanca-Settat",
+          "addressCountry": "MA"
+        },
+        "geo": {
+          "@type": "GeoCoordinates",
+          "latitude": 33.5731,
+          "longitude": -7.5898
+        },
+        "areaServed": [
+          { "@type": "City", "name": "Casablanca" },
+          { "@type": "City", "name": "Rabat" },
+          { "@type": "City", "name": "Marrakech" },
+          { "@type": "Country", "name": "Maroc" }
+        ],
+        "openingHoursSpecification": [
+          {
+            "@type": "OpeningHoursSpecification",
+            "dayOfWeek": ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday"],
+            "opens": "09:00",
+            "closes": "17:00"
+          }
+        ],
+        "sameAs": [
+          "https://share.google/90pqXWX9cefSs8cPP"
+        ],
+        "knowsLanguage": ["fr", "ar"],
+        "currenciesAccepted": "MAD",
+        "paymentAccepted": "Bank transfer, Cash, Card"
       },
       {
         "@type": "WebSite",
@@ -1302,7 +1357,8 @@
         <a href="tel:+212712348034">07 12 34 80 34</a>
         <a href="mailto:Admin@obm-system.com">Admin@obm-system.com</a>
         <a href="https://wa.me/212712348034" target="_blank" rel="noopener">WhatsApp direct</a>
-        <span class="footer__note">Maroc · service en français &amp; arabe</span>
+        <a href="https://share.google/90pqXWX9cefSs8cPP" target="_blank" rel="noopener">Voir sur Google Maps ↗</a>
+        <span class="footer__note">Casablanca · Rabat · Marrakech · Maroc<br>Service en français &amp; arabe</span>
       </div>
     </div>
 
@@ -1321,6 +1377,6 @@
     </svg>
   </a>
 
-  <script src="assets/js/script.js?v=16" defer></script>
+  <script src="assets/js/script.js?v=17" defer></script>
 </body>
 </html>
