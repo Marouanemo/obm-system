@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <title>Erreur · OBM Admin</title>
+  <link rel="stylesheet" href="/admin/_static/admin.css">
+</head>
+<body>
+  <% if (user) { %><%- include('partials/topbar', { user, active: null }) %><% } %>
+  <main class="admin-main" style="text-align:center; padding-top:80px;">
+    <h1 style="font-size:4rem; margin:0;"><%= code %></h1>
+    <p style="font-size:1.2rem; color:#5A6378; margin:12px 0 32px;"><%= message %></p>
+    <a href="/admin/dashboard" class="btn btn--gold">Retour au dashboard</a>
+  </main>
+</body>
+</html>

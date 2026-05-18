@@ -1,0 +1,95 @@
+<%
+  const title = 'Dashboard · OBM Admin';
+  const active = 'dashboard';
+%>
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title><%= title %></title>
+  <link rel="stylesheet" href="/admin/_static/admin.css">
+  <link rel="icon" type="image/svg+xml" href="/assets/img/favicon.svg">
+</head>
+<body>
+  <%- include('partials/topbar', { user, active }) %>
+
+  <main class="admin-main">
+    <% if (flash) { %><div class="flash flash--success"><%= flash %></div><% } %>
+
+    <header class="page-head">
+      <h1>Dashboard</h1>
+      <p>Gestion du contenu OBM SYSTEM</p>
+    </header>
+
+    <section class="dash-section">
+      <header class="dash-section__head">
+        <h2>Articles de blog <span class="dash-count"><%= posts.length %></span></h2>
+        <a href="/admin/blog/new" class="btn btn--gold btn--sm">+ Nouvel article</a>
+      </header>
+      <% if (posts.length === 0) { %>
+        <p class="empty">Aucun article pour l'instant.</p>
+      <% } else { %>
+        <ul class="content-list">
+          <% posts.forEach(p => { %>
+            <li class="content-row">
+              <div class="content-row__main">
+                <a href="/admin/blog/<%= p.slug %>/edit" class="content-row__title"><%= p.title %></a>
+                <div class="content-row__meta">
+                  <% if (p.category) { %><span class="content-row__tag"><%= p.category %></span><% } %>
+                  <% if (p.date) { %><span><%= p.date %></span><% } %>
+                  <% if (p.readTime) { %><span>· <%= p.readTime %></span><% } %>
+                  <% if (!p.published) { %><span class="content-row__draft">Brouillon</span><% } %>
+                </div>
+              </div>
+              <div class="content-row__actions">
+                <% if (p.published) { %>
+                  <a href="/blog/<%= p.slug %>/" target="_blank" rel="noopener" class="btn btn--ghost btn--sm">Voir ↗</a>
+                <% } %>
+                <a href="/admin/blog/<%= p.slug %>/edit" class="btn btn--ghost btn--sm">Éditer</a>
+                <form method="post" action="/admin/blog/<%= p.slug %>/delete" onsubmit="return confirm('Supprimer définitivement « <%= p.title %> » ?');">
+                  <button type="submit" class="btn btn--danger btn--sm">Suppr.</button>
+                </form>
+              </div>
+            </li>
+          <% }) %>
+        </ul>
+      <% } %>
+    </section>
+
+    <section class="dash-section">
+      <header class="dash-section__head">
+        <h2>Cas clients <span class="dash-count"><%= cases.length %></span></h2>
+        <a href="/admin/cases/new" class="btn btn--gold btn--sm">+ Nouveau cas client</a>
+      </header>
+      <% if (cases.length === 0) { %>
+        <p class="empty">Aucun cas client pour l'instant.</p>
+      <% } else { %>
+        <ul class="content-list">
+          <% cases.forEach(c => { %>
+            <li class="content-row">
+              <div class="content-row__main">
+                <a href="/admin/cases/<%= c.slug %>/edit" class="content-row__title"><%= c.title %></a>
+                <div class="content-row__meta">
+                  <% if (c.category) { %><span class="content-row__tag"><%= c.category %></span><% } %>
+                  <% if (c.date) { %><span><%= c.date %></span><% } %>
+                  <% if (!c.published) { %><span class="content-row__draft">Brouillon</span><% } %>
+                </div>
+              </div>
+              <div class="content-row__actions">
+                <% if (c.published) { %>
+                  <a href="/cas-clients/<%= c.slug %>/" target="_blank" rel="noopener" class="btn btn--ghost btn--sm">Voir ↗</a>
+                <% } %>
+                <a href="/admin/cases/<%= c.slug %>/edit" class="btn btn--ghost btn--sm">Éditer</a>
+                <form method="post" action="/admin/cases/<%= c.slug %>/delete" onsubmit="return confirm('Supprimer définitivement « <%= c.title %> » ?');">
+                  <button type="submit" class="btn btn--danger btn--sm">Suppr.</button>
+                </form>
+              </div>
+            </li>
+          <% }) %>
+        </ul>
+      <% } %>
+    </section>
+  </main>
+</body>
+</html>

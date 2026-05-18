@@ -1,0 +1,209 @@
+<%
+  const isCase = type === 'cases';
+  const title = (isNew ? 'Nouveau ' : 'Éditer ') + (isCase ? 'cas client' : 'article');
+  const formAction = isNew
+    ? (isCase ? '/admin/cases' : '/admin/blog')
+    : (isCase ? '/admin/cases/' + item.slug : '/admin/blog/' + item.slug);
+  const d = item && item.data ? item.data : {};
+  const content = item && item.content ? item.content : '';
+  const subMetrics = (d.subMetrics && Array.isArray(d.subMetrics) && d.subMetrics.length > 0) ? d.subMetrics : [{label:'',value:'',unit:''},{label:'',value:'',unit:''},{label:'',value:'',unit:''}];
+%>
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title><%= title %> · OBM Admin</title>
+  <link rel="stylesheet" href="/admin/_static/admin.css">
+  <link rel="icon" type="image/svg+xml" href="/assets/img/favicon.svg">
+  <script src="https://cdn.jsdelivr.net/npm/marked@14.1.0/marked.min.js" defer></script>
+</head>
+<body>
+  <%- include('partials/topbar', { user, active: isCase ? 'cases' : 'blog' }) %>
+
+  <main class="admin-main">
+    <% if (typeof flash !== 'undefined' && flash) { %><div class="flash flash--success"><%= flash %></div><% } %>
+
+    <header class="page-head">
+      <a href="/admin/dashboard" class="back-link">← Retour au dashboard</a>
+      <h1><%= title %></h1>
+    </header>
+
+    <% if (error) { %><div class="flash flash--error"><%= error %></div><% } %>
+
+    <form method="post" action="<%= formAction %>" class="editor-form">
+
+      <div class="editor-grid">
+        <div class="editor-main">
+          <label class="field">
+            <span>Titre <em>requis</em></span>
+            <input type="text" name="title" required value="<%= d.title || '' %>" placeholder="Titre de l'article">
+          </label>
+
+          <label class="field">
+            <span>Slug <em>URL : /<%= isCase ? 'cas-clients' : 'blog' %>/<span data-preview-slug><%= item ? item.slug : 'auto-genere-depuis-le-titre' %></span>/</em></span>
+            <input type="text" name="slug" value="<%= item ? item.slug : '' %>" placeholder="laisser vide pour génération auto" pattern="[a-z0-9-]*">
+          </label>
+
+          <label class="field">
+            <span>Résumé / Lead</span>
+            <textarea name="excerpt" rows="3" placeholder="1-2 phrases qui résument l'article. Affiché dans la liste et en OG."><%= d.excerpt || '' %></textarea>
+          </label>
+
+          <% if (isCase) { %>
+            <fieldset class="field fieldset">
+              <legend>Métrique principale</legend>
+              <div class="row-3">
+                <label><span>Valeur</span><input type="text" name="bigMetricValue" value="<%= d.bigMetricValue || '' %>" placeholder="+247"></label>
+                <label><span>Unité</span><input type="text" name="bigMetricUnit" value="<%= d.bigMetricUnit || '' %>" placeholder="%"></label>
+                <label class="col-full"><span>Légende</span><input type="text" name="bigMetricLabel" value="<%= d.bigMetricLabel || '' %>" placeholder="de leads qualifiés en 90 jours"></label>
+              </div>
+            </fieldset>
+
+            <fieldset class="field fieldset">
+              <legend>3 sous-métriques</legend>
+              <% subMetrics.forEach((m, i) => { %>
+                <div class="row-3">
+                  <label><span>Label <%= i+1 %></span><input type="text" name="subMetricsLabel" value="<%= m.label || '' %>" placeholder="Coût par lead"></label>
+                  <label><span>Valeur</span><input type="text" name="subMetricsValue" value="<%= m.value || '' %>" placeholder="−65"></label>
+                  <label><span>Unité</span><input type="text" name="subMetricsUnit" value="<%= m.unit || '' %>" placeholder="%"></label>
+                </div>
+              <% }) %>
+            </fieldset>
+          <% } %>
+
+          <label class="field">
+            <span>Contenu (Markdown)</span>
+            <div class="editor-pane">
+              <textarea name="content" id="editor-content" rows="22" spellcheck="false" placeholder="# Titre H1&#10;&#10;Paragraphe d'introduction…&#10;&#10;## Section&#10;&#10;- Point&#10;- Point&#10;&#10;**gras** ou *italique*"><%= content %></textarea>
+              <div class="editor-preview" id="editor-preview" aria-hidden="true"></div>
+            </div>
+            <div class="editor-help">
+              <strong>Markdown :</strong>
+              <code># H1</code>
+              <code>## H2</code>
+              <code>**gras**</code>
+              <code>*italique*</code>
+              <code>[texte](url)</code>
+              <code>![alt](image.jpg)</code>
+              <code>- liste</code>
+              <code>&gt; citation</code>
+              <a href="/admin/media" target="_blank" rel="noopener" class="btn btn--ghost btn--xs">📁 Médias ↗</a>
+            </div>
+          </label>
+        </div>
+
+        <aside class="editor-side">
+          <div class="side-panel">
+            <h3>Publication</h3>
+            <label class="checkbox">
+              <input type="checkbox" name="published" <%= d.published !== false ? 'checked' : '' %>>
+              <span>Publié (visible en ligne)</span>
+            </label>
+            <label class="field">
+              <span>Date</span>
+              <input type="date" name="date" value="<%= d.date || new Date().toISOString().slice(0,10) %>">
+            </label>
+            <label class="field">
+              <span>Catégorie</span>
+              <input type="text" name="category" value="<%= d.category || '' %>" placeholder="<%= isCase ? 'Implantologie' : 'Acquisition' %>">
+            </label>
+            <% if (!isCase) { %>
+              <label class="field">
+                <span>Temps de lecture</span>
+                <input type="text" name="readTime" value="<%= d.readTime || '' %>" placeholder="8 min de lecture">
+              </label>
+            <% } else { %>
+              <label class="field">
+                <span>Lieu</span>
+                <input type="text" name="location" value="<%= d.location || '' %>" placeholder="Casablanca">
+              </label>
+              <label class="field">
+                <span>Durée</span>
+                <input type="text" name="duration" value="<%= d.duration || '' %>" placeholder="6 mois">
+              </label>
+            <% } %>
+            <label class="field">
+              <span>Tag (article:tag)</span>
+              <input type="text" name="tag" value="<%= d.tag || '' %>" placeholder="Meta Ads">
+            </label>
+          </div>
+
+          <div class="side-panel">
+            <h3>SEO</h3>
+            <label class="field">
+              <span>Meta title <em>défaut : titre · OBM SYSTEM</em></span>
+              <input type="text" name="metaTitle" value="<%= d.metaTitle || '' %>" placeholder="Optionnel — surcharge">
+            </label>
+            <label class="field">
+              <span>OG image (URL)</span>
+              <input type="text" name="image" value="<%= d.image || '' %>" placeholder="/assets/uploads/...">
+            </label>
+          </div>
+
+          <div class="side-panel side-actions">
+            <button type="submit" class="btn btn--gold btn--lg btn--full">💾 Enregistrer &amp; publier</button>
+            <a href="/admin/dashboard" class="btn btn--ghost btn--full">Annuler</a>
+            <% if (!isNew) { %>
+              <form method="post" action="<%= isCase ? '/admin/cases/' : '/admin/blog/' %><%= item.slug %>/delete" onsubmit="return confirm('Supprimer définitivement ?');" class="delete-form">
+                <button type="submit" class="btn btn--danger btn--full">🗑 Supprimer</button>
+              </form>
+            <% } %>
+          </div>
+        </aside>
+      </div>
+    </form>
+  </main>
+
+  <script>
+    // Live Markdown preview
+    document.addEventListener('DOMContentLoaded', () => {
+      const ta = document.getElementById('editor-content');
+      const preview = document.getElementById('editor-preview');
+      const slug = document.querySelector('input[name="slug"]');
+      const title = document.querySelector('input[name="title"]');
+      const slugPreview = document.querySelector('[data-preview-slug]');
+
+      const render = () => {
+        if (!window.marked) return;
+        preview.innerHTML = window.marked.parse(ta.value || '');
+      };
+
+      // Wait until marked loads
+      const wait = setInterval(() => {
+        if (window.marked) { clearInterval(wait); render(); }
+      }, 100);
+
+      ta.addEventListener('input', render);
+
+      // Auto-slug
+      const slugify = (s) => String(s).toLowerCase()
+        .normalize('NFD').replace(/[̀-ͯ]/g, '')
+        .replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '').slice(0, 80);
+
+      title.addEventListener('input', () => {
+        if (!slug.value || slug.dataset.auto === 'true') {
+          slug.value = slugify(title.value);
+          slug.dataset.auto = 'true';
+          if (slugPreview) slugPreview.textContent = slug.value || 'auto-genere-depuis-le-titre';
+        }
+      });
+      slug.addEventListener('input', () => {
+        slug.dataset.auto = 'false';
+        if (slugPreview) slugPreview.textContent = slug.value || 'auto-genere-depuis-le-titre';
+      });
+
+      // Tab key inserts 2 spaces instead of moving focus
+      ta.addEventListener('keydown', (e) => {
+        if (e.key === 'Tab') {
+          e.preventDefault();
+          const start = ta.selectionStart, end = ta.selectionEnd;
+          ta.value = ta.value.slice(0, start) + '  ' + ta.value.slice(end);
+          ta.selectionStart = ta.selectionEnd = start + 2;
+          render();
+        }
+      });
+    });
+  </script>
+</body>
+</html>

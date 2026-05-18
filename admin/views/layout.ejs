@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="robots" content="noindex,nofollow">
+  <title><%= typeof title !== 'undefined' ? title : 'OBM Admin' %></title>
+  <link rel="stylesheet" href="/admin/_static/admin.css">
+  <link rel="icon" type="image/svg+xml" href="/assets/img/favicon.svg">
+</head>
+<body class="<%= typeof bodyClass !== 'undefined' ? bodyClass : '' %>">
+  <% if (typeof user !== 'undefined' && user) { %>
+    <header class="topbar">
+      <div class="topbar__inner">
+        <a class="topbar__brand" href="/admin/dashboard">
+          <span class="topbar__logo">
+            <span>O</span><span class="topbar__logo--silver">B</span><span>M</span>
+            <span class="topbar__logo--arrow">↗</span>
+          </span>
+          <span class="topbar__label">Admin</span>
+        </a>
+        <nav class="topbar__nav">
+          <a href="/admin/dashboard" class="<%= typeof active!=='undefined' && active==='dashboard' ? 'is-active' : '' %>">Dashboard</a>
+          <a href="/admin/blog/new">+ Article</a>
+          <a href="/admin/cases/new">+ Cas client</a>
+          <a href="/admin/media" class="<%= typeof active!=='undefined' && active==='media' ? 'is-active' : '' %>">Médias</a>
+          <a href="/" target="_blank" rel="noopener" class="topbar__site">Site ↗</a>
+        </nav>
+        <form action="/admin/logout" method="post" class="topbar__logout">
+          <button type="submit">Déconnexion</button>
+        </form>
+      </div>
+    </header>
+  <% } %>
+
+  <main class="admin-main">
+    <% if (typeof flash !== 'undefined' && flash) { %>
+      <div class="flash flash--success"><%= flash %></div>
+    <% } %>
+    <% if (typeof error !== 'undefined' && error) { %>
+      <div class="flash flash--error"><%= error %></div>
+    <% } %>
+    <%- body %>
+  </main>
+</body>
+</html>

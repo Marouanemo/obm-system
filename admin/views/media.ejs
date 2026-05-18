@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Médias · OBM Admin</title>
+  <link rel="stylesheet" href="/admin/_static/admin.css">
+  <link rel="icon" type="image/svg+xml" href="/assets/img/favicon.svg">
+</head>
+<body>
+  <%- include('partials/topbar', { user, active: 'media' }) %>
+
+  <main class="admin-main">
+    <% if (flash) { %><div class="flash flash--success"><%= flash %></div><% } %>
+    <% if (error) { %><div class="flash flash--error"><%= error %></div><% } %>
+
+    <header class="page-head">
+      <h1>Bibliothèque médias</h1>
+      <p>Images uploadées · servies depuis <code>/assets/uploads/</code></p>
+    </header>
+
+    <section class="media-upload">
+      <form method="post" action="/admin/media/upload" enctype="multipart/form-data" class="upload-form">
+        <label class="upload-drop">
+          <input type="file" name="files" accept=".jpg,.jpeg,.png,.webp,.gif,.svg" multiple required>
+          <span class="upload-drop__label">
+            <strong>+ Téléverser</strong>
+            <small>JPG · PNG · WEBP · SVG · GIF · 8 MB max · 10 fichiers max</small>
+          </span>
+        </label>
+        <button type="submit" class="btn btn--gold">Uploader</button>
+      </form>
+    </section>
+
+    <section class="media-grid">
+      <% if (items.length === 0) { %>
+        <p class="empty">Aucune image dans la bibliothèque pour l'instant.</p>
+      <% } else { %>
+        <% items.forEach(m => { %>
+          <article class="media-card">
+            <div class="media-card__img">
+              <img src="<%= m.url %>" alt="" loading="lazy">
+            </div>
+            <div class="media-card__info">
+              <div class="media-card__name"><%= m.name %></div>
+              <div class="media-card__meta"><%= (m.size / 1024).toFixed(1) %> KB · <%= m.mtime.toISOString().slice(0,10) %></div>
+              <div class="media-card__actions">
+                <input type="text" class="media-card__url" value="<%= m.url %>" readonly onclick="this.select(); navigator.clipboard.writeText(this.value); this.classList.add('copied'); setTimeout(()=>this.classList.remove('copied'),900);">
+                <span class="media-card__hint">cliquer pour copier</span>
+                <form method="post" action="/admin/media/<%= encodeURIComponent(m.name) %>/delete" onsubmit="return confirm('Supprimer <%= m.name %> ?');" class="inline">
+                  <button type="submit" class="btn btn--danger btn--xs">Suppr.</button>
+                </form>
+              </div>
+            </div>
+          </article>
+        <% }) %>
+      <% } %>
+    </section>
+  </main>
+</body>
+</html>

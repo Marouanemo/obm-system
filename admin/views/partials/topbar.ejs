@@ -1,0 +1,21 @@
+<header class="topbar">
+  <div class="topbar__inner">
+    <a class="topbar__brand" href="/admin/dashboard">
+      <span class="topbar__logo">
+        <span>O</span><span class="topbar__logo--silver">B</span><span>M</span>
+        <span class="topbar__logo--arrow">↗</span>
+      </span>
+      <span class="topbar__label">Admin</span>
+    </a>
+    <nav class="topbar__nav">
+      <a href="/admin/dashboard" class="<%= typeof active!=='undefined' && active==='dashboard' ? 'is-active' : '' %>">Dashboard</a>
+      <a href="/admin/blog/new">+ Article</a>
+      <a href="/admin/cases/new">+ Cas client</a>
+      <a href="/admin/media" class="<%= typeof active!=='undefined' && active==='media' ? 'is-active' : '' %>">Médias</a>
+      <a href="/" target="_blank" rel="noopener" class="topbar__site">Site ↗</a>
+    </nav>
+    <form action="/admin/logout" method="post" class="topbar__logout">
+      <button type="submit">Déconnexion</button>
+    </form>
+  </div>
+</header>
