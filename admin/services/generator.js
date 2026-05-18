@@ -150,7 +150,7 @@ function footerHtml() {
         <a href="tel:+212712348034">07 12 34 80 34</a>
         <a href="mailto:Admin@obm-system.com">Admin@obm-system.com</a>
         <a href="https://wa.me/212712348034" target="_blank" rel="noopener">WhatsApp direct</a>
-        <a href="https://share.google/90pqXWX9cefSs8cPP" target="_blank" rel="noopener">Voir sur Google Maps ↗</a>
+        <a href="https://share.google/I2s3UekyS6e7W7Lnh" target="_blank" rel="noopener">Voir sur Google Maps ↗</a>
       </div>
     </div>
     <div class="footer__bottom">
