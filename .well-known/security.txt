@@ -1,0 +1,15 @@
+# OBM SYSTEM — security.txt (RFC 9116)
+# https://obm-system.com/.well-known/security.txt
+
+Contact: mailto:Admin@obm-system.com
+Expires: 2027-12-31T23:59:59.000Z
+Preferred-Languages: fr, en, ar
+Canonical: https://obm-system.com/.well-known/security.txt
+
+# Si vous avez identifié une vulnérabilité de sécurité sur ce site
+# (XSS, injection, exposition de données, problème d'auth, etc.),
+# merci de nous contacter par email avec :
+# - Description précise de la vulnérabilité
+# - Étapes de reproduction
+# - Impact potentiel
+# Nous accusons réception sous 48h et coordonnons la divulgation.

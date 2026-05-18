@@ -1,4 +1,62 @@
+# ============================================================
+# OBM SYSTEM — robots.txt
+# ============================================================
+
+# --- Crawlers généraux ---
 User-agent: *
 Allow: /
+Disallow: /docs/
+Disallow: /deploy/
 
+# --- Crawlers IA : autorisés (visibilité dans ChatGPT, Claude, Perplexity, etc.) ---
+User-agent: GPTBot
+Allow: /
+
+User-agent: ChatGPT-User
+Allow: /
+
+User-agent: OAI-SearchBot
+Allow: /
+
+User-agent: ClaudeBot
+Allow: /
+
+User-agent: Claude-Web
+Allow: /
+
+User-agent: anthropic-ai
+Allow: /
+
+User-agent: PerplexityBot
+Allow: /
+
+User-agent: Perplexity-User
+Allow: /
+
+User-agent: Google-Extended
+Allow: /
+
+User-agent: Applebot-Extended
+Allow: /
+
+User-agent: cohere-ai
+Allow: /
+
+User-agent: Meta-ExternalAgent
+Allow: /
+
+# --- Scrapers agressifs / non désirés ---
+User-agent: Bytespider
+Disallow: /
+
+User-agent: SemrushBot
+Crawl-delay: 10
+
+User-agent: AhrefsBot
+Crawl-delay: 10
+
+User-agent: MJ12bot
+Crawl-delay: 10
+
+# --- Plans du site & schémas ---
 Sitemap: https://obm-system.com/sitemap.xml

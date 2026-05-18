@@ -1,0 +1,51 @@
+{
+  "name": "OBM SYSTEM — Acquisition cabinets dentaires",
+  "short_name": "OBM SYSTEM",
+  "description": "Système d'acquisition et d'automatisation pour cabinets dentaires ambitieux au Maroc.",
+  "lang": "fr-MA",
+  "dir": "ltr",
+  "start_url": "/?source=pwa",
+  "scope": "/",
+  "id": "/",
+  "display": "standalone",
+  "display_override": ["standalone", "minimal-ui", "browser"],
+  "orientation": "portrait-primary",
+  "theme_color": "#0B1E3F",
+  "background_color": "#050B1F",
+  "categories": ["business", "medical", "marketing", "productivity"],
+  "icons": [
+    {
+      "src": "/assets/img/favicon.svg",
+      "type": "image/svg+xml",
+      "sizes": "any",
+      "purpose": "any"
+    },
+    {
+      "src": "/assets/img/favicon.svg",
+      "type": "image/svg+xml",
+      "sizes": "any",
+      "purpose": "maskable"
+    },
+    {
+      "src": "/assets/img/apple-touch-icon.svg",
+      "type": "image/svg+xml",
+      "sizes": "180x180"
+    }
+  ],
+  "shortcuts": [
+    {
+      "name": "Diagnostic interactif",
+      "short_name": "Diagnostic",
+      "description": "Évaluez votre maturité d'acquisition en 90 secondes",
+      "url": "/#diagnostic",
+      "icons": [{ "src": "/assets/img/favicon.svg", "sizes": "any", "type": "image/svg+xml" }]
+    },
+    {
+      "name": "Contact rapide",
+      "short_name": "Contact",
+      "description": "Demander un audit gratuit",
+      "url": "/#contact",
+      "icons": [{ "src": "/assets/img/favicon.svg", "sizes": "any", "type": "image/svg+xml" }]
+    }
+  ]
+}

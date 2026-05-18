@@ -1,0 +1,28 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 180 180" width="180" height="180">
+  <defs>
+    <linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#0B1E3F"/>
+      <stop offset="100%" stop-color="#050B1F"/>
+    </linearGradient>
+    <linearGradient id="goldStroke" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#E0CB9A"/>
+      <stop offset="100%" stop-color="#A88842"/>
+    </linearGradient>
+  </defs>
+
+  <!-- Background (iOS auto-rounds the corners) -->
+  <rect width="180" height="180" fill="url(#bg)"/>
+
+  <!-- OBM wordmark, scaled to fit -->
+  <g font-family="system-ui, -apple-system, sans-serif" font-weight="800" font-size="56" letter-spacing="-2">
+    <text x="20" y="92" fill="#FFFFFF">O</text>
+    <text x="62" y="92" fill="#C8CCD4">B</text>
+    <text x="104" y="92" fill="#FFFFFF">M</text>
+  </g>
+
+  <!-- Gold arrow accent -->
+  <g stroke="url(#goldStroke)" stroke-width="5" stroke-linecap="round" stroke-linejoin="round" fill="none">
+    <path d="M 35 135 L 145 50"/>
+    <path d="M 120 50 L 145 50 L 145 75"/>
+  </g>
+</svg>

@@ -34,17 +34,24 @@
   <meta property="og:type" content="website" />
   <meta property="og:locale" content="fr_MA" />
   <meta property="og:url" content="https://obm-system.com/" />
-  <meta property="og:title" content="OBM SYSTEM — Acquisition & Automation pour cabinets dentaires" />
-  <meta property="og:description" content="L'infrastructure opérationnelle complète pour transformer vos campagnes publicitaires en patients réels." />
+  <meta property="og:title" content="OBM SYSTEM — Diagnostic d'acquisition pour cabinets dentaires" />
+  <meta property="og:description" content="Évaluez votre maturité d'acquisition en 90 secondes. Score sur 100, verdict, 3 leviers prioritaires — gratuit, instantané." />
   <meta property="og:site_name" content="OBM SYSTEM" />
-  <meta property="og:image" content="https://obm-system.com/assets/img/og-cover.jpg" />
+  <meta property="og:image" content="https://obm-system.com/assets/img/og-cover.svg" />
+  <meta property="og:image:width" content="1200" />
+  <meta property="og:image:height" content="630" />
+  <meta property="og:image:alt" content="OBM SYSTEM — Système d'acquisition pour cabinets dentaires au Maroc" />
 
   <meta name="twitter:card" content="summary_large_image" />
-  <meta name="twitter:title" content="OBM SYSTEM — Acquisition & Automation pour cabinets dentaires" />
-  <meta name="twitter:description" content="L'infrastructure opérationnelle complète pour cabinets dentaires ambitieux au Maroc." />
+  <meta name="twitter:title" content="OBM SYSTEM — Diagnostic d'acquisition cabinets dentaires" />
+  <meta name="twitter:description" content="Évaluez votre maturité d'acquisition en 90 secondes. Le diagnostic exclusif pour cabinets dentaires ambitieux." />
+  <meta name="twitter:image" content="https://obm-system.com/assets/img/og-cover.svg" />
 
   <link rel="icon" type="image/svg+xml" href="assets/img/favicon.svg" />
-  <link rel="apple-touch-icon" href="assets/img/apple-touch-icon.png" />
+  <link rel="apple-touch-icon" href="assets/img/apple-touch-icon.svg" />
+  <link rel="manifest" href="manifest.webmanifest" />
+  <link rel="alternate" type="text/plain" title="LLM-friendly content" href="/llms.txt" />
+  <link rel="alternate" type="text/plain" title="LLM-friendly content (full)" href="/llms-full.txt" />
 
   <link rel="preconnect" href="https://api.fontshare.com" crossorigin />
   <link rel="preconnect" href="https://cdn.fontshare.com" crossorigin />
@@ -58,15 +65,137 @@
   <script type="application/ld+json">
   {
     "@context": "https://schema.org",
-    "@type": "ProfessionalService",
-    "name": "OBM SYSTEM",
-    "description": "Agence digitale spécialisée dans l'acquisition et l'automatisation pour cabinets dentaires au Maroc.",
-    "url": "https://obm-system.com",
-    "telephone": "+212712348034",
-    "email": "Admin@obm-system.com",
-    "areaServed": { "@type": "Country", "name": "Morocco" },
-    "address": { "@type": "PostalAddress", "addressCountry": "MA" },
-    "sameAs": []
+    "@graph": [
+      {
+        "@type": "Organization",
+        "@id": "https://obm-system.com/#organization",
+        "name": "OBM SYSTEM",
+        "alternateName": "OBM System Digital Agency",
+        "url": "https://obm-system.com",
+        "logo": {
+          "@type": "ImageObject",
+          "url": "https://obm-system.com/assets/img/favicon.svg",
+          "width": "180",
+          "height": "180"
+        },
+        "image": "https://obm-system.com/assets/img/og-cover.svg",
+        "description": "Système d'acquisition et d'automatisation pour cabinets dentaires ambitieux au Maroc.",
+        "email": "Admin@obm-system.com",
+        "telephone": "+212712348034",
+        "contactPoint": [{
+          "@type": "ContactPoint",
+          "telephone": "+212712348034",
+          "email": "Admin@obm-system.com",
+          "contactType": "customer service",
+          "availableLanguage": ["French", "Arabic"],
+          "areaServed": "MA"
+        }],
+        "address": {
+          "@type": "PostalAddress",
+          "addressCountry": "MA"
+        },
+        "areaServed": [
+          { "@type": "Country", "name": "Morocco" },
+          { "@type": "City", "name": "Casablanca" },
+          { "@type": "City", "name": "Rabat" },
+          { "@type": "City", "name": "Marrakech" }
+        ]
+      },
+      {
+        "@type": "WebSite",
+        "@id": "https://obm-system.com/#website",
+        "url": "https://obm-system.com",
+        "name": "OBM SYSTEM",
+        "description": "Système d'acquisition pour cabinets dentaires au Maroc",
+        "inLanguage": "fr-MA",
+        "publisher": { "@id": "https://obm-system.com/#organization" }
+      },
+      {
+        "@type": "ProfessionalService",
+        "@id": "https://obm-system.com/#service",
+        "name": "OBM SYSTEM — Acquisition & Automation pour cabinets dentaires",
+        "url": "https://obm-system.com",
+        "image": "https://obm-system.com/assets/img/og-cover.svg",
+        "description": "Infrastructure complète d'acquisition, CRM, automation WhatsApp et intelligence pour cabinets dentaires.",
+        "provider": { "@id": "https://obm-system.com/#organization" },
+        "areaServed": { "@type": "Country", "name": "Morocco" },
+        "serviceType": "Marketing & Acquisition for Dental Clinics",
+        "hasOfferCatalog": {
+          "@type": "OfferCatalog",
+          "name": "Traitements ciblés",
+          "itemListElement": [
+            { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Acquisition patients implants dentaires" } },
+            { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Acquisition patients facettes esthétiques" } },
+            { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Acquisition patients Invisalign & orthodontie" } },
+            { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Acquisition patients blanchiment dentaire" } },
+            { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Acquisition patients soins esthétiques" } },
+            { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Acquisition patients réhabilitation complète" } }
+          ]
+        }
+      },
+      {
+        "@type": "FAQPage",
+        "@id": "https://obm-system.com/#faq",
+        "mainEntity": [
+          {
+            "@type": "Question",
+            "name": "OBM SYSTEM est-il fait pour mon cabinet ?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Nous travaillons avec les cabinets dentaires ambitieux au Maroc qui souhaitent structurer leur acquisition et professionnaliser leur système commercial. Si vous proposez des traitements à forte valeur (implants, facettes, ortho, esthétique) et que vous voulez scaler, oui — OBM SYSTEM est conçu pour vous."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "Combien de temps avant de voir des résultats ?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Le système est généralement déployé en 4 à 6 semaines. Les premiers leads arrivent dès le lancement des campagnes (semaine 4-5). Les résultats de conversion stabilisés sont visibles à partir du deuxième mois."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "Quel budget publicitaire est nécessaire ?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Le budget dépend des objectifs et de la zone. Nous recommandons un seuil minimum pour pouvoir tester, mesurer et optimiser efficacement. Lors de l'audit, nous définissons ensemble le budget cohérent avec vos objectifs de patients par mois."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "Que se passe-t-il avec mes leads actuels ?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Nous intégrons votre base existante dans le nouveau système. Les leads dormants sont réactivés via des séquences de relance WhatsApp."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "Mon équipe doit-elle apprendre un nouvel outil ?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Le système est conçu pour être simple : votre secrétariat voit une interface claire avec les priorités du jour, les rendez-vous à confirmer, les leads à rappeler. Nous formons votre équipe pendant le déploiement."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "Travaillez-vous avec plusieurs cabinets dans la même ville ?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Non. Nous travaillons en exclusivité géographique : un seul cabinet par zone d'attraction. Vos campagnes, votre stratégie et vos leads vous appartiennent — sans concurrence interne."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "Que comprend exactement l'audit gratuit ?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Un échange structuré (30 à 45 min) pour comprendre votre cabinet, vos traitements phares, votre acquisition actuelle. Vous repartez avec une analyse des fuites, les opportunités prioritaires, et une estimation de votre potentiel d'acquisition. Sans engagement."
+            }
+          }
+        ]
+      }
+    ]
   }
   </script>
 </head>

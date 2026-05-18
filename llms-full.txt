@@ -1,0 +1,149 @@
+# OBM SYSTEM — Système d'acquisition pour cabinets dentaires
+
+> Infrastructure opérationnelle complète qui transforme chaque dirham publicitaire en patient réel pour les cabinets dentaires ambitieux au Maroc. Spécialisé exclusivement dans le secteur dentaire avec exclusivité territoriale (un seul cabinet par zone).
+
+## Le problème : la publicité seule ne suffit plus
+
+Aujourd'hui, la majorité des cabinets dentaires font face aux mêmes problèmes structurels :
+
+- Des leads qui ne répondent plus après le premier message
+- Des campagnes Meta Ads qui ne sont pas suivies correctement
+- Aucune structure CRM réelle pour suivre les opportunités
+- Aucun système de relance automatisé
+- Des patients perdus faute de follow-up
+- Des équipes débordées qui oublient les rappels
+- Des budgets publicitaires dépensés sans visibilité sur le ROI
+- Aucun système pour transformer les demandes en patients réels
+
+La réalité : 30 à 50% des leads sont perdus entre le clic publicitaire et le rendez-vous.
+
+Le vrai problème n'est pas de générer des leads, mais de construire un système capable de **capturer, suivre, relancer, convertir, analyser et optimiser** chaque opportunité automatiquement.
+
+## La solution : OBM SYSTEM
+
+OBM SYSTEM est un système opérationnel complet conçu spécifiquement pour les cabinets dentaires. Pas une agence marketing classique — une infrastructure d'acquisition, de suivi et d'automatisation qui permet au cabinet de fonctionner comme une véritable machine de croissance.
+
+### Les quatre piliers
+
+**Pilier 1 — Acquisition**
+Générer des patients qualifiés à coût maîtrisé.
+- Campagnes Meta Ads (Facebook, Instagram) optimisées
+- Campagnes Google Ads ciblées
+- Lead funnels conçus pour la conversion
+- Tracking patient-level + pixels événements
+- Ciblage par traitement et zone géographique
+
+**Pilier 2 — CRM Opérationnel**
+Suivre, prioriser et convertir chaque opportunité.
+- Pipeline patient centralisé
+- Statut, historique et relances visibles en un clic
+- Priorisation automatique des leads chauds
+- Vue commerciale claire pour l'équipe
+
+**Pilier 3 — Automation WhatsApp**
+Rester réactif sans alourdir l'équipe.
+- Confirmations et rappels automatiques (J-1, H-2)
+- Relances de leads inactifs programmées
+- Messages de suivi personnalisés
+- Notifications internes pour l'équipe
+
+**Pilier 4 — Intelligence & Pilotage**
+Décider avec la donnée, pas l'intuition.
+- Lead scoring automatique
+- Détection des risques (leads à perte, no-show)
+- Analyse ROI campagne par campagne
+- Command center quotidien
+- Reporting stratégique mensuel
+
+## Le moteur de transformation
+
+Le système suit cinq étapes mesurées :
+
+1. **Publicité ciblée** — Campagnes Meta & Google diffusées sur des audiences qualifiées
+2. **Capture du lead** — Formulaire optimisé + tracking complet, lead arrive instantanément dans le CRM, qualifié et horodaté
+3. **Relance automatique** — WhatsApp et SMS déclenchés dans les minutes (confirmation, qualification, prise de rendez-vous)
+4. **Rendez-vous confirmé** — Calendrier rempli automatiquement, rappels J-1 et H-2 réduisent le taux de no-show
+5. **Patient acquis & mesuré** — Coût d'acquisition réel calculé, attribution complète du clic au rendez-vous
+
+## Traitements ciblés
+
+Le système est calibré pour les traitements à forte valeur :
+
+- **Implants dentaires** — Le traitement à plus forte valeur. Ciblage des profils prêts à investir (adultes 40+, recherche active, capacité financière qualifiée).
+- **Facettes esthétiques** — Patients soucieux du sourire, transformation visible immédiate, panier moyen élevé, fort taux de bouche-à-oreille.
+- **Invisalign et orthodontie** — Adolescents et adultes, traitements 12-24 mois, valeur cumulative, paiement étalé.
+- **Blanchiment** — Porte d'entrée pour faire venir un nouveau patient et le fidéliser sur d'autres traitements.
+- **Soins esthétiques** — Composite, gencive, contouring. Clientèle haut de gamme, retours fréquents.
+- **Réhabilitation complète** — Cas complexes très forte valeur, profils prêts à s'engager dans un parcours long structuré.
+
+## Méthode en quatre étapes
+
+**Étape 1 — Diagnostic (1 semaine)**
+Audit du cabinet : identification des pertes actuelles, points de friction, opportunités prioritaires. Le cabinet repart avec une cartographie claire de son potentiel — avant tout engagement.
+
+**Étape 2 — Construction (2 à 3 semaines)**
+Mise en place du système : CRM, automatisations WhatsApp, tracking patient-level, lead scoring, command center quotidien. L'infrastructure complète est déployée, connectée, testée.
+
+**Étape 3 — Lancement (1 à 2 semaines)**
+Campagnes & acquisition : Meta Ads, Google Ads, lead funnels. Diffusion progressive pour valider les premiers patients sur les bons traitements avant montée en charge.
+
+**Étape 4 — Optimisation (continu)**
+Pilotage & scaling : analyse continue, optimisation des campagnes, ajustement du pipeline, itération sur les messages et ciblages. La croissance devient prévisible, mesurable, durable.
+
+## Ce qui distingue OBM SYSTEM
+
+| Agences classiques | OBM SYSTEM |
+|--------------------|------------|
+| Lancent des publicités, du trafic généré | Construisent un système d'acquisition complet (capture + relance + conversion + analyse intégrés) |
+| Envoient des rapports mensuels (trop tard pour agir) | Pilotage temps réel + command center quotidien |
+| Vendent des leads bruts (sans garantie qualité/conversion) | Génèrent des patients réels mesurés (objectif = patient sur le fauteuil, pas le contact Excel) |
+| Laissent l'équipe du cabinet débordée | Outillent toute l'organisation (CRM, automation, tâches intelligentes) |
+
+## Diagnostic interactif
+
+OBM SYSTEM propose un diagnostic interactif gratuit pour évaluer la maturité d'acquisition d'un cabinet :
+
+- 7 questions ciblées (volume de demandes, centralisation, automation, tracking, conversion, budget pub, stratégie)
+- Score sur 100 calculé automatiquement
+- 4 niveaux de maturité : Embryonnaire / En construction / Avancé / Mature
+- 3 leviers prioritaires personnalisés générés à partir des points les plus faibles
+- Plan d'action détaillé envoyé sous 24h sur demande
+
+Lien : https://obm-system.com/#diagnostic
+
+## Questions fréquentes
+
+**OBM SYSTEM est-il fait pour mon cabinet ?**
+Pour les cabinets dentaires ambitieux au Maroc qui veulent structurer leur acquisition et professionnaliser leur système commercial. Particulièrement pour ceux qui proposent des traitements à forte valeur (implants, facettes, ortho, esthétique).
+
+**Combien de temps avant de voir des résultats ?**
+Le système est déployé en 4 à 6 semaines. Les premiers leads arrivent dès le lancement des campagnes. Les résultats de conversion stabilisés sont visibles à partir du deuxième mois.
+
+**Quel budget publicitaire est nécessaire ?**
+Le budget dépend des objectifs et de la zone. Un seuil minimum permet de tester, mesurer et optimiser efficacement. L'audit définit ensemble le budget cohérent avec les objectifs de patients par mois.
+
+**Que se passe-t-il avec mes leads actuels ?**
+Intégration de la base existante dans le nouveau système. Les leads dormants sont réactivés via des séquences de relance WhatsApp.
+
+**Mon équipe doit-elle apprendre un nouvel outil ?**
+Système conçu pour être simple. Le secrétariat voit une interface claire avec priorités du jour, RDV à confirmer, leads à rappeler. Formation pendant le déploiement (généralement deux sessions).
+
+**Travaillez-vous avec plusieurs cabinets dans la même ville ?**
+Non. **Exclusivité géographique** : un seul cabinet par zone d'attraction. Vos campagnes, stratégie et leads vous appartiennent — sans concurrence interne.
+
+**Que comprend exactement l'audit gratuit ?**
+Échange structuré 30-45 min pour comprendre le cabinet, les traitements phares, l'acquisition actuelle. Repart avec : analyse des fuites, opportunités prioritaires, estimation du potentiel. Sans engagement.
+
+## Contact & informations légales
+
+- **Site officiel** : https://obm-system.com
+- **Email** : Admin@obm-system.com
+- **Téléphone** : +212 7 12 34 80 34
+- **WhatsApp** : https://wa.me/212712348034
+- **Pays** : Maroc
+- **Langues de service** : Français, Arabe
+- **Zones d'intervention** : Casablanca, Rabat, Marrakech et autres villes marocaines (exclusivité territoriale)
+
+---
+
+© OBM SYSTEM — Acquisition · Automation · Conversion · Growth

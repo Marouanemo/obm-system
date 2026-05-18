@@ -18,6 +18,11 @@ apt-get upgrade -y
 echo "==> Installing nginx, certbot, ufw, git"
 apt-get install -y nginx certbot python3-certbot-nginx ufw git
 
+echo "==> Adding application/manifest+json MIME type for .webmanifest"
+if ! grep -q "webmanifest" /etc/nginx/mime.types; then
+  sed -i '/^types {/a\    application/manifest+json              webmanifest;' /etc/nginx/mime.types
+fi
+
 echo "==> Configuring firewall"
 ufw allow OpenSSH
 ufw allow 'Nginx Full'

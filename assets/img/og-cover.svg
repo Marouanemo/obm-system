@@ -1,0 +1,81 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 630" width="1200" height="630">
+  <defs>
+    <radialGradient id="bg" cx="75%" cy="0%" r="120%">
+      <stop offset="0%" stop-color="#0B1E3F"/>
+      <stop offset="55%" stop-color="#0A1428"/>
+      <stop offset="100%" stop-color="#050B1F"/>
+    </radialGradient>
+    <radialGradient id="goldGlow" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" stop-color="#C9A961" stop-opacity="0.45"/>
+      <stop offset="100%" stop-color="#C9A961" stop-opacity="0"/>
+    </radialGradient>
+    <linearGradient id="silverGrad" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#ECEEF2"/>
+      <stop offset="100%" stop-color="#A6AAB2"/>
+    </linearGradient>
+    <linearGradient id="goldStroke" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#E0CB9A"/>
+      <stop offset="100%" stop-color="#A88842"/>
+    </linearGradient>
+  </defs>
+
+  <!-- Background -->
+  <rect width="1200" height="630" fill="url(#bg)"/>
+
+  <!-- Soft gold vignette top-right -->
+  <ellipse cx="980" cy="120" rx="420" ry="320" fill="url(#goldGlow)"/>
+
+  <!-- Subtle grid -->
+  <g stroke="#FFFFFF" stroke-width="1" opacity="0.04">
+    <line x1="0" y1="105" x2="1200" y2="105"/>
+    <line x1="0" y1="210" x2="1200" y2="210"/>
+    <line x1="0" y1="315" x2="1200" y2="315"/>
+    <line x1="0" y1="420" x2="1200" y2="420"/>
+    <line x1="0" y1="525" x2="1200" y2="525"/>
+    <line x1="200" y1="0" x2="200" y2="630"/>
+    <line x1="400" y1="0" x2="400" y2="630"/>
+    <line x1="600" y1="0" x2="600" y2="630"/>
+    <line x1="800" y1="0" x2="800" y2="630"/>
+    <line x1="1000" y1="0" x2="1000" y2="630"/>
+  </g>
+
+  <!-- Eyebrow -->
+  <g font-family="ui-monospace, 'SF Mono', 'JetBrains Mono', Menlo, monospace" font-size="20" letter-spacing="4" fill="#C9A961">
+    <circle cx="80" cy="93" r="5" fill="#C9A961"/>
+    <text x="98" y="100">CABINETS DENTAIRES &#xb7; MAROC</text>
+  </g>
+
+  <!-- Main wordmark -->
+  <g font-family="system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif" font-weight="800" font-size="170" letter-spacing="-5">
+    <text x="78" y="270" fill="#FFFFFF">OBM</text>
+    <text x="78" y="430" fill="url(#silverGrad)">SYSTEM</text>
+  </g>
+
+  <!-- Gold arrow rising (echo of the brand mark) -->
+  <g stroke="url(#goldStroke)" stroke-width="9" stroke-linecap="round" stroke-linejoin="round" fill="none">
+    <path d="M 580 410 L 980 130"/>
+    <path d="M 900 130 L 980 130 L 980 210"/>
+  </g>
+
+  <!-- Tagline -->
+  <text x="78" y="500"
+        font-family="system-ui, -apple-system, sans-serif"
+        font-weight="500" font-size="34" fill="#C8CCD4" letter-spacing="-0.5">
+    Combien de patients perdez-vous chaque mois&#xa0;?
+  </text>
+
+  <!-- Domain footer -->
+  <g>
+    <rect x="78" y="540" width="1044" height="1" fill="#FFFFFF" opacity="0.12"/>
+    <text x="78" y="585"
+          font-family="ui-monospace, 'SF Mono', monospace"
+          font-size="24" fill="#C9A961" letter-spacing="6" font-weight="500">
+      OBM-SYSTEM.COM
+    </text>
+    <text x="1122" y="585"
+          font-family="ui-monospace, 'SF Mono', monospace"
+          font-size="18" fill="#8089A0" letter-spacing="4" text-anchor="end">
+      DIAGNOSTIC GRATUIT &#xb7; 90s
+    </text>
+  </g>
+</svg>

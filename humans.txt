@@ -1,0 +1,23 @@
+/* TEAM */
+
+  Agency: OBM SYSTEM
+  Email:   Admin@obm-system.com
+  Phone:   +212 7 12 34 80 34
+  Location: Maroc
+
+/* SITE */
+
+  Last update:   2026-05-18
+  Standards:     HTML5, CSS3, ES2022+, ARIA 1.2
+  Components:    Motion One 10 (CDN), gtag.js
+  Hosting:       nginx 1.24 (Ubuntu 24.04) on Hetzner Cloud
+  TLS:           Let's Encrypt (auto-renouvellement)
+  Analytics:     GA4 (G-JGDV0VS9B9) + GTM (GTM-TTPCSLV9)
+  CRM:           LeadFlow API
+  Fonts:         Clash Display, Switzer, JetBrains Mono (via Fontshare)
+
+/* THANKS */
+
+  Anthropic — Claude (Pair programming on craft & quality)
+  Fontshare — Pour l'accès gratuit à des typographies de qualité
+  Genious Communication — Hébergeur DNS Maroc
