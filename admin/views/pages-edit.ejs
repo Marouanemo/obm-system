@@ -1,0 +1,180 @@
+<%
+  const d = page.data;
+  const SITE = 'https://obm-system.com';
+%>
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>SEO · <%= page.label %> · OBM Admin</title>
+  <link rel="stylesheet" href="/admin/_static/admin.css">
+  <link rel="icon" type="image/svg+xml" href="/assets/img/favicon.svg">
+</head>
+<body>
+  <%- include('partials/topbar', { user, active: 'pages' }) %>
+  <main class="admin-main">
+    <% if (flash) { %><div class="flash flash--success"><%= flash %></div><% } %>
+    <% if (error) { %><div class="flash flash--error"><%= error %></div><% } %>
+
+    <header class="page-head">
+      <a href="/admin/pages" class="back-link">← Pages système</a>
+      <h1>SEO · <%= page.label %></h1>
+      <p>URL cible : <code><%= page.canonical %></code> · <a href="<%= page.url %>" target="_blank" rel="noopener">Voir la page ↗</a></p>
+    </header>
+
+    <form method="post" action="/admin/pages/<%= page.id %>" class="editor-form">
+      <div class="editor-grid">
+        <div class="editor-main">
+
+          <!-- SERP & OG previews -->
+          <div class="seo-preview">
+            <h4 class="seo-preview__head">📍 Aperçu Google</h4>
+            <div class="serp">
+              <div class="serp__url"><span class="serp__domain"><%= SITE.replace('https://','') %></span><span>›</span><span><%= page.url %></span></div>
+              <a class="serp__title" id="serp-title" href="#">—</a>
+              <div class="serp__desc" id="serp-desc">—</div>
+            </div>
+            <h4 class="seo-preview__head" style="margin-top:14px;">📘 Aperçu Facebook / LinkedIn / WhatsApp</h4>
+            <div class="og-card">
+              <div class="og-card__img" id="og-img-prev"></div>
+              <div class="og-card__body">
+                <div class="og-card__domain"><%= SITE.replace('https://','').toUpperCase() %></div>
+                <div class="og-card__title" id="og-title-prev">—</div>
+                <div class="og-card__desc" id="og-desc-prev">—</div>
+              </div>
+            </div>
+          </div>
+
+          <fieldset class="field fieldset">
+            <legend>Référencement Google</legend>
+
+            <label class="field">
+              <span>Titre SEO <em>~60 char optimal</em></span>
+              <input type="text" name="title" value="<%= d.title || '' %>" required maxlength="120" id="f-title">
+              <small class="counter" data-counter-for="f-title">0 / 60</small>
+            </label>
+
+            <label class="field">
+              <span>Description SEO <em>155-160 char optimal</em></span>
+              <textarea name="description" rows="3" maxlength="320" id="f-description"><%= d.description || '' %></textarea>
+              <small class="counter" data-counter-for="f-description">0 / 160</small>
+            </label>
+
+            <label class="field">
+              <span>Mots-clés <em>séparés par virgules</em></span>
+              <input type="text" name="keywords" value="<%= d.keywords || '' %>" placeholder="agence marketing dentaire, ...">
+            </label>
+
+            <div class="row-2">
+              <label class="checkbox">
+                <input type="checkbox" name="noindex" <%= d.noindex ? 'checked' : '' %>>
+                <span>Noindex <small>(bloquer Google)</small></span>
+              </label>
+              <label class="checkbox">
+                <input type="checkbox" name="nofollow" <%= d.nofollow ? 'checked' : '' %>>
+                <span>Nofollow</span>
+              </label>
+            </div>
+          </fieldset>
+
+          <fieldset class="field fieldset">
+            <legend>Open Graph (Facebook, LinkedIn, WhatsApp)</legend>
+            <label class="field">
+              <span>OG Title</span>
+              <input type="text" name="ogTitle" value="<%= d.ogTitle || '' %>" id="f-ogTitle">
+            </label>
+            <label class="field">
+              <span>OG Description</span>
+              <textarea name="ogDescription" rows="2" id="f-ogDescription"><%= d.ogDescription || '' %></textarea>
+            </label>
+            <label class="field">
+              <span>OG Image <em>1200×630 recommandé</em></span>
+              <div class="image-picker">
+                <input type="text" name="ogImage" value="<%= d.ogImage || '' %>" placeholder="/assets/uploads/..." id="f-ogImage">
+                <a href="/admin/media" target="_blank" rel="noopener" class="btn btn--ghost btn--sm">📁 Médias</a>
+              </div>
+            </label>
+          </fieldset>
+
+          <fieldset class="field fieldset">
+            <legend>Twitter / X Card</legend>
+            <label class="field">
+              <span>Twitter Title <em>défaut : OG Title</em></span>
+              <input type="text" name="twitterTitle" value="<%= d.twitterTitle || '' %>">
+            </label>
+            <label class="field">
+              <span>Twitter Description <em>défaut : OG Description</em></span>
+              <textarea name="twitterDescription" rows="2"><%= d.twitterDescription || '' %></textarea>
+            </label>
+            <label class="field">
+              <span>Twitter Image <em>défaut : OG Image</em></span>
+              <div class="image-picker">
+                <input type="text" name="twitterImage" value="<%= d.twitterImage || '' %>" placeholder="/assets/uploads/...">
+                <a href="/admin/media" target="_blank" rel="noopener" class="btn btn--ghost btn--sm">📁 Médias</a>
+              </div>
+            </label>
+          </fieldset>
+
+        </div>
+
+        <aside class="editor-side">
+          <div class="side-panel side-actions">
+            <button type="submit" class="btn btn--gold btn--lg btn--full">💾 Enregistrer &amp; appliquer</button>
+            <a href="/admin/pages" class="btn btn--ghost btn--full">Annuler</a>
+            <p style="font-size:11px;color:var(--ink-4);margin-top:8px;line-height:1.5;">
+              <% if (page.id === 'landing') { %>
+                Sauvegarder réécrira les balises SEO dans <code>index.html</code> du site. Le contenu et le design ne sont pas touchés.
+              <% } else { %>
+                Sauvegarder reconstruira la page <code><%= page.url %></code> avec les nouvelles balises SEO.
+              <% } %>
+            </p>
+          </div>
+        </aside>
+      </div>
+    </form>
+  </main>
+
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      const fT = document.getElementById('f-title');
+      const fD = document.getElementById('f-description');
+      const fOT = document.getElementById('f-ogTitle');
+      const fOD = document.getElementById('f-ogDescription');
+      const fOI = document.getElementById('f-ogImage');
+      const serpT = document.getElementById('serp-title');
+      const serpD = document.getElementById('serp-desc');
+      const ogT = document.getElementById('og-title-prev');
+      const ogD = document.getElementById('og-desc-prev');
+      const ogImg = document.getElementById('og-img-prev');
+      const truncate = (s, n) => s.length <= n ? s : s.slice(0, n - 1).trimEnd() + '…';
+      const upd = () => {
+        const t = fT.value || 'Titre';
+        const d = fD.value || 'Description';
+        const ot = fOT.value || t;
+        const od = fOD.value || d;
+        const oi = fOI.value || '/assets/img/og-cover.svg';
+        serpT.textContent = truncate(t, 65);
+        serpD.textContent = truncate(d, 160);
+        ogT.textContent = truncate(ot, 90);
+        ogD.textContent = truncate(od, 200);
+        if (oi) ogImg.style.backgroundImage = `url("${oi.replace(/"/g, '%22')}")`;
+      };
+      [fT,fD,fOT,fOD,fOI].forEach(el => el && el.addEventListener('input', upd));
+      upd();
+
+      document.querySelectorAll('[data-counter-for]').forEach(c => {
+        const target = document.getElementById(c.dataset.counterFor);
+        if (!target) return;
+        const optimal = c.textContent.match(/\d+/)?.[0] || '60';
+        const update = () => {
+          c.textContent = `${target.value.length} / ${optimal}`;
+          c.classList.toggle('over', target.value.length > parseInt(optimal));
+        };
+        target.addEventListener('input', update);
+        update();
+      });
+    });
+  </script>
+</body>
+</html>

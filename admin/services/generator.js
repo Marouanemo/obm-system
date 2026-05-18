@@ -25,7 +25,34 @@ marked.setOptions({
 // ------------------------------------------------------------
 // Shared partials (head, nav, footer) — kept inline for simplicity
 // ------------------------------------------------------------
-function headTags({ title, description, canonical, ogImage, type = 'article', publishedTime, category, tag }) {
+function headTags(opts) {
+  // Compute SEO fields with sensible fallbacks
+  const title = opts.title;
+  const description = opts.description;
+  const canonical = opts.canonical;
+  const ogImage = opts.ogImage;
+  const type = opts.type || 'article';
+  const publishedTime = opts.publishedTime || null;
+  const category = opts.category || '';
+  const tag = opts.tag || '';
+
+  const metaTitle = opts.metaTitle || title;
+  const seoDescription = opts.seoDescription || description;
+  const ogTitle = opts.ogTitle || metaTitle;
+  const ogDescription = opts.ogDescription || seoDescription;
+  const twitterTitle = opts.twitterTitle || ogTitle;
+  const twitterDescription = opts.twitterDescription || ogDescription;
+  const twitterImage = opts.twitterImage || ogImage;
+  const keywords = opts.keywords || '';
+
+  const noindex = !!opts.noindex;
+  const nofollow = !!opts.nofollow;
+  const robotsParts = [];
+  robotsParts.push(noindex ? 'noindex' : 'index');
+  robotsParts.push(nofollow ? 'nofollow' : 'follow');
+  if (!noindex) robotsParts.push('max-image-preview:large');
+  const robotsContent = robotsParts.join(', ');
+
   return `<meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
   <meta name="theme-color" content="#0B1E3F" />
@@ -44,23 +71,27 @@ function headTags({ title, description, canonical, ogImage, type = 'article', pu
     gtag('config', 'G-JGDV0VS9B9');
   </script>
 
-  <title>${escapeHtml(title)}</title>
-  <meta name="description" content="${escapeHtml(description)}" />
-  <meta name="robots" content="index, follow, max-image-preview:large" />
+  <title>${escapeHtml(metaTitle)}</title>
+  <meta name="description" content="${escapeHtml(seoDescription)}" />
+  ${keywords ? `<meta name="keywords" content="${escapeHtml(keywords)}" />` : ''}
+  <meta name="robots" content="${robotsContent}" />
   <link rel="canonical" href="${canonical}" />
 
   <meta property="og:type" content="${type}" />
   <meta property="og:locale" content="fr_MA" />
   <meta property="og:url" content="${canonical}" />
-  <meta property="og:title" content="${escapeHtml(title)}" />
-  <meta property="og:description" content="${escapeHtml(description)}" />
+  <meta property="og:title" content="${escapeHtml(ogTitle)}" />
+  <meta property="og:description" content="${escapeHtml(ogDescription)}" />
   <meta property="og:site_name" content="OBM SYSTEM" />
-  <meta property="og:image" content="${ogImage}" />
+  <meta property="og:image" content="${absUrl(ogImage)}" />
   ${publishedTime ? `<meta property="article:published_time" content="${publishedTime}" />` : ''}
   ${category ? `<meta property="article:section" content="${escapeHtml(category)}" />` : ''}
   ${tag ? `<meta property="article:tag" content="${escapeHtml(tag)}" />` : ''}
 
   <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="${escapeHtml(twitterTitle)}" />
+  <meta name="twitter:description" content="${escapeHtml(twitterDescription)}" />
+  <meta name="twitter:image" content="${absUrl(twitterImage)}" />
 
   <link rel="icon" type="image/svg+xml" href="/assets/img/favicon.svg" />
   <link rel="apple-touch-icon" href="/assets/img/apple-touch-icon.svg" />
@@ -74,6 +105,12 @@ function headTags({ title, description, canonical, ogImage, type = 'article', pu
   <script src="https://cdn.jsdelivr.net/npm/motion@10.18.0/dist/motion.min.js" defer></script>
   <link href="https://assets.calendly.com/assets/external/widget.css" rel="stylesheet">
   <script src="https://assets.calendly.com/assets/external/widget.js" async></script>`;
+}
+
+function absUrl(url) {
+  if (!url) return SITE_URL + '/assets/img/og-cover.svg';
+  if (/^https?:\/\//.test(url)) return url;
+  return SITE_URL + (url.startsWith('/') ? url : '/' + url);
 }
 
 const NAV_HTML = `<header class="nav is-scrolled" id="nav">
@@ -211,12 +248,12 @@ function bodyShell(headInner, mainHtml) {
 // Blog post page generation
 // ------------------------------------------------------------
 function renderBlogPostHtml({ slug, data, content }) {
-  const canonical = `${SITE_URL}/blog/${slug}/`;
+  const canonical = data.canonical || `${SITE_URL}/blog/${slug}/`;
   const ogImage = data.image || `${SITE_URL}/assets/img/og-cover.svg`;
   const renderedBody = marked.parse(content || '');
 
   const head = headTags({
-    title: data.metaTitle || `${data.title} | OBM SYSTEM`,
+    title: `${data.title} | OBM SYSTEM`,
     description: data.excerpt || data.title,
     canonical,
     ogImage,
@@ -224,6 +261,16 @@ function renderBlogPostHtml({ slug, data, content }) {
     publishedTime: data.date ? new Date(data.date).toISOString() : null,
     category: data.category,
     tag: data.tag,
+    metaTitle: data.metaTitle,
+    seoDescription: data.seoDescription,
+    keywords: data.keywords,
+    ogTitle: data.ogTitle,
+    ogDescription: data.ogDescription,
+    twitterTitle: data.twitterTitle,
+    twitterDescription: data.twitterDescription,
+    twitterImage: data.twitterImage,
+    noindex: data.noindex,
+    nofollow: data.nofollow,
   });
 
   const schema = {
@@ -271,12 +318,12 @@ function renderBlogPostHtml({ slug, data, content }) {
 // Case study page generation
 // ------------------------------------------------------------
 function renderCasePageHtml({ slug, data, content }) {
-  const canonical = `${SITE_URL}/cas-clients/${slug}/`;
+  const canonical = data.canonical || `${SITE_URL}/cas-clients/${slug}/`;
   const ogImage = data.image || `${SITE_URL}/assets/img/og-cover.svg`;
   const renderedBody = marked.parse(content || '');
 
   const head = headTags({
-    title: data.metaTitle || `${data.title} | OBM SYSTEM`,
+    title: `${data.title} | OBM SYSTEM`,
     description: data.excerpt || data.title,
     canonical,
     ogImage,
@@ -284,6 +331,16 @@ function renderCasePageHtml({ slug, data, content }) {
     publishedTime: data.date ? new Date(data.date).toISOString() : null,
     category: data.category,
     tag: data.tag,
+    metaTitle: data.metaTitle,
+    seoDescription: data.seoDescription,
+    keywords: data.keywords,
+    ogTitle: data.ogTitle,
+    ogDescription: data.ogDescription,
+    twitterTitle: data.twitterTitle,
+    twitterDescription: data.twitterDescription,
+    twitterImage: data.twitterImage,
+    noindex: data.noindex,
+    nofollow: data.nofollow,
   });
 
   const schema = {
@@ -330,14 +387,23 @@ function renderCasePageHtml({ slug, data, content }) {
 // ------------------------------------------------------------
 // Index pages (list of all blog posts / case studies)
 // ------------------------------------------------------------
-function renderBlogIndexHtml(posts) {
+function renderBlogIndexHtml(posts, pageSeo) {
   const canonical = `${SITE_URL}/blog/`;
+  const seo = pageSeo || {};
   const head = headTags({
-    title: 'Journal — Articles sur l\'acquisition de patients dentaires | OBM SYSTEM',
-    description: 'Le journal d\'OBM SYSTEM : articles tactiques sur l\'acquisition de patients dentaires, l\'automation WhatsApp, les campagnes Meta Ads, et la croissance des cabinets dentaires au Maroc.',
+    title: seo.title || 'Journal — Articles sur l\'acquisition de patients dentaires | OBM SYSTEM',
+    description: seo.description || 'Le journal d\'OBM SYSTEM : articles tactiques sur l\'acquisition de patients dentaires, l\'automation WhatsApp, les campagnes Meta Ads, et la croissance des cabinets dentaires au Maroc.',
     canonical,
-    ogImage: `${SITE_URL}/assets/img/og-cover.svg`,
+    ogImage: seo.ogImage || `${SITE_URL}/assets/img/og-cover.svg`,
     type: 'website',
+    keywords: seo.keywords,
+    ogTitle: seo.ogTitle,
+    ogDescription: seo.ogDescription,
+    twitterTitle: seo.twitterTitle,
+    twitterDescription: seo.twitterDescription,
+    twitterImage: seo.twitterImage,
+    noindex: seo.noindex,
+    nofollow: seo.nofollow,
   });
 
   const cards = posts.filter(p => p.published).map(p => `
@@ -384,14 +450,23 @@ ${cards}
   return bodyShell(head, main);
 }
 
-function renderCasesIndexHtml(cases) {
+function renderCasesIndexHtml(cases, pageSeo) {
   const canonical = `${SITE_URL}/cas-clients/`;
+  const seo = pageSeo || {};
   const head = headTags({
-    title: 'Cas clients — Cabinets dentaires transformés | OBM SYSTEM',
-    description: 'Études de cas anonymisées de cabinets dentaires marocains ayant déployé l\'infrastructure OBM SYSTEM. Données réelles, résultats mesurés, méthodes détaillées.',
+    title: seo.title || 'Cas clients — Cabinets dentaires transformés | OBM SYSTEM',
+    description: seo.description || 'Études de cas anonymisées de cabinets dentaires marocains ayant déployé l\'infrastructure OBM SYSTEM. Données réelles, résultats mesurés, méthodes détaillées.',
     canonical,
-    ogImage: `${SITE_URL}/assets/img/og-cover.svg`,
+    ogImage: seo.ogImage || `${SITE_URL}/assets/img/og-cover.svg`,
     type: 'website',
+    keywords: seo.keywords,
+    ogTitle: seo.ogTitle,
+    ogDescription: seo.ogDescription,
+    twitterTitle: seo.twitterTitle,
+    twitterDescription: seo.twitterDescription,
+    twitterImage: seo.twitterImage,
+    noindex: seo.noindex,
+    nofollow: seo.nofollow,
   });
 
   const cards = cases.filter(c => c.published).map(c => `
@@ -531,7 +606,14 @@ async function generateCase(slug) {
 
 async function regenerateBlogIndex() {
   const posts = await list('blog');
-  const html = renderBlogIndexHtml(posts);
+  // Try to read SEO settings for /blog/ from system pages
+  let pageSeo = null;
+  try {
+    const pages = require('./pages');
+    const page = await pages.read('blog-index');
+    if (page) pageSeo = page.data;
+  } catch {}
+  const html = renderBlogIndexHtml(posts, pageSeo);
   const dir = path.join(PUBLIC_DIR, 'blog');
   await fs.mkdir(dir, { recursive: true });
   await fs.writeFile(path.join(dir, 'index.html'), html, 'utf8');
@@ -539,7 +621,13 @@ async function regenerateBlogIndex() {
 
 async function regenerateCasesIndex() {
   const cases = await list('cases');
-  const html = renderCasesIndexHtml(cases);
+  let pageSeo = null;
+  try {
+    const pages = require('./pages');
+    const page = await pages.read('cases-index');
+    if (page) pageSeo = page.data;
+  } catch {}
+  const html = renderCasesIndexHtml(cases, pageSeo);
   const dir = path.join(PUBLIC_DIR, 'cas-clients');
   await fs.mkdir(dir, { recursive: true });
   await fs.writeFile(path.join(dir, 'index.html'), html, 'utf8');

@@ -126,8 +126,19 @@ function buildCaseData(body) {
     bigMetricLabel: (body.bigMetricLabel || '').trim(),
     subMetrics: parseSubMetrics(body),
     image: (body.image || '').trim(),
-    metaTitle: (body.metaTitle || '').trim(),
     tag: (body.tag || '').trim(),
+    // SEO fields
+    metaTitle: (body.metaTitle || '').trim(),
+    seoDescription: (body.seoDescription || '').trim(),
+    keywords: (body.keywords || '').trim(),
+    canonical: (body.canonical || '').trim(),
+    noindex: body.noindex === 'on' || body.noindex === true,
+    nofollow: body.nofollow === 'on' || body.nofollow === true,
+    ogTitle: (body.ogTitle || '').trim(),
+    ogDescription: (body.ogDescription || '').trim(),
+    twitterTitle: (body.twitterTitle || '').trim(),
+    twitterDescription: (body.twitterDescription || '').trim(),
+    twitterImage: (body.twitterImage || '').trim(),
     published: body.published === 'on' || body.published === true,
   };
 }

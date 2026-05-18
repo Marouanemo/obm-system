@@ -55,17 +55,7 @@ router.post('/', async (req, res, next) => {
       });
     }
 
-    const data = {
-      title,
-      date: body.date || new Date().toISOString().slice(0, 10),
-      category: (body.category || '').trim(),
-      excerpt: (body.excerpt || '').trim(),
-      readTime: (body.readTime || '').trim(),
-      tag: (body.tag || '').trim(),
-      image: (body.image || '').trim(),
-      metaTitle: (body.metaTitle || '').trim(),
-      published: body.published === 'on' || body.published === true,
-    };
+    const data = buildBlogData(body, title);
     await write('blog', slug, data, body.content || '');
     await generateBlogPost(slug);
     res.redirect(`/admin/blog/${slug}/edit?flash=` + encodeURIComponent('Article créé.'));
@@ -88,7 +78,6 @@ router.post('/:slug', async (req, res, next) => {
     const newSlug = (body.slug && body.slug.trim()) || oldSlug;
 
     if (newSlug !== oldSlug) {
-      // Rename: write under new slug, delete old, delete old generated dir
       const existing = await read('blog', newSlug);
       if (existing) {
         const item = await read('blog', oldSlug);
@@ -101,22 +90,37 @@ router.post('/:slug', async (req, res, next) => {
       await deleteGenerated('blog', oldSlug);
     }
 
-    const data = {
-      title,
-      date: body.date || new Date().toISOString().slice(0, 10),
-      category: (body.category || '').trim(),
-      excerpt: (body.excerpt || '').trim(),
-      readTime: (body.readTime || '').trim(),
-      tag: (body.tag || '').trim(),
-      image: (body.image || '').trim(),
-      metaTitle: (body.metaTitle || '').trim(),
-      published: body.published === 'on' || body.published === true,
-    };
+    const data = buildBlogData(body, title);
     await write('blog', newSlug, data, body.content || '');
     await generateBlogPost(newSlug);
     res.redirect(`/admin/blog/${newSlug}/edit?flash=` + encodeURIComponent('Article enregistré.'));
   } catch (e) { next(e); }
 });
+
+function buildBlogData(body, title) {
+  return {
+    title,
+    date: body.date || new Date().toISOString().slice(0, 10),
+    category: (body.category || '').trim(),
+    excerpt: (body.excerpt || '').trim(),
+    readTime: (body.readTime || '').trim(),
+    tag: (body.tag || '').trim(),
+    image: (body.image || '').trim(),
+    // SEO fields
+    metaTitle: (body.metaTitle || '').trim(),
+    seoDescription: (body.seoDescription || '').trim(),
+    keywords: (body.keywords || '').trim(),
+    canonical: (body.canonical || '').trim(),
+    noindex: body.noindex === 'on' || body.noindex === true,
+    nofollow: body.nofollow === 'on' || body.nofollow === true,
+    ogTitle: (body.ogTitle || '').trim(),
+    ogDescription: (body.ogDescription || '').trim(),
+    twitterTitle: (body.twitterTitle || '').trim(),
+    twitterDescription: (body.twitterDescription || '').trim(),
+    twitterImage: (body.twitterImage || '').trim(),
+    published: body.published === 'on' || body.published === true,
+  };
+}
 
 // Delete
 router.post('/:slug/delete', async (req, res, next) => {

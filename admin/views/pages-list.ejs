@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Pages système · OBM Admin</title>
+  <link rel="stylesheet" href="/admin/_static/admin.css">
+  <link rel="icon" type="image/svg+xml" href="/assets/img/favicon.svg">
+</head>
+<body>
+  <%- include('partials/topbar', { user, active: 'pages' }) %>
+  <main class="admin-main">
+    <% if (flash) { %><div class="flash flash--success"><%= flash %></div><% } %>
+    <header class="page-head">
+      <h1>Pages système — SEO</h1>
+      <p>Édite le titre, la meta description, les Open Graph et autres signaux SEO pour les pages principales du site. Les pages individuelles (blog posts, cas clients) ont leur propre éditeur SEO via leur formulaire.</p>
+    </header>
+
+    <ul class="pages-list">
+      <% pages.forEach(p => { %>
+        <li class="page-row">
+          <div class="page-row__main">
+            <a href="/admin/pages/<%= p.id %>" class="page-row__title"><%= p.label %></a>
+            <div class="page-row__meta">
+              <code><%= p.url %></code> · <%= p.description %>
+            </div>
+          </div>
+          <div class="page-row__actions">
+            <a href="<%= p.url %>" target="_blank" rel="noopener" class="btn btn--ghost btn--sm">Voir ↗</a>
+            <a href="/admin/pages/<%= p.id %>" class="btn btn--gold btn--sm">Éditer SEO</a>
+          </div>
+        </li>
+      <% }) %>
+    </ul>
+  </main>
+</body>
+</html>

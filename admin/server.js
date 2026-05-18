@@ -17,6 +17,7 @@ const dashboardRoutes = require('./routes/dashboard');
 const blogRoutes = require('./routes/blog');
 const casesRoutes = require('./routes/cases');
 const mediaRoutes = require('./routes/media');
+const pagesRoutes = require('./routes/pages');
 
 const { requireAuth } = require('./services/auth');
 
@@ -94,6 +95,7 @@ admin.use('/dashboard', dashboardRoutes);
 admin.use('/blog', blogRoutes);
 admin.use('/cases', casesRoutes);
 admin.use('/media', mediaRoutes);
+admin.use('/pages', pagesRoutes);
 
 // Mount under /admin
 app.use('/admin', admin);
