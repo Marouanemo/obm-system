@@ -3,17 +3,23 @@
 // ============================================================
 const express = require('express');
 const pages = require('../services/pages');
+const { list: listContent } = require('../services/content');
 const { patchLanding } = require('../services/landing-seo');
 const { regenerateBlogIndex, regenerateCasesIndex } = require('../services/generator');
 
 const router = express.Router();
 
-router.get('/', (req, res) => {
-  res.render('pages-list', {
-    user: req.session.user,
-    pages: pages.list(),
-    flash: req.query.flash || null,
-  });
+router.get('/', async (req, res, next) => {
+  try {
+    const [posts, cases] = await Promise.all([listContent('blog'), listContent('cases')]);
+    res.render('pages-list', {
+      user: req.session.user,
+      pages: pages.list(),
+      posts,
+      cases,
+      flash: req.query.flash || null,
+    });
+  } catch (e) { next(e); }
 });
 
 router.get('/:id', async (req, res, next) => {

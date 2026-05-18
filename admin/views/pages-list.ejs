@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Pages système · OBM Admin</title>
+  <title>SEO Pages · OBM Admin</title>
   <link rel="stylesheet" href="/admin/_static/admin.css">
   <link rel="icon" type="image/svg+xml" href="/assets/img/favicon.svg">
 </head>
@@ -12,26 +12,105 @@
   <main class="admin-main">
     <% if (flash) { %><div class="flash flash--success"><%= flash %></div><% } %>
     <header class="page-head">
-      <h1>Pages système — SEO</h1>
-      <p>Édite le titre, la meta description, les Open Graph et autres signaux SEO pour les pages principales du site. Les pages individuelles (blog posts, cas clients) ont leur propre éditeur SEO via leur formulaire.</p>
+      <h1>SEO Pages</h1>
+      <p>Édite le SEO (titre, description, Open Graph, Twitter, robots) sur toutes les pages du site.</p>
     </header>
 
-    <ul class="pages-list">
-      <% pages.forEach(p => { %>
-        <li class="page-row">
-          <div class="page-row__main">
-            <a href="/admin/pages/<%= p.id %>" class="page-row__title"><%= p.label %></a>
-            <div class="page-row__meta">
-              <code><%= p.url %></code> · <%= p.description %>
+    <!-- Pages système -->
+    <section class="dash-section">
+      <header class="dash-section__head">
+        <h2>Pages système <span class="dash-count"><%= pages.length %></span></h2>
+      </header>
+      <p class="empty" style="font-style:normal;color:var(--ink-3);margin-bottom:14px;">
+        Pages principales du site. Modifier le SEO ici met à jour les balises &lt;title&gt;, meta description, OG et Twitter directement sur le site.
+      </p>
+      <ul class="pages-list">
+        <% pages.forEach(p => { %>
+          <li class="page-row">
+            <div class="page-row__main">
+              <a href="/admin/pages/<%= p.id %>" class="page-row__title"><%= p.label %></a>
+              <div class="page-row__meta">
+                <code><%= p.url %></code> <%= p.description %>
+              </div>
             </div>
-          </div>
-          <div class="page-row__actions">
-            <a href="<%= p.url %>" target="_blank" rel="noopener" class="btn btn--ghost btn--sm">Voir ↗</a>
-            <a href="/admin/pages/<%= p.id %>" class="btn btn--gold btn--sm">Éditer SEO</a>
-          </div>
-        </li>
-      <% }) %>
-    </ul>
+            <div class="page-row__actions">
+              <a href="<%= p.url %>" target="_blank" rel="noopener" class="btn btn--ghost btn--sm">Voir ↗</a>
+              <a href="/admin/pages/<%= p.id %>" class="btn btn--gold btn--sm">Éditer SEO</a>
+            </div>
+          </li>
+        <% }) %>
+      </ul>
+    </section>
+
+    <!-- Articles de blog -->
+    <section class="dash-section">
+      <header class="dash-section__head">
+        <h2>Articles de blog <span class="dash-count"><%= posts.length %></span></h2>
+        <a href="/admin/blog/new" class="btn btn--ghost btn--sm">+ Nouvel article</a>
+      </header>
+      <p class="empty" style="font-style:normal;color:var(--ink-3);margin-bottom:14px;">
+        Le SEO de chaque article s'édite dans son éditeur, onglet "🔍 SEO &amp; Partage".
+      </p>
+      <% if (posts.length === 0) { %>
+        <p class="empty">Aucun article pour l'instant.</p>
+      <% } else { %>
+        <ul class="content-list">
+          <% posts.forEach(p => { %>
+            <li class="content-row">
+              <div class="content-row__main">
+                <a href="/admin/blog/<%= p.slug %>/edit?tab=seo" class="content-row__title"><%= p.title %></a>
+                <div class="content-row__meta">
+                  <% if (p.category) { %><span class="content-row__tag"><%= p.category %></span><% } %>
+                  <% if (p.date) { %><span><%= p.date %></span><% } %>
+                  <% if (!p.published) { %><span class="content-row__draft">Brouillon</span><% } %>
+                </div>
+              </div>
+              <div class="content-row__actions">
+                <% if (p.published) { %>
+                  <a href="/blog/<%= p.slug %>/" target="_blank" rel="noopener" class="btn btn--ghost btn--sm">Voir ↗</a>
+                <% } %>
+                <a href="/admin/blog/<%= p.slug %>/edit?tab=seo" class="btn btn--gold btn--sm">Éditer SEO</a>
+              </div>
+            </li>
+          <% }) %>
+        </ul>
+      <% } %>
+    </section>
+
+    <!-- Cas clients -->
+    <section class="dash-section">
+      <header class="dash-section__head">
+        <h2>Cas clients <span class="dash-count"><%= cases.length %></span></h2>
+        <a href="/admin/cases/new" class="btn btn--ghost btn--sm">+ Nouveau cas client</a>
+      </header>
+      <p class="empty" style="font-style:normal;color:var(--ink-3);margin-bottom:14px;">
+        Le SEO de chaque cas client s'édite dans son éditeur, onglet "🔍 SEO &amp; Partage".
+      </p>
+      <% if (cases.length === 0) { %>
+        <p class="empty">Aucun cas client pour l'instant.</p>
+      <% } else { %>
+        <ul class="content-list">
+          <% cases.forEach(c => { %>
+            <li class="content-row">
+              <div class="content-row__main">
+                <a href="/admin/cases/<%= c.slug %>/edit?tab=seo" class="content-row__title"><%= c.title %></a>
+                <div class="content-row__meta">
+                  <% if (c.category) { %><span class="content-row__tag"><%= c.category %></span><% } %>
+                  <% if (c.date) { %><span><%= c.date %></span><% } %>
+                  <% if (!c.published) { %><span class="content-row__draft">Brouillon</span><% } %>
+                </div>
+              </div>
+              <div class="content-row__actions">
+                <% if (c.published) { %>
+                  <a href="/cas-clients/<%= c.slug %>/" target="_blank" rel="noopener" class="btn btn--ghost btn--sm">Voir ↗</a>
+                <% } %>
+                <a href="/admin/cases/<%= c.slug %>/edit?tab=seo" class="btn btn--gold btn--sm">Éditer SEO</a>
+              </div>
+            </li>
+          <% }) %>
+        </ul>
+      <% } %>
+    </section>
   </main>
 </body>
 </html>

@@ -267,13 +267,19 @@
       // Tabs
       const tabs = document.querySelectorAll('.editor-tab');
       const panes = document.querySelectorAll('.editor-tab-pane');
-      tabs.forEach(tab => {
-        tab.addEventListener('click', () => {
-          tabs.forEach(t => t.classList.toggle('is-active', t === tab));
-          const id = tab.dataset.tab;
-          panes.forEach(p => p.classList.toggle('is-active', p.dataset.pane === id));
-        });
-      });
+      const activateTab = (id) => {
+        tabs.forEach(t => t.classList.toggle('is-active', t.dataset.tab === id));
+        panes.forEach(p => p.classList.toggle('is-active', p.dataset.pane === id));
+      };
+      tabs.forEach(tab => tab.addEventListener('click', () => activateTab(tab.dataset.tab)));
+
+      // Auto-activate tab from ?tab=… query string (e.g. ?tab=seo)
+      const requestedTab = new URLSearchParams(window.location.search).get('tab');
+      if (requestedTab && document.querySelector(`.editor-tab[data-tab="${requestedTab}"]`)) {
+        activateTab(requestedTab);
+        // Scroll the tabs bar into view
+        document.querySelector('.editor-tabs')?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      }
 
       // Markdown live preview
       const ta = document.getElementById('editor-content');
