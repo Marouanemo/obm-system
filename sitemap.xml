@@ -11,8 +11,49 @@
     <image:image>
       <image:loc>https://obm-system.com/assets/img/og-cover.svg</image:loc>
       <image:title>OBM SYSTEM — Système d'acquisition pour cabinets dentaires au Maroc</image:title>
-      <image:caption>Acquisition · CRM · Automation · Intelligence — l'infrastructure complète pour cabinets dentaires</image:caption>
     </image:image>
+  </url>
+
+  <url>
+    <loc>https://obm-system.com/cas-clients/</loc>
+    <lastmod>2026-05-18</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+
+  <url>
+    <loc>https://obm-system.com/cas-clients/cabinet-implants-casablanca/</loc>
+    <lastmod>2026-04-22</lastmod>
+    <changefreq>yearly</changefreq>
+    <priority>0.7</priority>
+  </url>
+
+  <url>
+    <loc>https://obm-system.com/cas-clients/cabinet-facettes-rabat/</loc>
+    <lastmod>2026-05-02</lastmod>
+    <changefreq>yearly</changefreq>
+    <priority>0.7</priority>
+  </url>
+
+  <url>
+    <loc>https://obm-system.com/blog/</loc>
+    <lastmod>2026-05-18</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+
+  <url>
+    <loc>https://obm-system.com/blog/meta-ads-cabinets-dentaires-erreurs/</loc>
+    <lastmod>2026-05-15</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+
+  <url>
+    <loc>https://obm-system.com/blog/whatsapp-automation-cabinets-dentaires/</loc>
+    <lastmod>2026-05-08</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
   </url>
 
 </urlset>
