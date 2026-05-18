@@ -846,6 +846,41 @@
   if (yearEl) yearEl.textContent = new Date().getFullYear();
 
   // ============================================================
+  // 10a. CALENDLY — popup widget + GTM tracking
+  //     Open the popup in-page (if calendly.js loaded), else let the
+  //     anchor fall through to a new tab. Track open & booking completed.
+  // ============================================================
+  const CALENDLY_URL = 'https://calendly.com/admin-obm-system/30min?primary_color=c9a961';
+
+  document.querySelectorAll('[data-calendly]').forEach((btn) => {
+    btn.addEventListener('click', (e) => {
+      const sourceLabel = btn.dataset.source || (btn.textContent || '').trim().slice(0, 60);
+      gtmEvent('calendly_opened', { source: sourceLabel });
+
+      if (window.Calendly && typeof window.Calendly.initPopupWidget === 'function') {
+        e.preventDefault();
+        window.Calendly.initPopupWidget({ url: CALENDLY_URL });
+      }
+      // else: anchor opens calendly.com in a new tab as fallback
+    });
+  });
+
+  // Booking completed = top-tier conversion signal
+  window.addEventListener('message', (e) => {
+    if (typeof e.data !== 'object' || !e.data || typeof e.data.event !== 'string') return;
+    if (e.data.event.indexOf('calendly.') !== 0) return;
+
+    if (e.data.event === 'calendly.event_scheduled') {
+      gtmEvent('calendly_booking_completed', {
+        event_uri:   e.data.payload && e.data.payload.event   && e.data.payload.event.uri,
+        invitee_uri: e.data.payload && e.data.payload.invitee && e.data.payload.invitee.uri,
+      });
+    } else if (e.data.event === 'calendly.date_and_time_selected') {
+      gtmEvent('calendly_slot_selected');
+    }
+  });
+
+  // ============================================================
   // 10b. GTM — outbound click tracking (WhatsApp, phone, email)
   // ============================================================
   const labelFor = (el) => {

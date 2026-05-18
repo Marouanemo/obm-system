@@ -103,6 +103,28 @@ Les événements sont automatiquement poussés par `assets/js/script.js`. Tu n'a
 | `address` | string |
 | `source` | string |
 
+### `calendly_opened`
+**Quand** : clic sur un bouton Calendly (CTA, success messages) — la popup s'ouvre
+**Paramètres** :
+| Nom | Type | Valeurs |
+|-----|------|---------|
+| `source` | string | Label du bouton ou data-source (ex: `CTA - Réserver créneau`, `Diagnostic success - Calendly`) |
+
+### `calendly_slot_selected`
+**Quand** : l'utilisateur choisit une date+heure dans la popup Calendly
+**Paramètres** : aucun
+**Usage** : indique une intention forte de booking (étape avant la complétion)
+
+### `calendly_booking_completed` ⭐ CONVERSION ULTRA-FORTE
+**Quand** : l'utilisateur valide définitivement son rendez-vous Calendly (postMessage `calendly.event_scheduled`)
+**Paramètres** :
+| Nom | Type | Valeurs |
+|-----|------|---------|
+| `event_uri` | string | URI Calendly de l'événement (ex: `https://api.calendly.com/scheduled_events/XXX`) |
+| `invitee_uri` | string | URI Calendly de l'invité (peut être utilisé pour récupérer email via API Calendly) |
+
+**Usage** : **conversion la plus qualifiée du site** — la personne a non seulement laissé ses infos, elle s'est engagée sur un créneau précis. À utiliser comme **valeur de conversion principale** dans Google Ads / Meta Ads. À marquer comme conversion dans GA4 (poids supérieur à `form_submitted`).
+
 ---
 
 ## 2. Configuration GTM
