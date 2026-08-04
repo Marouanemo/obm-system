@@ -1,0 +1,33 @@
+name: Déploiement (Hetzner)
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+concurrency:
+  group: deploy-obm-system
+  cancel-in-progress: false
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      # Clé SSH restreinte côté serveur (forced command) : le secret CI ne
+      # permet pas d'ouvrir un shell.
+      #
+      # ATTENTION — le script serveur exclut volontairement de la
+      # synchronisation des éléments que deploy/deploy.sh, lui, supprimerait :
+      #   contact.php, lead.php  handlers server-side contenant des secrets
+      #                          (SMTP Brevo, clé LeadFlow), hors dépôt à dessein
+      #   assets/uploads/        fichiers téléversés à l'exécution
+      #   admin/                 application Node déployée à part (PM2, :3201)
+      #   docs/                  documentation interne, pas destinée au web
+      - name: Déclencher le déploiement
+        uses: appleboy/ssh-action@v1.2.0
+        with:
+          host: ${{ secrets.SSH_HOST }}
+          username: ${{ secrets.SSH_USER }}
+          key: ${{ secrets.SSH_KEY }}
+          command_timeout: 10m
+          script: deploy
