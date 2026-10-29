@@ -47,13 +47,8 @@ Write-Host "==> Uploading assets/ ..."
 Write-Host "==> Uploading site-reseaux/ ..."
 & scp @scpArgs -r (Join-Path $ProjectRoot "site-reseaux") "$User@${ServerIp}:$RemotePath/"
 
-# Upload nginx config
-Write-Host "==> Uploading nginx config..."
-& scp @scpArgs (Join-Path $PSScriptRoot "nginx.conf") "$User@${ServerIp}:/etc/nginx/sites-available/obm-system.com"
-
-# Reload nginx
-Write-Host "==> Reloading nginx..."
-& ssh @sshArgs "$User@$ServerIp" "ln -sf /etc/nginx/sites-available/obm-system.com /etc/nginx/sites-enabled/obm-system.com && nginx -t && systemctl reload nginx"
+# nginx : la config active est /etc/nginx/sites-enabled/obm-system.com (fichier réel).
+# deploy/nginx.conf en est une copie de référence ; elle n'est pas envoyée automatiquement.
 
 Write-Host ""
 Write-Host "==> Deployment complete." -ForegroundColor Green

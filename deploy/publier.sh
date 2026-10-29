@@ -11,7 +11,8 @@
 #   2. Envoi du site statique (accueil, offre, assets, fichiers racine)
 #   3. Mise à jour du back-office (générateur, gabarits, réglages SEO par défaut)
 #   4. Archivage des anciens contenus dentaires, chargement de content-seed/, régénération
-#   5. Config nginx (redirections 301) appliquée seulement si `nginx -t` passe
+#   La config nginx n'est pas touchée : deploy/nginx.conf est une copie de
+#   /etc/nginx/sites-enabled/obm-system.com (fichier réel, pas un lien).
 # ============================================================
 set -euo pipefail
 
@@ -26,18 +27,18 @@ echo "==> Serveur : $HOST"
 read -r -p "Publier la refonte sur obm-system.com ? (oui/non) " ok
 [ "$ok" = "oui" ] || { echo "Annulé."; exit 1; }
 
-echo "==> 1/5 Sauvegarde : /root/backup-obm-$STAMP.tgz"
-ssh "$HOST" "tar czf /root/backup-obm-$STAMP.tgz $PUBLIC $ADMIN/content $ADMIN/services $ADMIN/views /etc/nginx/sites-available/obm-system.com 2>/dev/null; ls -lh /root/backup-obm-$STAMP.tgz"
+echo "==> 1/4 Sauvegarde : /root/backup-obm-$STAMP.tgz"
+ssh "$HOST" "tar czf /root/backup-obm-$STAMP.tgz $PUBLIC $ADMIN/content $ADMIN/services $ADMIN/views /etc/nginx/sites-enabled/obm-system.com 2>/dev/null; ls -lh /root/backup-obm-$STAMP.tgz"
 
-echo "==> 2/5 Site statique"
+echo "==> 2/4 Site statique"
 scp -q -r index.html site-reseaux assets robots.txt sitemap.xml manifest.webmanifest llms.txt llms-full.txt humans.txt "$HOST:$PUBLIC/"
 ssh "$HOST" "rm -rf $PUBLIC/blog/meta-ads-cabinets-dentaires-erreurs $PUBLIC/blog/whatsapp-automation-cabinets-dentaires $PUBLIC/cas-clients/cabinet-facettes-rabat $PUBLIC/cas-clients/cabinet-implants-casablanca $PUBLIC/assets/css/styles.css $PUBLIC/assets/js/script.js $PUBLIC/assets/img/og-cover.svg"
 
-echo "==> 3/5 Back-office"
+echo "==> 3/4 Back-office"
 scp -q admin/services/generator.js admin/services/content.js admin/services/pages.js admin/services/landing-seo.js "$HOST:$ADMIN/services/"
 scp -q admin/views/editor.ejs admin/views/pages-edit.ejs "$HOST:$ADMIN/views/"
 
-echo "==> 4/5 Contenus"
+echo "==> 4/4 Contenus"
 ssh "$HOST" "mkdir -p $ADMIN/content-archive-$STAMP && cd $ADMIN/content && \
   for d in blog cases pages; do [ -d \$d ] && mv \$d $ADMIN/content-archive-$STAMP/ ; done; \
   mkdir -p blog cases pages"
@@ -45,13 +46,6 @@ scp -q content-seed/blog/*.md "$HOST:$ADMIN/content/blog/"
 scp -q content-seed/cases/*.md "$HOST:$ADMIN/content/cases/"
 scp -q content-seed/pages/*.json "$HOST:$ADMIN/content/pages/"
 ssh "$HOST" "cd $ADMIN && pm2 restart obm-admin --update-env >/dev/null && npm run --silent generate && chown -R www-data:www-data $PUBLIC"
-
-echo "==> 5/5 nginx"
-scp -q deploy/nginx.conf "$HOST:/tmp/obm-system.com.new"
-ssh "$HOST" "cp /etc/nginx/sites-available/obm-system.com /tmp/obm-system.com.old && \
-  cp /tmp/obm-system.com.new /etc/nginx/sites-available/obm-system.com && \
-  if nginx -t 2>/dev/null; then systemctl reload nginx && echo 'nginx rechargé'; \
-  else cp /tmp/obm-system.com.old /etc/nginx/sites-available/obm-system.com && echo 'ATTENTION : nginx -t a échoué, ancienne config restaurée (redirections non actives)'; fi"
 
 echo ""
 echo "==> Terminé. Vérifications :"
