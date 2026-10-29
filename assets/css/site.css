@@ -304,3 +304,44 @@ h1, h2, h3 { font-weight: 600; letter-spacing: -0.03em; line-height: 1.08; margi
   *, *::before, *::after { transition: none !important; animation: none !important; scroll-behavior: auto !important; }
   .js [data-reveal] { opacity: 1; transform: none; }
 }
+
+/* ---------- Boutons dans le texte des articles : la couleur des liens ne doit pas s'appliquer ---------- */
+.prose .btn { color: #fff; text-decoration: none; }
+.prose .btn--line { color: var(--ink); }
+.prose .btn--line:hover { color: #fff; }
+.prose .actions { margin-top: 1.4rem; }
+
+/* ---------- Bandeau d'appel à l'action (bas de page) ---------- */
+.ctaband { background: var(--card); border: 1px solid var(--line); border-radius: 14px; padding: clamp(1.6rem, 4vw, 3rem); display: grid; grid-template-columns: minmax(0, 1.2fr) auto; gap: 1.5rem 3rem; align-items: center; }
+.ctaband .h2 { font-size: var(--text-2xl); }
+.ctaband .lead { margin-top: .8rem; }
+.ctaband .actions { margin-top: 0; justify-content: flex-end; }
+@media (max-width: 860px) { .ctaband { grid-template-columns: 1fr; } .ctaband .actions { justify-content: flex-start; } }
+
+/* ---------- Page services : un bloc par service ---------- */
+.svc { display: grid; grid-template-columns: minmax(0, .9fr) minmax(0, 1.1fr); gap: clamp(1.8rem, 4vw, 4rem); padding-block: clamp(2.5rem, 5vw, 4rem); border-top: 1px solid var(--line); scroll-margin-top: 90px; }
+.svc h2 { font-size: var(--text-2xl); }
+.svc .lead { font-size: var(--text-base); }
+.svc h3 { font-size: var(--text-base); letter-spacing: -.01em; margin: 0 0 .6rem; }
+.svc ul { margin: 0 0 1.6rem; padding-left: 1.1rem; color: var(--ink-2); }
+.svc li { margin: .35rem 0; }
+.svc .ex { font-size: var(--text-sm); color: var(--ink-3); margin: 0; }
+.svc .ex a { color: var(--ink); }
+@media (max-width: 860px) { .svc { grid-template-columns: 1fr; } }
+
+/* Aperçu des services sur l'accueil */
+.cards { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 1rem; }
+.card { display: flex; flex-direction: column; gap: .7rem; padding: 1.5rem; border-radius: var(--r); background: var(--card); border: 1px solid var(--line); text-decoration: none; transition: border-color .2s, transform .3s var(--ease); }
+.card:hover { border-color: var(--ink); transform: translateY(-2px); }
+.card h3 { font-size: var(--text-lg); letter-spacing: -.015em; }
+.card p { margin: 0; color: var(--ink-2); font-size: var(--text-sm); }
+.card span { margin-top: auto; padding-top: .6rem; color: var(--violet); font-weight: 600; font-size: var(--text-sm); }
+@media (max-width: 1000px) { .cards { grid-template-columns: 1fr 1fr; } }
+@media (max-width: 560px) { .cards { grid-template-columns: 1fr; } }
+
+/* Prérequis (page méthode) */
+.needs { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 1rem; }
+.needs div { padding: 1.4rem; border-radius: var(--r); background: var(--card); border: 1px solid var(--line); }
+.needs h3 { font-size: var(--text-lg); letter-spacing: -.015em; }
+.needs p { margin: .5rem 0 0; color: var(--ink-2); font-size: var(--text-sm); }
+@media (max-width: 860px) { .needs { grid-template-columns: 1fr; } }

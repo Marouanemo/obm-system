@@ -31,7 +31,7 @@ echo "==> 1/4 Sauvegarde : /root/backup-obm-$STAMP.tgz"
 ssh "$HOST" "tar czf /root/backup-obm-$STAMP.tgz $PUBLIC $ADMIN/content $ADMIN/services $ADMIN/views /etc/nginx/sites-enabled/obm-system.com 2>/dev/null; ls -lh /root/backup-obm-$STAMP.tgz"
 
 echo "==> 2/4 Site statique"
-scp -q -r index.html site-reseaux assets robots.txt sitemap.xml manifest.webmanifest llms.txt llms-full.txt humans.txt "$HOST:$PUBLIC/"
+scp -q -r index.html site-reseaux services methode contact assets robots.txt sitemap.xml manifest.webmanifest llms.txt llms-full.txt humans.txt "$HOST:$PUBLIC/"
 ssh "$HOST" "rm -rf $PUBLIC/blog/meta-ads-cabinets-dentaires-erreurs $PUBLIC/blog/whatsapp-automation-cabinets-dentaires $PUBLIC/cas-clients/cabinet-facettes-rabat $PUBLIC/cas-clients/cabinet-implants-casablanca $PUBLIC/assets/css/styles.css $PUBLIC/assets/js/script.js $PUBLIC/assets/img/og-cover.svg"
 
 echo "==> 3/4 Back-office"

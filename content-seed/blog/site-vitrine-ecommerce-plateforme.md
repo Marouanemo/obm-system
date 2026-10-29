@@ -49,4 +49,4 @@ Un outil où plusieurs types d’utilisateurs ont chacun leur espace et leurs ac
 - Plusieurs types de personnes doivent **interagir** entre elles : plateforme.
 - Vous voulez tester une offre ou lancer une campagne : landing page.
 
-Vous hésitez entre deux formats ? [Décrivez-nous votre activité](/#contact), nous vous dirons lequel correspond.
+Vous hésitez entre deux formats ? [Décrivez-nous votre activité](/contact/), nous vous dirons lequel correspond.

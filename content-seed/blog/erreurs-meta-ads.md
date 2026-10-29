@@ -70,4 +70,4 @@ Si vous ne deviez faire que trois choses ce mois-ci :
 2. Noter, pour chaque demande, si elle est devenue une vente.
 3. Remplacer une partie des annonces de vente par des contenus qui rassurent.
 
-Augmenter le budget avant d’avoir réglé ces points revient à remplir un réservoir percé. Si vous voulez que nous regardions votre compte publicitaire, [écrivez-nous](/#contact).
+Augmenter le budget avant d’avoir réglé ces points revient à remplir un réservoir percé. Si vous voulez que nous regardions votre compte publicitaire, [écrivez-nous](/contact/).

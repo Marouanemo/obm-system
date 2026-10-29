@@ -46,4 +46,4 @@ Pour la [Pharmacie Gare Hay Riad](/cas-clients/pharmacie-gare-hay-riad/), nous a
 
 Une fois ces réglages faits, publiez de temps en temps une actualité ou une offre sur votre fiche, et vérifiez chaque mois les questions posées par les internautes.
 
-Envoyez-nous le nom de votre entreprise : [nous vous dirons](/#contact) quels réglages corriger en priorité.
+Envoyez-nous le nom de votre entreprise : [nous vous dirons](/contact/) quels réglages corriger en priorité.

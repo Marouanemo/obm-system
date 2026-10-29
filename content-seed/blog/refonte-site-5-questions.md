@@ -50,4 +50,4 @@ Exigez que les statistiques soient installées sur votre propre compte Google An
 
 Une refonte se prépare avec des réponses, pas avec des goûts. Si vous avez répondu à ces cinq questions, vous pouvez comparer les propositions des agences sur ce qui compte vraiment.
 
-Si vous voulez un avis sur vos réponses, [envoyez-les-nous](/#contact). Nous vous dirons ce que nous ferions à votre place.
+Si vous voulez un avis sur vos réponses, [envoyez-les-nous](/contact/). Nous vous dirons ce que nous ferions à votre place.

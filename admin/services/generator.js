@@ -11,7 +11,7 @@ const { list, read } = require('./content');
 
 const PUBLIC_DIR = process.env.PUBLIC_DIR || '/var/www/obm-system/public';
 const SITE_URL = (process.env.SITE_URL || 'https://obm-system.com').replace(/\/$/, '');
-const CACHE_V = process.env.CACHE_V || 'v=2';
+const CACHE_V = process.env.CACHE_V || 'v=3';
 
 // Configure marked: GitHub-flavored, no XSS-encoded inputs trusted
 marked.setOptions({
@@ -113,10 +113,10 @@ const LOGO_HTML = `<a class="logo" href="/" aria-label="OBM System, accueil"><sp
 function navHtml(current) {
   const link = (href, label, key) => `<a href="${href}"${current === key ? ' aria-current="page"' : ''}>${label}</a>`;
   const links = [
-    link('/#services', 'Services', 'services'),
+    link('/services/', 'Services', 'services'),
     link('/cas-clients/', 'Réalisations', 'cases'),
     link('/site-reseaux/', 'Offre Site + Réseaux', 'offre'),
-    link('/#methode', 'Méthode', 'methode'),
+    link('/methode/', 'Méthode', 'methode'),
     link('/blog/', 'Journal', 'blog'),
   ].join('\n        ');
   return `<header class="nav" id="nav">
@@ -125,17 +125,18 @@ function navHtml(current) {
       <nav class="nav__links" aria-label="Navigation principale">
         ${links}
       </nav>
-      <a class="btn nav__cta" href="/#contact">Prendre rendez-vous</a>
+      <a class="btn nav__cta" href="/contact/">Prendre rendez-vous</a>
       <button class="nav__burger" type="button" aria-expanded="false" aria-controls="mnav">Menu</button>
     </div>
   </header>
   <nav class="mnav" id="mnav" hidden aria-label="Menu mobile">
-    <a href="/#services">Services</a>
+    <a href="/services/">Services</a>
     <a href="/cas-clients/">Réalisations</a>
     <a href="/site-reseaux/">Offre Site + Réseaux</a>
-    <a href="/#methode">Méthode</a>
+    <a href="/methode/">Méthode</a>
     <a href="/blog/">Journal</a>
-    <a class="btn" href="/#contact">Prendre rendez-vous</a>
+    <a href="/contact/">Contact</a>
+    <a class="btn" href="/contact/">Prendre rendez-vous</a>
   </nav>`;
 }
 
@@ -149,15 +150,15 @@ function footerHtml() {
         </div>
         <div>
           <h4>Services</h4>
-          <ul><li><a href="/#services">Sites web</a></li><li><a href="/#services">Publicité</a></li><li><a href="/#services">Référencement</a></li><li><a href="/site-reseaux/">Site + Réseaux</a></li></ul>
+          <ul><li><a href="/services/#sites">Sites web</a></li><li><a href="/services/#publicite">Publicité</a></li><li><a href="/services/#referencement">Référencement</a></li><li><a href="/services/#reseaux">Réseaux sociaux</a></li><li><a href="/site-reseaux/">Offre Site + Réseaux</a></li></ul>
         </div>
         <div>
           <h4>L’agence</h4>
-          <ul><li><a href="/cas-clients/">Réalisations</a></li><li><a href="/#methode">Méthode</a></li><li><a href="/blog/">Journal</a></li><li><a href="/#faq">Questions fréquentes</a></li></ul>
+          <ul><li><a href="/cas-clients/">Réalisations</a></li><li><a href="/methode/">Méthode</a></li><li><a href="/methode/#faq">Questions fréquentes</a></li><li><a href="/blog/">Journal</a></li></ul>
         </div>
         <div>
           <h4>Contact</h4>
-          <ul><li>Rabat, Maroc</li><li><a href="tel:+212712348034">+212 7 12 34 80 34</a></li><li><a href="mailto:Admin@obm-system.com">Admin@obm-system.com</a></li><li><a href="https://www.instagram.com/obm_system/" target="_blank" rel="noopener">Instagram</a></li></ul>
+          <ul><li><a href="/contact/">Nous écrire</a></li><li>Rabat, Maroc</li><li><a href="tel:+212712348034">+212 7 12 34 80 34</a></li><li><a href="mailto:Admin@obm-system.com">Admin@obm-system.com</a></li><li><a href="https://www.instagram.com/obm_system/" target="_blank" rel="noopener">Instagram</a></li></ul>
         </div>
       </div>
       <div class="footer__legal">
@@ -181,7 +182,7 @@ function endCtaHtml(label = 'Un projet en tête ?', sub = 'Un appel de 30 minute
           <p>${escapeHtml(sub)}</p>
           <div class="actions">
             <a class="btn" href="https://calendly.com/admin-obm-system/30min?primary_color=5b43c9" target="_blank" rel="noopener" data-loc="${escapeHtml(sourceLabel)}">Prendre rendez-vous</a>
-            <a class="link" href="https://wa.me/212712348034" target="_blank" rel="noopener" data-loc="${escapeHtml(sourceLabel)}">Écrire sur WhatsApp</a>
+            <a class="btn btn--line" href="/contact/">Nous écrire</a>
           </div>
         </aside>`;
 }
@@ -480,6 +481,12 @@ async function regenerateSitemap() {
       priority: '0.9',
       image: `${SITE_URL}/assets/img/og-site-reseaux.png`,
     },
+    ...['services', 'methode', 'contact'].map(slug => ({
+      loc: `${SITE_URL}/${slug}/`,
+      lastmod: new Date().toISOString().slice(0, 10),
+      changefreq: 'monthly',
+      priority: slug === 'services' ? '0.9' : '0.7',
+    })),
     {
       loc: `${SITE_URL}/cas-clients/`,
       lastmod: new Date().toISOString().slice(0, 10),

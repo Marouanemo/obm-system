@@ -44,8 +44,10 @@ Write-Host "==> Uploading assets/ ..."
 & scp @scpArgs -r (Join-Path $ProjectRoot "assets") "$User@${ServerIp}:$RemotePath/"
 
 # Upload hand-written pages (blog/ and cas-clients/ are generated on the server by the admin)
-Write-Host "==> Uploading site-reseaux/ ..."
-& scp @scpArgs -r (Join-Path $ProjectRoot "site-reseaux") "$User@${ServerIp}:$RemotePath/"
+foreach ($d in @("site-reseaux", "services", "methode", "contact")) {
+  Write-Host "==> Uploading $d/ ..."
+  & scp @scpArgs -r (Join-Path $ProjectRoot $d) "$User@${ServerIp}:$RemotePath/"
+}
 
 # nginx : la config active est /etc/nginx/sites-enabled/obm-system.com (fichier réel).
 # deploy/nginx.conf en est une copie de référence ; elle n'est pas envoyée automatiquement.

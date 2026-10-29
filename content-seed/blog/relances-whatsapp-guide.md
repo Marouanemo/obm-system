@@ -94,4 +94,4 @@ Avec l’API, tout message que vous envoyez en premier (confirmation, rappel, re
 3. Les relances des personnes qui n’ont pas donné suite.
 4. Enfin, la reprise de contact avec les anciennes demandes.
 
-Comptez quelques semaines pour mettre l’ensemble en place proprement, modèles Meta compris. Si vous voulez qu’on regarde ce qui serait utile chez vous, [parlons-en](/#contact).
+Comptez quelques semaines pour mettre l’ensemble en place proprement, modèles Meta compris. Si vous voulez qu’on regarde ce qui serait utile chez vous, [parlons-en](/contact/).

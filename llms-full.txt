@@ -4,7 +4,10 @@
 
 ## Pages
 
-- [Accueil](https://obm-system.com/): services, réalisations, méthode, questions fréquentes, contact
+- [Accueil](https://obm-system.com/): présentation, aperçu des services, réalisations, journal
+- [Services](https://obm-system.com/services/): sites web, publicité, référencement, réseaux sociaux, en détail
+- [Méthode](https://obm-system.com/methode/): les six étapes d'un projet et les questions fréquentes
+- [Contact](https://obm-system.com/contact/): rendez-vous, WhatsApp, formulaire
 - [Offre Site + Réseaux](https://obm-system.com/site-reseaux/): le site web et les réseaux sociaux gérés par la même équipe, visuels et vidéos produits chaque mois
 - [Réalisations](https://obm-system.com/cas-clients/): projets livrés, avec le périmètre et les choix de conception
 - [Journal](https://obm-system.com/blog/): articles pratiques sur les sites web, la publicité, le référencement et WhatsApp
