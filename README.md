@@ -137,3 +137,10 @@ cd admin && CONTENT_DIR="../content-seed" PUBLIC_DIR=".." node scripts/generate-
 ```
 
 Sur le serveur, copier ces fichiers dans le dossier `content/` du back-office puis lancer `npm run generate`.
+
+## Version des assets (cache)
+
+nginx met en cache CSS et JS pendant 30 jours. Après chaque modification de `assets/css/site.css` ou `assets/js/site.js`, augmenter le numéro `?v=` :
+
+- dans les pages statiques (`index.html`, `services/`, `methode/`, `contact/`, `site-reseaux/`) ;
+- dans `CACHE_V` du fichier `/var/www/obm-admin/.env` sur le serveur (il prime sur la valeur par défaut de `admin/services/generator.js`), puis `npm run generate`.
