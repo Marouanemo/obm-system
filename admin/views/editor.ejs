@@ -156,7 +156,7 @@
               </label>
 
               <label class="field">
-                <span>OG Image <em>défaut : og-cover.svg du site · 1200×630 recommandé</em></span>
+                <span>OG Image <em>défaut : og-cover.png du site · 1200×630 recommandé</em></span>
                 <div class="image-picker">
                   <input type="text" name="image" value="<%= d.image || '' %>" placeholder="/assets/uploads/mon-image.jpg" id="f-ogImage">
                   <a href="/admin/media" target="_blank" rel="noopener" class="btn btn--ghost btn--sm">📁 Médias</a>
@@ -343,7 +343,7 @@
         const descText  = fSD.value || fE.value || 'Description par défaut générée à partir du résumé.';
         const ogTitle   = fOT.value || fMT.value || fT.value || 'Titre OG';
         const ogDesc    = fOD.value || fSD.value || fE.value || 'Description OG';
-        const ogImage   = fOI.value || '/assets/img/og-cover.svg';
+        const ogImage   = fOI.value || '/assets/img/og-cover.png';
 
         serpT.textContent = truncate(titleText, 65);
         serpD.textContent = truncate(descText, 160);

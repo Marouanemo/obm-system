@@ -1,59 +1,102 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
-        xmlns:image="http://www.google.com/schemas/sitemap-image/1.1"
-        xmlns:xhtml="http://www.w3.org/1999/xhtml">
-
+        xmlns:image="http://www.google.com/schemas/sitemap-image/1.1">
   <url>
     <loc>https://obm-system.com/</loc>
-    <lastmod>2026-05-18</lastmod>
+    <lastmod>2026-10-29</lastmod>
     <changefreq>weekly</changefreq>
     <priority>1.0</priority>
-    <image:image>
-      <image:loc>https://obm-system.com/assets/img/og-cover.svg</image:loc>
-      <image:title>OBM SYSTEM — Système d'acquisition pour cabinets dentaires au Maroc</image:title>
-    </image:image>
+    <image:image><image:loc>https://obm-system.com/assets/img/og-cover.png</image:loc></image:image>
   </url>
-
+  <url>
+    <loc>https://obm-system.com/site-reseaux/</loc>
+    <lastmod>2026-10-29</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.9</priority>
+    <image:image><image:loc>https://obm-system.com/assets/img/og-site-reseaux.png</image:loc></image:image>
+  </url>
   <url>
     <loc>https://obm-system.com/cas-clients/</loc>
-    <lastmod>2026-05-18</lastmod>
+    <lastmod>2026-10-29</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
+    
   </url>
-
   <url>
-    <loc>https://obm-system.com/cas-clients/cabinet-implants-casablanca/</loc>
-    <lastmod>2026-04-22</lastmod>
+    <loc>https://obm-system.com/cas-clients/pharmacie-gare-hay-riad/</loc>
+    <lastmod>2026-10-12</lastmod>
     <changefreq>yearly</changefreq>
     <priority>0.7</priority>
+    
   </url>
-
   <url>
-    <loc>https://obm-system.com/cas-clients/cabinet-facettes-rabat/</loc>
-    <lastmod>2026-05-02</lastmod>
+    <loc>https://obm-system.com/cas-clients/cerafas-logistics/</loc>
+    <lastmod>2026-10-11</lastmod>
     <changefreq>yearly</changefreq>
     <priority>0.7</priority>
+    
   </url>
-
+  <url>
+    <loc>https://obm-system.com/cas-clients/eleganza/</loc>
+    <lastmod>2026-10-10</lastmod>
+    <changefreq>yearly</changefreq>
+    <priority>0.7</priority>
+    
+  </url>
+  <url>
+    <loc>https://obm-system.com/cas-clients/la7dafan/</loc>
+    <lastmod>2026-10-09</lastmod>
+    <changefreq>yearly</changefreq>
+    <priority>0.7</priority>
+    
+  </url>
+  <url>
+    <loc>https://obm-system.com/cas-clients/nassihacom/</loc>
+    <lastmod>2026-10-08</lastmod>
+    <changefreq>yearly</changefreq>
+    <priority>0.7</priority>
+    
+  </url>
   <url>
     <loc>https://obm-system.com/blog/</loc>
-    <lastmod>2026-05-18</lastmod>
+    <lastmod>2026-10-29</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
+    
   </url>
-
   <url>
-    <loc>https://obm-system.com/blog/meta-ads-cabinets-dentaires-erreurs/</loc>
-    <lastmod>2026-05-15</lastmod>
+    <loc>https://obm-system.com/blog/erreurs-meta-ads/</loc>
+    <lastmod>2026-10-27</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
+    
   </url>
-
   <url>
-    <loc>https://obm-system.com/blog/whatsapp-automation-cabinets-dentaires/</loc>
-    <lastmod>2026-05-08</lastmod>
+    <loc>https://obm-system.com/blog/site-vitrine-ecommerce-plateforme/</loc>
+    <lastmod>2026-10-24</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
+    
   </url>
-
+  <url>
+    <loc>https://obm-system.com/blog/relances-whatsapp-guide/</loc>
+    <lastmod>2026-10-20</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+    
+  </url>
+  <url>
+    <loc>https://obm-system.com/blog/fiche-google-6-reglages/</loc>
+    <lastmod>2026-10-18</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+    
+  </url>
+  <url>
+    <loc>https://obm-system.com/blog/refonte-site-5-questions/</loc>
+    <lastmod>2026-10-14</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+    
+  </url>
 </urlset>

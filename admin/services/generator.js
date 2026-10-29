@@ -11,7 +11,7 @@ const { list, read } = require('./content');
 
 const PUBLIC_DIR = process.env.PUBLIC_DIR || '/var/www/obm-system/public';
 const SITE_URL = (process.env.SITE_URL || 'https://obm-system.com').replace(/\/$/, '');
-const CACHE_V = process.env.CACHE_V || 'v=17';
+const CACHE_V = process.env.CACHE_V || 'v=2';
 
 // Configure marked: GitHub-flavored, no XSS-encoded inputs trusted
 marked.setOptions({
@@ -55,7 +55,7 @@ function headTags(opts) {
 
   return `<meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
-  <meta name="theme-color" content="#0B1E3F" />
+  <meta name="theme-color" content="#F3F1EC" />
 
   <script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
   new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
@@ -82,7 +82,7 @@ function headTags(opts) {
   <meta property="og:url" content="${canonical}" />
   <meta property="og:title" content="${escapeHtml(ogTitle)}" />
   <meta property="og:description" content="${escapeHtml(ogDescription)}" />
-  <meta property="og:site_name" content="OBM SYSTEM" />
+  <meta property="og:site_name" content="OBM System" />
   <meta property="og:image" content="${absUrl(ogImage)}" />
   ${publishedTime ? `<meta property="article:published_time" content="${publishedTime}" />` : ''}
   ${category ? `<meta property="article:section" content="${escapeHtml(category)}" />` : ''}
@@ -96,134 +96,97 @@ function headTags(opts) {
   <link rel="icon" type="image/svg+xml" href="/assets/img/favicon.svg" />
   <link rel="apple-touch-icon" href="/assets/img/apple-touch-icon.svg" />
   <link rel="manifest" href="/manifest.webmanifest" />
-
-  <link rel="preconnect" href="https://api.fontshare.com" crossorigin />
-  <link rel="preconnect" href="https://cdn.fontshare.com" crossorigin />
-  <link href="https://api.fontshare.com/v2/css?f[]=clash-display@500,600,700&f[]=switzer@400,500,600,700&f[]=jetbrains-mono@400,500&display=swap" rel="stylesheet" />
-  <link rel="stylesheet" href="/assets/css/styles.css?${CACHE_V}" />
-
-  <script src="https://cdn.jsdelivr.net/npm/motion@10.18.0/dist/motion.min.js" defer></script>
-  <link href="https://assets.calendly.com/assets/external/widget.css" rel="stylesheet">
-  <script src="https://assets.calendly.com/assets/external/widget.js" async></script>`;
+  <link rel="preload" href="/assets/fonts/switzer-600.woff2" as="font" type="font/woff2" crossorigin />
+  <link rel="preload" href="/assets/fonts/switzer-400.woff2" as="font" type="font/woff2" crossorigin />
+  <link rel="stylesheet" href="/assets/css/site.css?${CACHE_V}" />
+  <script>document.documentElement.classList.add('js');</script>`;
 }
 
 function absUrl(url) {
-  if (!url) return SITE_URL + '/assets/img/og-cover.svg';
+  if (!url) return SITE_URL + '/assets/img/og-cover.png';
   if (/^https?:\/\//.test(url)) return url;
   return SITE_URL + (url.startsWith('/') ? url : '/' + url);
 }
 
-const NAV_HTML = `<header class="nav is-scrolled" id="nav">
-    <div class="nav__inner">
-      <a href="/" class="nav__logo">
-        <span class="nav__logo-mark" aria-hidden="true">
-          <svg viewBox="0 0 64 32" width="48" height="24" fill="none">
-            <text x="0" y="22" font-family="Clash Display, sans-serif" font-weight="700" font-size="22" fill="currentColor">O</text>
-            <text x="16" y="22" font-family="Clash Display, sans-serif" font-weight="700" font-size="22" fill="#C8CCD4">B</text>
-            <text x="32" y="22" font-family="Clash Display, sans-serif" font-weight="700" font-size="22" fill="currentColor">M</text>
-            <path d="M48 22 L58 8 L54 8 M58 8 L58 12" stroke="#C9A961" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
-          </svg>
-        </span>
-        <span class="nav__logo-text">
-          <span class="nav__logo-name">OBM <em>System</em></span>
-          <span class="nav__logo-tag">Digital Agency</span>
-        </span>
-      </a>
+const LOGO_HTML = `<a class="logo" href="/" aria-label="OBM System, accueil"><span>O<b>B</b>M</span><i>System</i><s>.</s></a>`;
+
+function navHtml(current) {
+  const link = (href, label, key) => `<a href="${href}"${current === key ? ' aria-current="page"' : ''}>${label}</a>`;
+  const links = [
+    link('/#services', 'Services', 'services'),
+    link('/cas-clients/', 'Réalisations', 'cases'),
+    link('/site-reseaux/', 'Offre Site + Réseaux', 'offre'),
+    link('/#methode', 'Méthode', 'methode'),
+    link('/blog/', 'Journal', 'blog'),
+  ].join('\n        ');
+  return `<header class="nav" id="nav">
+    <div class="wrap nav__in">
+      ${LOGO_HTML}
       <nav class="nav__links" aria-label="Navigation principale">
-        <a href="/#problemes">Problème</a>
-        <a href="/#systeme">Système</a>
-        <a href="/cas-clients/">Cas clients</a>
-        <a href="/blog/">Journal</a>
-        <a href="/#faq">FAQ</a>
+        ${links}
       </nav>
-      <a href="/#diagnostic" class="nav__cta btn btn--gold" data-magnetic>
-        <span>Diagnostic gratuit</span>
-        <svg viewBox="0 0 16 16" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 8h10M9 4l4 4-4 4"/></svg>
-      </a>
-      <button class="nav__burger" aria-label="Ouvrir le menu" aria-expanded="false" aria-controls="mobile-menu">
-        <span></span><span></span><span></span>
-      </button>
+      <a class="btn nav__cta" href="/#contact">Prendre rendez-vous</a>
+      <button class="nav__burger" type="button" aria-expanded="false" aria-controls="mnav">Menu</button>
     </div>
-    <div class="nav__mobile" id="mobile-menu" hidden>
-      <a href="/#problemes">Problème</a>
-      <a href="/#systeme">Système</a>
-      <a href="/cas-clients/">Cas clients</a>
-      <a href="/blog/">Journal</a>
-      <a href="/#faq">FAQ</a>
-      <a href="/#diagnostic" class="btn btn--gold btn--full">Diagnostic gratuit</a>
-    </div>
-  </header>`;
+  </header>
+  <nav class="mnav" id="mnav" hidden aria-label="Menu mobile">
+    <a href="/#services">Services</a>
+    <a href="/cas-clients/">Réalisations</a>
+    <a href="/site-reseaux/">Offre Site + Réseaux</a>
+    <a href="/#methode">Méthode</a>
+    <a href="/blog/">Journal</a>
+    <a class="btn" href="/#contact">Prendre rendez-vous</a>
+  </nav>`;
+}
 
 function footerHtml() {
   return `<footer class="footer">
-    <div class="container footer__inner">
-      <div class="footer__brand">
-        <div class="footer__logo">
-          <svg viewBox="0 0 64 32" width="56" height="28" fill="none">
-            <text x="0" y="22" font-family="Clash Display, sans-serif" font-weight="700" font-size="22" fill="#FFFFFF">O</text>
-            <text x="16" y="22" font-family="Clash Display, sans-serif" font-weight="700" font-size="22" fill="#C8CCD4">B</text>
-            <text x="32" y="22" font-family="Clash Display, sans-serif" font-weight="700" font-size="22" fill="#FFFFFF">M</text>
-            <path d="M48 22 L58 8 L54 8 M58 8 L58 12" stroke="#C9A961" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
-          </svg>
-          <span>System · Digital Agency</span>
+    <div class="wrap">
+      <div class="footer__grid">
+        <div>
+          ${LOGO_HTML}
+          <p>Agence digitale à Rabat. Sites web, boutiques en ligne, publicité, référencement et réseaux sociaux.</p>
         </div>
-        <p>L'infrastructure d'acquisition et d'automatisation pour les cabinets dentaires ambitieux au Maroc.</p>
+        <div>
+          <h4>Services</h4>
+          <ul><li><a href="/#services">Sites web</a></li><li><a href="/#services">Publicité</a></li><li><a href="/#services">Référencement</a></li><li><a href="/site-reseaux/">Site + Réseaux</a></li></ul>
+        </div>
+        <div>
+          <h4>L’agence</h4>
+          <ul><li><a href="/cas-clients/">Réalisations</a></li><li><a href="/#methode">Méthode</a></li><li><a href="/blog/">Journal</a></li><li><a href="/#faq">Questions fréquentes</a></li></ul>
+        </div>
+        <div>
+          <h4>Contact</h4>
+          <ul><li>Rabat, Maroc</li><li><a href="tel:+212712348034">+212 7 12 34 80 34</a></li><li><a href="mailto:Admin@obm-system.com">Admin@obm-system.com</a></li><li><a href="https://www.instagram.com/obm_system/" target="_blank" rel="noopener">Instagram</a></li></ul>
+        </div>
       </div>
-      <div class="footer__col">
-        <h4>Système</h4>
-        <a href="/#systeme">Les 4 piliers</a>
-        <a href="/#engine">Le moteur</a>
-        <a href="/#treatments">Traitements ciblés</a>
-        <a href="/#process">Process</a>
-      </div>
-      <div class="footer__col">
-        <h4>Ressources</h4>
-        <a href="/cas-clients/">Cas clients</a>
-        <a href="/blog/">Journal</a>
-        <a href="/#faq">FAQ</a>
-      </div>
-      <div class="footer__col">
-        <h4>Contact</h4>
-        <a href="tel:+212712348034">07 12 34 80 34</a>
-        <a href="mailto:Admin@obm-system.com">Admin@obm-system.com</a>
-        <a href="https://wa.me/212712348034" target="_blank" rel="noopener">WhatsApp direct</a>
-        <a href="https://share.google/I2s3UekyS6e7W7Lnh" target="_blank" rel="noopener">Voir sur Google Maps ↗</a>
-      </div>
-    </div>
-    <div class="footer__bottom">
-      <div class="container footer__bottom-inner">
-        <span>© <span id="year"></span> OBM SYSTEM — Tous droits réservés.</span>
-        <span>Acquisition · Automation · Conversion · Growth</span>
+      <div class="footer__legal">
+        <span>© <span id="year">${new Date().getFullYear()}</span> OBM System. Tous droits réservés.</span>
+        <a href="https://webotic.ma" target="_blank" rel="noopener">Designed &amp; Engineered by Webotic</a>
       </div>
     </div>
   </footer>
 
-  <a href="https://wa.me/212712348034" class="fab" target="_blank" rel="noopener" aria-label="Discuter sur WhatsApp">
-    <svg viewBox="0 0 24 24" width="26" height="26" fill="currentColor" aria-hidden="true">
-      <path d="M17.5 14.4c-.3-.2-1.8-.9-2-1s-.5-.2-.7.2c-.2.3-.8 1-1 1.2-.2.2-.4.2-.7.1-.3-.2-1.3-.5-2.5-1.5-.9-.8-1.5-1.8-1.7-2.1-.2-.3 0-.5.1-.6.1-.1.3-.4.5-.5.1-.2.2-.3.3-.5.1-.2 0-.4 0-.5l-.7-1.6c-.2-.4-.4-.4-.6-.4h-.5c-.2 0-.5.1-.7.4-.3.3-1 1-1 2.4 0 1.4 1 2.8 1.2 3 .2.2 2 3 4.8 4.2.7.3 1.2.5 1.6.6.7.2 1.3.2 1.8.1.5-.1 1.8-.7 2-1.4.3-.7.3-1.3.2-1.4-.1-.1-.3-.2-.6-.4zM12 2C6.5 2 2 6.5 2 12c0 1.9.5 3.7 1.5 5.3L2 22l4.8-1.5c1.5.8 3.3 1.3 5.2 1.3 5.5 0 10-4.5 10-10S17.5 2 12 2z"/>
-    </svg>
+  <a class="wa" href="https://wa.me/212712348034?text=Bonjour%2C%20je%20souhaite%20parler%20d%27un%20projet%20avec%20OBM%20System." target="_blank" rel="noopener" data-loc="float">
+    <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2a10 10 0 0 0-8.6 15.1L2 22l5-1.3A10 10 0 1 0 12 2zm5.3 14.2c-.2.6-1.3 1.2-1.8 1.2-.5.1-1 .2-3.3-.7-2.8-1.1-4.5-4-4.7-4.2-.1-.2-1.1-1.5-1.1-2.9s.7-2.1 1-2.4c.3-.3.6-.3.8-.3h.6c.2 0 .4 0 .6.5l.9 2.1c.1.2.1.4 0 .6l-.4.6-.4.5c-.1.1-.3.3-.1.6.2.3.8 1.3 1.6 2 1.1 1 2 1.3 2.3 1.4.3.1.5.1.6-.1l.9-1.1c.2-.3.4-.2.7-.1l2 1c.3.1.5.2.6.3.1.2.1.8-.2 1.4z"/></svg>
+    <span>WhatsApp</span>
   </a>
 
-  <script src="/assets/js/script.js?${CACHE_V}" defer></script>`;
+  <script src="/assets/js/site.js?${CACHE_V}" defer></script>`;
 }
 
-function endCtaHtml(label = "Votre cabinet a un potentiel similaire ?", sub = "Lancez le diagnostic interactif en 90 secondes — ou réservez un audit direct.", sourceLabel = "Article CTA") {
-  return `<aside class="article__end-cta">
-          <h2>${label}</h2>
-          <p>${sub}</p>
-          <div class="article__end-cta-actions">
-            <a href="/#diagnostic" class="btn btn--gold btn--lg">
-              <span>Faire le diagnostic</span>
-              <svg viewBox="0 0 16 16" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 8h10M9 4l4 4-4 4"/></svg>
-            </a>
-            <a href="https://calendly.com/admin-obm-system/30min?primary_color=c9a961" data-calendly data-source="${escapeHtml(sourceLabel)}" target="_blank" rel="noopener" class="btn btn--ghost-light btn--lg">
-              <span>Réserver un appel</span>
-            </a>
+function endCtaHtml(label = 'Un projet en tête ?', sub = 'Un appel de 30 minutes pour en parler. Ensuite, nous vous envoyons une proposition écrite avec le périmètre, le délai et le prix.', sourceLabel = 'Article CTA') {
+  return `<aside class="endcta">
+          <h2>${escapeHtml(label)}</h2>
+          <p>${escapeHtml(sub)}</p>
+          <div class="actions">
+            <a class="btn" href="https://calendly.com/admin-obm-system/30min?primary_color=5b43c9" target="_blank" rel="noopener" data-loc="${escapeHtml(sourceLabel)}">Prendre rendez-vous</a>
+            <a class="link" href="https://wa.me/212712348034" target="_blank" rel="noopener" data-loc="${escapeHtml(sourceLabel)}">Écrire sur WhatsApp</a>
           </div>
         </aside>`;
 }
 
-function bodyShell(headInner, mainHtml) {
+function bodyShell(headInner, mainHtml, current) {
   return `<!DOCTYPE html>
 <html lang="fr-MA">
 <head>
@@ -231,10 +194,9 @@ function bodyShell(headInner, mainHtml) {
 </head>
 <body>
   <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-TTPCSLV9" height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
-  <a class="skip-link" href="#main">Aller au contenu</a>
-  <div class="cursor" aria-hidden="true"><div class="cursor__ring"></div></div>
+  <a class="skip" href="#main">Aller au contenu</a>
 
-  ${NAV_HTML}
+  ${navHtml(current)}
 
   <main id="main">${mainHtml}</main>
 
@@ -244,16 +206,30 @@ function bodyShell(headInner, mainHtml) {
 `;
 }
 
+// Capture d'écran encadrée (page de réalisation et liste des réalisations)
+function shotHtml(data, { lazy = false } = {}) {
+  if (!data.image) return '';
+  const host = data.site ? data.site.replace(/^https?:\/\/(www\.)?/, '').replace(/\/.*$/, '') : '';
+  const loading = lazy ? ' loading="lazy"' : '';
+  return `<figure class="shot${data.mobileImage ? ' shot--phone' : ''}">
+            <div class="shot__frame">
+              <div class="shot__bar"><i></i><i></i><i></i>${host ? `<span>${escapeHtml(host)}</span>` : ''}</div>
+              <img src="${escapeHtml(data.image)}" width="1200" height="750"${loading} alt="${escapeHtml(`Site ${data.title}`)}" />
+            </div>
+            ${data.mobileImage ? `<div class="shot__mobile"><img src="${escapeHtml(data.mobileImage)}" width="520" height="1126"${loading} alt="" /></div>` : ''}
+          </figure>`;
+}
+
 // ------------------------------------------------------------
 // Blog post page generation
 // ------------------------------------------------------------
 function renderBlogPostHtml({ slug, data, content }) {
   const canonical = data.canonical || `${SITE_URL}/blog/${slug}/`;
-  const ogImage = data.image || `${SITE_URL}/assets/img/og-cover.svg`;
+  const ogImage = data.image || `${SITE_URL}/assets/img/og-cover.png`;
   const renderedBody = marked.parse(content || '');
 
   const head = headTags({
-    title: `${data.title} | OBM SYSTEM`,
+    title: `${data.title} | OBM System`,
     description: data.excerpt || data.title,
     canonical,
     ogImage,
@@ -277,41 +253,40 @@ function renderBlogPostHtml({ slug, data, content }) {
     '@context': 'https://schema.org',
     '@type': 'BlogPosting',
     headline: data.title,
-    image: ogImage,
+    image: absUrl(ogImage),
     datePublished: data.date ? new Date(data.date).toISOString() : undefined,
     dateModified: data.updatedAt ? new Date(data.updatedAt).toISOString() : undefined,
-    author: { '@type': 'Organization', name: 'OBM SYSTEM', url: SITE_URL },
+    author: { '@type': 'Organization', name: 'OBM System', url: SITE_URL },
     publisher: {
       '@type': 'Organization',
-      name: 'OBM SYSTEM',
-      logo: { '@type': 'ImageObject', url: `${SITE_URL}/assets/img/favicon.svg` },
+      name: 'OBM System',
+      logo: { '@type': 'ImageObject', url: `${SITE_URL}/assets/img/apple-touch-icon.svg` },
     },
     mainEntityOfPage: canonical,
   };
 
   const main = `
-    <article class="article">
-      <div class="container">
-        <a href="/blog/" class="article__back">
-          <svg viewBox="0 0 16 16" width="12" height="12" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M13 8H3M7 4L3 8l4 4"/></svg>
-          <span>Tous les articles</span>
-        </a>
-        <header class="article__head">
-          <div class="article__meta">
-            ${data.category ? `<span class="article__category">${escapeHtml(data.category)}</span>` : ''}
-            ${data.date ? `<span class="article__date"><time datetime="${data.date}">${formatDateFr(data.date)}</time></span>` : ''}
-            ${data.readTime ? `<span class="article__read">${escapeHtml(data.readTime)}</span>` : ''}
+    <article>
+      <header class="page-head">
+        <div class="wrap narrow">
+          <a class="back" href="/blog/">← Tous les articles</a>
+          <div class="meta">
+            ${data.category ? `<b>${escapeHtml(data.category)}</b>` : ''}
+            ${data.date ? `<time datetime="${data.date}">${formatDateFr(data.date)}</time>` : ''}
+            ${data.readTime ? `<span>${escapeHtml(data.readTime)}</span>` : ''}
           </div>
-          <h1 class="article__title">${escapeHtml(data.title)}</h1>
-          ${data.excerpt ? `<p class="article__lead">${escapeHtml(data.excerpt)}</p>` : ''}
-        </header>
-        <div class="article__body">${renderedBody}</div>
-        ${endCtaHtml(undefined, undefined, `Article CTA - ${data.title}`)}
+          <h1 class="h1">${escapeHtml(data.title)}</h1>
+          ${data.excerpt ? `<p class="lead">${escapeHtml(data.excerpt)}</p>` : ''}
+        </div>
+      </header>
+      <div class="wrap narrow prose">
+        ${renderedBody}
+        ${endCtaHtml(undefined, undefined, `Article - ${data.title}`)}
       </div>
     </article>`;
 
   const headWithSchema = `${head}\n<script type="application/ld+json">${JSON.stringify(schema)}</script>`;
-  return bodyShell(headWithSchema, main);
+  return bodyShell(headWithSchema, main, 'blog');
 }
 
 // ------------------------------------------------------------
@@ -319,11 +294,11 @@ function renderBlogPostHtml({ slug, data, content }) {
 // ------------------------------------------------------------
 function renderCasePageHtml({ slug, data, content }) {
   const canonical = data.canonical || `${SITE_URL}/cas-clients/${slug}/`;
-  const ogImage = data.image || `${SITE_URL}/assets/img/og-cover.svg`;
+  const ogImage = data.ogImage || data.image || `${SITE_URL}/assets/img/og-cover.png`;
   const renderedBody = marked.parse(content || '');
 
   const head = headTags({
-    title: `${data.title} | OBM SYSTEM`,
+    title: `${data.title}${data.category ? ', ' + data.category.toLowerCase() : ''} | Réalisation OBM System`,
     description: data.excerpt || data.title,
     canonical,
     ogImage,
@@ -345,43 +320,51 @@ function renderCasePageHtml({ slug, data, content }) {
 
   const schema = {
     '@context': 'https://schema.org',
-    '@type': 'Article',
+    '@type': 'CreativeWork',
+    name: data.title,
     headline: data.title,
-    image: ogImage,
+    description: data.excerpt,
+    image: absUrl(ogImage),
+    url: canonical,
     datePublished: data.date ? new Date(data.date).toISOString() : undefined,
-    dateModified: data.updatedAt ? new Date(data.updatedAt).toISOString() : undefined,
-    author: { '@type': 'Organization', name: 'OBM SYSTEM', url: SITE_URL },
-    publisher: {
-      '@type': 'Organization',
-      name: 'OBM SYSTEM',
-      logo: { '@type': 'ImageObject', url: `${SITE_URL}/assets/img/favicon.svg` },
-    },
-    mainEntityOfPage: canonical,
+    creator: { '@type': 'Organization', name: 'OBM System', url: SITE_URL },
+    ...(data.site ? { sameAs: data.site } : {}),
   };
 
+  const services = Array.isArray(data.services) ? data.services : [];
+  const facts = [
+    data.category && ['Secteur', data.category],
+    data.location && ['Lieu', data.location],
+    data.duration && ['Durée', data.duration],
+    data.site && ['Site', `<a class="link" href="${escapeHtml(data.site)}" target="_blank" rel="noopener" data-case="${escapeHtml(slug)}">${escapeHtml(data.site.replace(/^https?:\/\/(www\.)?/, '').replace(/\/$/, ''))}</a>`],
+  ].filter(Boolean);
+
   const main = `
-    <article class="article">
-      <div class="container">
-        <a href="/cas-clients/" class="article__back">
-          <svg viewBox="0 0 16 16" width="12" height="12" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M13 8H3M7 4L3 8l4 4"/></svg>
-          <span>Tous les cas clients</span>
-        </a>
-        <header class="article__head">
-          <div class="article__meta">
-            ${data.category ? `<span class="article__category">${escapeHtml(data.category)}</span>` : ''}
-            ${data.date ? `<span class="article__date"><time datetime="${data.date}">${formatDateFr(data.date)}</time></span>` : ''}
-            ${data.location ? `<span class="article__read">${escapeHtml(data.location)}${data.duration ? ' · ' + escapeHtml(data.duration) : ''}</span>` : ''}
+    <article>
+      <header class="page-head">
+        <div class="wrap">
+          <a class="back" href="/cas-clients/">← Toutes les réalisations</a>
+          <div class="narrow" style="padding:0">
+            <h1 class="h1">${escapeHtml(data.title)}</h1>
+            ${data.excerpt ? `<p class="lead">${escapeHtml(data.excerpt)}</p>` : ''}
           </div>
-          <h1 class="article__title">${escapeHtml(data.title)}</h1>
-          ${data.excerpt ? `<p class="article__lead">${escapeHtml(data.excerpt)}</p>` : ''}
-        </header>
-        <div class="article__body">${renderedBody}</div>
-        ${endCtaHtml("Votre cabinet a un potentiel similaire ?", undefined, `Article CTA - ${data.title}`)}
+          <dl class="facts">
+            ${facts.map(([k, v]) => `<div><dt>${k}</dt><dd>${k === 'Site' ? v : escapeHtml(v)}</dd></div>`).join('')}
+          </dl>
+        </div>
+      </header>
+      <div class="wrap">
+        <div class="case-shot">${shotHtml(data)}</div>
+      </div>
+      <div class="wrap narrow prose">
+        ${services.length ? `<h2>Notre périmètre</h2>\n        <div class="tags">${services.map(s => `<span>${escapeHtml(s)}</span>`).join('')}</div>` : ''}
+        ${renderedBody}
+        ${endCtaHtml('Un projet comparable ?', undefined, `Réalisation - ${data.title}`)}
       </div>
     </article>`;
 
   const headWithSchema = `${head}\n<script type="application/ld+json">${JSON.stringify(schema)}</script>`;
-  return bodyShell(headWithSchema, main);
+  return bodyShell(headWithSchema, main, 'cases');
 }
 
 // ------------------------------------------------------------
@@ -391,10 +374,10 @@ function renderBlogIndexHtml(posts, pageSeo) {
   const canonical = `${SITE_URL}/blog/`;
   const seo = pageSeo || {};
   const head = headTags({
-    title: seo.title || 'Journal — Articles sur l\'acquisition de patients dentaires | OBM SYSTEM',
-    description: seo.description || 'Le journal d\'OBM SYSTEM : articles tactiques sur l\'acquisition de patients dentaires, l\'automation WhatsApp, les campagnes Meta Ads, et la croissance des cabinets dentaires au Maroc.',
+    title: seo.title || 'Journal : conseils sites web, publicité et réseaux sociaux | OBM System',
+    description: seo.description || 'Le journal d’OBM System, agence digitale à Rabat : des articles pratiques sur les sites web, la publicité Facebook et Google, le référencement et les réseaux sociaux.',
     canonical,
-    ogImage: seo.ogImage || `${SITE_URL}/assets/img/og-cover.svg`,
+    ogImage: seo.ogImage || `${SITE_URL}/assets/img/og-cover.png`,
     type: 'website',
     keywords: seo.keywords,
     ogTitle: seo.ogTitle,
@@ -407,57 +390,38 @@ function renderBlogIndexHtml(posts, pageSeo) {
   });
 
   const cards = posts.filter(p => p.published).map(p => `
-          <article class="post">
-            <header class="post__meta">
-              ${p.category ? `<span class="post__category">${escapeHtml(p.category)}</span>` : ''}
-              ${p.date ? `<span class="post__date"><time datetime="${p.date}">${formatDateFr(p.date)}</time></span>` : ''}
-            </header>
-            <h3 class="post__title">
-              <a href="/blog/${p.slug}/">${escapeHtml(p.title)}</a>
-            </h3>
-            ${p.excerpt ? `<p class="post__excerpt">${escapeHtml(p.excerpt)}</p>` : ''}
-            <a href="/blog/${p.slug}/" class="post__link">
-              ${p.readTime ? `<span class="post__read">${escapeHtml(p.readTime)}</span>` : '<span></span>'}
-              <span class="post__cta">Lire l'article
-                <svg viewBox="0 0 16 16" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 8h10M9 4l4 4-4 4"/></svg>
-              </span>
-            </a>
-          </article>`).join('\n');
+          <a class="post" href="/blog/${p.slug}/">
+            <small>${[p.category, p.date ? formatDateFr(p.date) : ''].filter(Boolean).map(escapeHtml).join(' · ')}</small>
+            <h3>${escapeHtml(p.title)}</h3>
+            ${p.excerpt ? `<p>${escapeHtml(p.excerpt)}</p>` : ''}
+            <span>Lire l’article${p.readTime ? ` (${escapeHtml(p.readTime.replace(/ de lecture$/, ''))})` : ''}</span>
+          </a>`).join('\n');
 
   const main = `
-    <section class="list-page">
-      <div class="container">
-        <a href="/" class="list-page__back">
-          <svg viewBox="0 0 16 16" width="12" height="12" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M13 8H3M7 4L3 8l4 4"/></svg>
-          <span>Retour à l'accueil</span>
-        </a>
-        <header class="list-page__intro">
-          <span class="eyebrow">Journal · OBM SYSTEM</span>
-          <h1 class="section__title">
-            Données, méthodes,
-            <em>leçons du terrain.</em>
-          </h1>
-          <p class="section__lead">
-            Articles tactiques sur l'acquisition de patients dentaires au Maroc — campagnes publicitaires, automation, CRM, conversion. Écrits par l'équipe qui déploie ces systèmes au quotidien.
-          </p>
-        </header>
-        <div class="blog__grid">
+    <section class="page-head">
+      <div class="wrap">
+        <span class="kicker">Journal</span>
+        <h1 class="h1">Nos conseils, en clair</h1>
+        <p class="lead">Des articles pratiques sur les sites web, la publicité, le référencement et les réseaux sociaux, écrits à partir de ce que nous voyons chez nos clients.</p>
+      </div>
+    </section>
+    <section class="section" style="padding-top:0">
+      <div class="wrap posts">
 ${cards}
-        </div>
       </div>
     </section>`;
 
-  return bodyShell(head, main);
+  return bodyShell(head, main, 'blog');
 }
 
 function renderCasesIndexHtml(cases, pageSeo) {
   const canonical = `${SITE_URL}/cas-clients/`;
   const seo = pageSeo || {};
   const head = headTags({
-    title: seo.title || 'Cas clients — Cabinets dentaires transformés | OBM SYSTEM',
-    description: seo.description || 'Études de cas anonymisées de cabinets dentaires marocains ayant déployé l\'infrastructure OBM SYSTEM. Données réelles, résultats mesurés, méthodes détaillées.',
+    title: seo.title || 'Réalisations : sites web, e-commerce et réseaux sociaux | OBM System',
+    description: seo.description || 'Les projets livrés par OBM System, agence digitale à Rabat : boutiques en ligne, plateformes, sites vitrines, réseaux sociaux et publicité, au Maroc et au Canada.',
     canonical,
-    ogImage: seo.ogImage || `${SITE_URL}/assets/img/og-cover.svg`,
+    ogImage: seo.ogImage || `${SITE_URL}/assets/img/og-cover.png`,
     type: 'website',
     keywords: seo.keywords,
     ogTitle: seo.ogTitle,
@@ -470,55 +434,28 @@ function renderCasesIndexHtml(cases, pageSeo) {
   });
 
   const cards = cases.filter(c => c.published).map(c => `
-          <article class="case">
-            <header class="case__head">
-              ${c.category ? `<span class="case__tag">${escapeHtml(c.category)}</span>` : ''}
-              ${c.location ? `<span class="case__meta">${escapeHtml(c.location)}${c.duration ? ' · ' + escapeHtml(c.duration) : ''}</span>` : ''}
-            </header>
-            <h3 class="case__title">${escapeHtml(c.title)}</h3>
-            ${c.bigMetricValue ? `<div class="case__hero-metric">
-              <span class="case__big">${escapeHtml(c.bigMetricValue)}${c.bigMetricUnit ? `<span class="case__big-unit">${escapeHtml(c.bigMetricUnit)}</span>` : ''}</span>
-              <span class="case__big-label">${escapeHtml(c.bigMetricLabel || '')}</span>
-            </div>` : ''}
-            ${c.excerpt ? `<p class="case__context">${escapeHtml(c.excerpt)}</p>` : ''}
-            ${renderSubMetrics(c.subMetrics)}
-            <a href="/cas-clients/${c.slug}/" class="case__link">
-              <span>Lire l'étude complète</span>
-              <svg viewBox="0 0 16 16" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 8h10M9 4l4 4-4 4"/></svg>
-            </a>
-          </article>`).join('\n');
+          <a class="list-card" href="/cas-clients/${c.slug}/">
+            ${shotHtml({ ...c, mobileImage: "" }, { lazy: true })}
+            <p class="muted">${[c.category, c.location].filter(Boolean).map(escapeHtml).join(', ')}</p>
+            <h2>${escapeHtml(c.title)}</h2>
+            ${c.excerpt ? `<p>${escapeHtml(c.excerpt)}</p>` : ''}
+          </a>`).join('\n');
 
   const main = `
-    <section class="list-page">
-      <div class="container">
-        <a href="/" class="list-page__back">
-          <svg viewBox="0 0 16 16" width="12" height="12" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M13 8H3M7 4L3 8l4 4"/></svg>
-          <span>Retour à l'accueil</span>
-        </a>
-        <header class="list-page__intro">
-          <span class="eyebrow">Cas clients · anonymisés</span>
-          <h1 class="section__title">
-            Ce que le système
-            <em>a produit.</em>
-          </h1>
-          <p class="section__lead">
-            Études de cas anonymisées de cabinets dentaires marocains ayant déployé l'infrastructure OBM SYSTEM. Toutes les données sont réelles — seuls les noms et identifiants sont changés pour préserver la confidentialité.
-          </p>
-        </header>
-        <div class="cases__grid">
+    <section class="page-head">
+      <div class="wrap">
+        <span class="kicker">Réalisations</span>
+        <h1 class="h1">Les projets que nous avons livrés</h1>
+        <p class="lead">Boutiques en ligne, plateforme, sites vitrines, réseaux sociaux et publicité. Pour chaque projet : l’objectif de départ, ce que nous avons fait et les choix qui comptent.</p>
+      </div>
+    </section>
+    <section class="section" style="padding-top:0">
+      <div class="wrap list-grid">
 ${cards}
-        </div>
       </div>
     </section>`;
 
-  return bodyShell(head, main);
-}
-
-function renderSubMetrics(subMetrics) {
-  if (!subMetrics || !Array.isArray(subMetrics) || subMetrics.length === 0) return '';
-  return `<dl class="case__metrics">
-              ${subMetrics.map(m => `<div><dt>${escapeHtml(m.label || '')}</dt><dd>${escapeHtml(m.value || '')}${m.unit ? `<span>${escapeHtml(m.unit)}</span>` : ''}</dd></div>`).join('')}
-            </dl>`;
+  return bodyShell(head, main, 'cases');
 }
 
 // ------------------------------------------------------------
@@ -534,7 +471,14 @@ async function regenerateSitemap() {
       lastmod: new Date().toISOString().slice(0, 10),
       changefreq: 'weekly',
       priority: '1.0',
-      image: `${SITE_URL}/assets/img/og-cover.svg`,
+      image: `${SITE_URL}/assets/img/og-cover.png`,
+    },
+    {
+      loc: `${SITE_URL}/site-reseaux/`,
+      lastmod: new Date().toISOString().slice(0, 10),
+      changefreq: 'monthly',
+      priority: '0.9',
+      image: `${SITE_URL}/assets/img/og-site-reseaux.png`,
     },
     {
       loc: `${SITE_URL}/cas-clients/`,

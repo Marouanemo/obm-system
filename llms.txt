@@ -1,86 +1,43 @@
-# OBM SYSTEM
+# OBM System
 
-> Système d'acquisition et d'automatisation conçu pour les cabinets dentaires ambitieux au Maroc. Infrastructure complète qui transforme les campagnes publicitaires en patients réels — acquisition, CRM opérationnel, automation WhatsApp, et intelligence/pilotage, centralisés dans un seul système.
+> Agence digitale à Rabat (Maroc). OBM System crée des sites web et des boutiques en ligne, gère la publicité Facebook, Instagram et Google, le référencement et les réseaux sociaux d'entreprises au Maroc et à l'étranger : commerces, cabinets de conseil, boutiques en ligne, entreprises de services et groupes.
 
-OBM SYSTEM se positionne comme une **infrastructure opérationnelle**, pas une simple agence marketing. Spécialisation dentaire exclusive — un seul cabinet par zone géographique (exclusivité territoriale).
+## Pages
 
-## Site
+- [Accueil](https://obm-system.com/): services, réalisations, méthode, questions fréquentes, contact
+- [Offre Site + Réseaux](https://obm-system.com/site-reseaux/): le site web et les réseaux sociaux gérés par la même équipe, visuels et vidéos produits chaque mois
+- [Réalisations](https://obm-system.com/cas-clients/): projets livrés, avec le périmètre et les choix de conception
+- [Journal](https://obm-system.com/blog/): articles pratiques sur les sites web, la publicité, le référencement et WhatsApp
 
-- [Accueil](https://obm-system.com/): Landing page principale avec diagnostic interactif intégré dans le hero
-- [Diagnostic interactif](https://obm-system.com/#diagnostic): Évaluation de la maturité d'acquisition en 7 questions — score sur 100, verdict, 3 leviers prioritaires personnalisés
-- [Les 4 piliers](https://obm-system.com/#systeme): Acquisition · CRM · Automation · Intelligence
-- [Process](https://obm-system.com/#process): Audit → Construction → Lancement → Optimisation
-- [FAQ](https://obm-system.com/#faq): 7 questions fréquentes
-- [Contact / Audit gratuit](https://obm-system.com/#contact): Formulaire de demande
+## Services
 
-## Service détaillé
+- **Sites web et boutiques en ligne** : site vitrine, e-commerce ou plateforme, maquettes validées avant le développement, en français, arabe ou anglais.
+- **Publicité Facebook, Instagram et Google** : campagnes, visuels et vidéos, suivi des demandes jusqu'à la vente.
+- **Référencement Google** : fiche Google Business, pages par service ou par zone, corrections techniques, articles.
+- **Réseaux sociaux** : ligne éditoriale, visuels, carrousels, reels et stories, réponses aux commentaires et messages, bilan mensuel.
+- **Aussi** : suivi des conversions (Google Analytics, Meta, TikTok) et relances automatiques sur WhatsApp.
 
-### 1. Acquisition
-- Campagnes Meta Ads (Facebook, Instagram) et Google Ads ciblées par traitement et zone géographique
-- Lead funnels optimisés pour la conversion
-- Tracking patient-level (du clic publicitaire au rendez-vous confirmé)
+## Méthode
 
-### 2. CRM Opérationnel
-- Pipeline patient centralisé
-- Statut, historique, relances visibles en un clic
-- Priorisation automatique des leads chauds
-- Vue commerciale claire pour l'équipe
+1. Appel de cadrage de 30 minutes
+2. Proposition écrite : périmètre, délai et prix
+3. Maquettes validées avant le code
+4. Développement et installation du suivi
+5. Mise en ligne, prise en main du site, statistiques sur le compte du client
+6. Suivi des résultats et plan d'actions
 
-### 3. Automation WhatsApp
-- Confirmations et rappels automatiques (J-1, H-2)
-- Relances de leads inactifs programmées
-- Messages de suivi personnalisés
-- Notifications internes pour l'équipe
+## Réalisations
 
-### 4. Intelligence & Pilotage
-- Lead scoring automatique
-- Analyse ROI campagne par campagne
-- Command center quotidien
-- Reporting stratégique mensuel
-
-## Traitements ciblés
-
-- **Implants dentaires** (valeur prime, panier élevé)
-- **Facettes esthétiques** (valeur prime, transformation visible)
-- **Invisalign et orthodontie** (cycle long, valeur cumulative)
-- **Blanchiment** (porte d'entrée, fidélisation)
-- **Soins esthétiques** (composite, gencive, contouring — récurrent)
-- **Réhabilitation complète** (cas complexes, très forte valeur)
-
-## Approche
-
-Méthode en quatre étapes :
-
-1. **Diagnostic** — Audit du cabinet (1 semaine) : cartographie des pertes actuelles, points de friction, opportunités prioritaires
-2. **Construction** — Mise en place du système (2-3 semaines) : CRM, automatisations, tracking, scoring, command center
-3. **Lancement** — Campagnes & acquisition (1-2 semaines) : Meta Ads, Google Ads, lead funnels en diffusion progressive
-4. **Optimisation** — Pilotage & scaling (continu) : analyse continue, ajustement, montée en charge
-
-## Différenciation
-
-| Agences classiques | OBM SYSTEM |
-|--------------------|------------|
-| Lancent des publicités | Construisent une infrastructure complète |
-| Envoient des rapports mensuels | Pilotage temps réel + command center |
-| Vendent des leads | Génèrent des patients réels mesurés |
-| Laissent le marketing au cabinet | Outillent toute l'organisation |
-
-## Audience cible
-
-- Cabinets dentaires au Maroc (Casablanca, Rabat, Marrakech et autres villes)
-- Praticiens ambitieux cherchant à scaler leur acquisition
-- Cabinets proposant des traitements à forte valeur (implants, facettes, Invisalign, réhabilitations)
-- Exclusivité géographique : un seul cabinet par zone d'attraction
+- [Pharmacie Gare Hay Riad](https://obm-system.com/cas-clients/pharmacie-gare-hay-riad/) (Rabat) : boutique en ligne de près de 700 produits, réseaux sociaux, fiche Google, publicité, référencement local.
+- [Cerafas Logistics](https://obm-system.com/cas-clients/cerafas-logistics/) (Maroc, Afrique, Europe) : plateforme trilingue reliant chargeurs et transporteurs vérifiés.
+- [Éléganza](https://obm-system.com/cas-clients/eleganza/) (Canada) : boutique Shopify bilingue de plus de 10 000 produits.
+- [La7daFan](https://obm-system.com/cas-clients/la7dafan/) (Maroc) : galerie de photographies d'art en édition limitée.
+- [Nassihacom](https://obm-system.com/cas-clients/nassihacom/) (Rabat) : site bilingue d'un cabinet de conseil aux entreprises.
 
 ## Contact
 
-- **Site** : https://obm-system.com
-- **Email** : Admin@obm-system.com
-- **Téléphone** : +212 7 12 34 80 34
-- **WhatsApp** : https://wa.me/212712348034
-- **Pays** : Maroc (services en français et arabe)
-
-## Optional
-
-- [llms-full.txt](https://obm-system.com/llms-full.txt): Version étendue avec le contenu détaillé de la landing page
-- [Sitemap](https://obm-system.com/sitemap.xml): Plan du site
+- Site : https://obm-system.com
+- Instagram : https://www.instagram.com/obm_system/
+- E-mail : Admin@obm-system.com
+- Téléphone et WhatsApp : +212 7 12 34 80 34
+- Ville : Rabat, Maroc

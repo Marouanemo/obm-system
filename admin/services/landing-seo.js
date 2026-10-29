@@ -65,7 +65,7 @@ function applySeoToHtml(html, seo) {
 
   const ogTitle = seo.ogTitle || seo.title;
   const ogDescription = seo.ogDescription || description;
-  const ogImage = absUrl(seo.ogImage || '/assets/img/og-cover.svg');
+  const ogImage = absUrl(seo.ogImage || '/assets/img/og-cover.png');
 
   const twTitle = seo.twitterTitle || ogTitle;
   const twDesc = seo.twitterDescription || ogDescription;

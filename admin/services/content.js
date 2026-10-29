@@ -42,6 +42,10 @@ async function list(type) {
       excerpt: data.excerpt || '',
       readTime: data.readTime || '',
       updatedAt: data.updatedAt || data.date || '',
+      location: data.location || '',
+      image: data.image || '',
+      mobileImage: data.mobileImage || '',
+      site: data.site || '',
       type,
     });
   }

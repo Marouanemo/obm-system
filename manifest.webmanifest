@@ -1,18 +1,26 @@
 {
-  "name": "OBM SYSTEM — Acquisition cabinets dentaires",
+  "name": "OBM System, agence digitale à Rabat",
   "short_name": "OBM SYSTEM",
-  "description": "Système d'acquisition et d'automatisation pour cabinets dentaires ambitieux au Maroc.",
+  "description": "Sites web, boutiques en ligne, publicité, référencement et réseaux sociaux.",
   "lang": "fr-MA",
   "dir": "ltr",
   "start_url": "/?source=pwa",
   "scope": "/",
   "id": "/",
   "display": "standalone",
-  "display_override": ["standalone", "minimal-ui", "browser"],
+  "display_override": [
+    "standalone",
+    "minimal-ui",
+    "browser"
+  ],
   "orientation": "portrait-primary",
-  "theme_color": "#0B1E3F",
-  "background_color": "#050B1F",
-  "categories": ["business", "medical", "marketing", "productivity"],
+  "theme_color": "#F3F1EC",
+  "background_color": "#F3F1EC",
+  "categories": [
+    "business",
+    "marketing",
+    "productivity"
+  ],
   "icons": [
     {
       "src": "/assets/img/favicon.svg",
@@ -34,18 +42,30 @@
   ],
   "shortcuts": [
     {
-      "name": "Diagnostic interactif",
-      "short_name": "Diagnostic",
-      "description": "Évaluez votre maturité d'acquisition en 90 secondes",
-      "url": "/#diagnostic",
-      "icons": [{ "src": "/assets/img/favicon.svg", "sizes": "any", "type": "image/svg+xml" }]
+      "name": "Offre Site + Réseaux",
+      "short_name": "Site + Réseaux",
+      "description": "Site web et réseaux sociaux gérés par la même équipe",
+      "url": "/site-reseaux/",
+      "icons": [
+        {
+          "src": "/assets/img/favicon.svg",
+          "sizes": "any",
+          "type": "image/svg+xml"
+        }
+      ]
     },
     {
       "name": "Contact rapide",
       "short_name": "Contact",
-      "description": "Demander un audit gratuit",
+      "description": "Prendre rendez-vous",
       "url": "/#contact",
-      "icons": [{ "src": "/assets/img/favicon.svg", "sizes": "any", "type": "image/svg+xml" }]
+      "icons": [
+        {
+          "src": "/assets/img/favicon.svg",
+          "sizes": "any",
+          "type": "image/svg+xml"
+        }
+      ]
     }
   ]
 }

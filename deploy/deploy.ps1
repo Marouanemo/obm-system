@@ -31,7 +31,7 @@ Write-Host "==> Ensuring remote directory exists..."
 
 # Upload site files (exclude deploy/ and .git/)
 Write-Host "==> Uploading site files..."
-$files = @("index.html", "robots.txt", "sitemap.xml", ".gitignore", "README.md")
+$files = @("index.html", "robots.txt", "sitemap.xml", "manifest.webmanifest", "llms.txt", "llms-full.txt", "humans.txt", ".gitignore", "README.md")
 foreach ($f in $files) {
   $path = Join-Path $ProjectRoot $f
   if (Test-Path $path) {
@@ -42,6 +42,10 @@ foreach ($f in $files) {
 # Upload assets directory
 Write-Host "==> Uploading assets/ ..."
 & scp @scpArgs -r (Join-Path $ProjectRoot "assets") "$User@${ServerIp}:$RemotePath/"
+
+# Upload hand-written pages (blog/ and cas-clients/ are generated on the server by the admin)
+Write-Host "==> Uploading site-reseaux/ ..."
+& scp @scpArgs -r (Join-Path $ProjectRoot "site-reseaux") "$User@${ServerIp}:$RemotePath/"
 
 # Upload nginx config
 Write-Host "==> Uploading nginx config..."
