@@ -45,7 +45,10 @@ ssh "$HOST" "mkdir -p $ADMIN/content-archive-$STAMP && cd $ADMIN/content && \
 scp -q content-seed/blog/*.md "$HOST:$ADMIN/content/blog/"
 scp -q content-seed/cases/*.md "$HOST:$ADMIN/content/cases/"
 scp -q content-seed/pages/*.json "$HOST:$ADMIN/content/pages/"
-ssh "$HOST" "cd $ADMIN && pm2 restart obm-admin --update-env >/dev/null && npm run --silent generate && chown -R www-data:www-data $PUBLIC"
+# Version des assets : même valeur que la valeur par défaut du générateur (le .env du serveur prime sinon)
+CACHE_V=$(grep -o "CACHE_V || '[^']*'" admin/services/generator.js | sed "s/.*'\(.*\)'//")
+echo "    CACHE_V=$CACHE_V"
+ssh "$HOST" "cd $ADMIN && cp .env .env.bak-$STAMP && (grep -q '^CACHE_V=' .env && sed -i 's/^CACHE_V=.*/CACHE_V=$CACHE_V/' .env || echo 'CACHE_V=$CACHE_V' >> .env) && pm2 restart obm-admin --update-env >/dev/null && npm run --silent generate && chown -R www-data:www-data $PUBLIC"
 
 echo ""
 echo "==> Terminé. Vérifications :"

@@ -11,7 +11,7 @@ const { list, read } = require('./content');
 
 const PUBLIC_DIR = process.env.PUBLIC_DIR || '/var/www/obm-system/public';
 const SITE_URL = (process.env.SITE_URL || 'https://obm-system.com').replace(/\/$/, '');
-const CACHE_V = process.env.CACHE_V || 'v=3';
+const CACHE_V = process.env.CACHE_V || 'v=4';
 
 // Configure marked: GitHub-flavored, no XSS-encoded inputs trusted
 marked.setOptions({

@@ -345,3 +345,24 @@ h1, h2, h3 { font-weight: 600; letter-spacing: -0.03em; line-height: 1.08; margi
 .needs h3 { font-size: var(--text-lg); letter-spacing: -.015em; }
 .needs p { margin: .5rem 0 0; color: var(--ink-2); font-size: var(--text-sm); }
 @media (max-width: 860px) { .needs { grid-template-columns: 1fr; } }
+
+/* ---------- En-tête de l'accueil : titre court + bande des réalisations ---------- */
+.hero { padding: clamp(3rem, 2rem + 4vw, 5.5rem) 0 clamp(3rem, 5vw, 4.5rem); }
+.hero__row { display: grid; grid-template-columns: minmax(0, 1.2fr) minmax(0, .8fr); gap: 2rem 3rem; align-items: end; }
+.hero h1 { font-size: clamp(2.6rem, 1.5rem + 4.6vw, 5.4rem); letter-spacing: -0.04em; line-height: 1.02; max-width: 15ch; }
+.hero .lead { margin: 0; }
+.hero .actions { margin-top: 1.6rem; }
+.strip { display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); gap: 1rem; margin-top: clamp(2.5rem, 5vw, 3.5rem); }
+.strip a { text-decoration: none; display: grid; gap: .55rem; align-content: start; }
+.strip__f { border-radius: 10px; overflow: hidden; border: 1px solid var(--line); aspect-ratio: 3 / 4; background: #fff; transition: transform .4s var(--ease), box-shadow .4s; }
+.strip a:hover .strip__f { transform: translateY(-4px); box-shadow: 0 18px 36px -22px rgba(22, 21, 27, .45); }
+.strip img { width: 100%; height: 100%; object-fit: cover; object-position: top; }
+.strip b { font-weight: 600; font-size: .95rem; letter-spacing: -.01em; }
+.strip small { display: block; color: var(--ink-3); font-size: .82rem; margin-top: -.3rem; }
+@media (max-width: 900px) {
+  .hero__row { grid-template-columns: 1fr; }
+  .strip { display: flex; overflow-x: auto; scroll-snap-type: x mandatory; scroll-padding-inline: var(--gutter); gap: .8rem; margin-inline: calc(var(--gutter) * -1); padding: 0 var(--gutter) .6rem; scrollbar-width: none; }
+  .strip::-webkit-scrollbar { display: none; }
+  .strip a { flex: 0 0 44%; scroll-snap-align: start; }
+}
+@media (max-width: 560px) { .strip a { flex-basis: 62%; } }

@@ -52,7 +52,7 @@
   <link rel="manifest" href="/manifest.webmanifest" />
   <link rel="preload" href="/assets/fonts/switzer-600.woff2" as="font" type="font/woff2" crossorigin />
   <link rel="preload" href="/assets/fonts/switzer-400.woff2" as="font" type="font/woff2" crossorigin />
-  <link rel="stylesheet" href="/assets/css/site.css?v=3" />
+  <link rel="stylesheet" href="/assets/css/site.css?v=4" />
   <script type="application/ld+json">
 {
   "@context": "https://schema.org",
@@ -136,47 +136,43 @@
 
   <main id="main">
 
-    <section class="intro">
-      <div class="wrap intro__grid">
-        <div>
-          <span class="kicker">Agence digitale à Rabat</span>
-          <h1 class="h1">Nous créons votre site, lançons vos publicités et gérons vos réseaux sociaux.</h1>
-          <p class="lead">Nous travaillons avec des commerces, des cabinets de conseil, des boutiques en ligne et des groupes, à Rabat, ailleurs au Maroc et jusqu’au Canada. Chaque projet commence par une question simple : que doit pouvoir faire votre client sans avoir à vous appeler ?</p>
-          <div class="actions">
-            <a class="btn" href="https://calendly.com/admin-obm-system/30min?primary_color=5b43c9" target="_blank" rel="noopener" data-loc="hero">Prendre rendez-vous (30 min)</a>
-            <a class="link" href="/cas-clients/">Voir nos réalisations</a>
-          </div>
-          <div class="intro__facts">
-            <span>Devis écrit avant de commencer</span>
-            <span>Maquettes validées avant le code</span>
-            <span>Statistiques sur votre propre compte</span>
+    <section class="hero">
+      <div class="wrap">
+        <span class="kicker">Agence digitale à Rabat</span>
+        <div class="hero__row">
+          <h1>Sites web, publicité et réseaux sociaux.</h1>
+          <div>
+            <p class="lead">Une seule équipe pour votre présence en ligne, du premier post Instagram jusqu’au formulaire de contact. Au Maroc et à l’étranger.</p>
+            <div class="actions">
+              <a class="btn" href="https://calendly.com/admin-obm-system/30min?primary_color=5b43c9" target="_blank" rel="noopener" data-loc="hero">Prendre rendez-vous (30 min)</a>
+              <a class="link" href="/cas-clients/">Voir nos réalisations</a>
+            </div>
           </div>
         </div>
-        <div>
-          <figure class="shot shot--phone">
-              <div class="shot__frame">
-                <div class="shot__bar"><i></i><i></i><i></i><span>pharmagareriad.ma</span></div>
-                <img src="/assets/img/realisations/pharmacie-desktop.webp" width="1200" height="750" alt="Page d'accueil de la boutique en ligne de la Pharmacie Gare Hay Riad" />
-              </div>
-              <div class="shot__mobile"><img src="/assets/img/realisations/pharmacie-mobile.webp" width="520" height="1126" alt="" /></div>
-              <figcaption><b>Pharmacie Gare Hay Riad, Rabat.</b> Le site, les comptes Instagram et Facebook, les publicités et la fiche Google : tout est géré par nous.</figcaption>
-            </figure>
+        <div class="strip" aria-label="Nos réalisations">
+          <a href="/cas-clients/pharmacie-gare-hay-riad/" data-case="pharmacie">
+            <div class="strip__f"><img src="/assets/img/realisations/pharmacie-mobile.webp" width="520" height="1126" alt="Site Pharmacie Gare Hay Riad sur mobile" fetchpriority="high" /></div>
+            <b>Pharmacie Gare Hay Riad</b><small>E-commerce et réseaux, Rabat</small>
+          </a>
+          <a href="/cas-clients/cerafas-logistics/" data-case="cerafas">
+            <div class="strip__f"><img src="/assets/img/realisations/cerafas-mobile.webp" width="520" height="1126" alt="Site Cerafas Logistics sur mobile" fetchpriority="high" /></div>
+            <b>Cerafas Logistics</b><small>Plateforme, Maroc et Europe</small>
+          </a>
+          <a href="/cas-clients/eleganza/" data-case="eleganza">
+            <div class="strip__f"><img src="/assets/img/realisations/eleganza-mobile.webp" width="520" height="1126" alt="Site Éléganza sur mobile" loading="lazy" /></div>
+            <b>Éléganza</b><small>E-commerce, Canada</small>
+          </a>
+          <a href="/cas-clients/la7dafan/" data-case="la7dafan">
+            <div class="strip__f"><img src="/assets/img/realisations/la7dafan-mobile.webp" width="520" height="1126" alt="Site La7daFan sur mobile" loading="lazy" /></div>
+            <b>La7daFan</b><small>Galerie d’art, Maroc</small>
+          </a>
+          <a href="/cas-clients/nassihacom/" data-case="nassihacom">
+            <div class="strip__f"><img src="/assets/img/realisations/nassihacom-mobile.webp" width="520" height="1126" alt="Site Nassihacom sur mobile" loading="lazy" /></div>
+            <b>Nassihacom</b><small>Conseil aux entreprises, Rabat</small>
+          </a>
         </div>
       </div>
     </section>
-
-    <div class="clients">
-      <div class="wrap clients__in">
-        <p>Ils nous ont confié leur projet :</p>
-        <ul>
-          <li>Pharmacie Gare Hay Riad</li>
-          <li>Cerafas Logistics</li>
-          <li>Éléganza</li>
-          <li>La7daFan</li>
-          <li>Nassihacom</li>
-        </ul>
-      </div>
-    </div>
 
     <section class="section" aria-labelledby="s-t">
       <div class="wrap">
@@ -357,6 +353,6 @@
     <span>WhatsApp</span>
   </a>
 
-  <script src="/assets/js/site.js?v=3" defer></script>
+  <script src="/assets/js/site.js?v=4" defer></script>
 </body>
 </html>
