@@ -1,46 +1,37 @@
 # OBM System
 
-> Agence digitale à Rabat (Maroc). OBM System crée des sites web et des boutiques en ligne, gère la publicité Facebook, Instagram et Google, le référencement et les réseaux sociaux d'entreprises au Maroc et à l'étranger : commerces, cabinets de conseil, boutiques en ligne, entreprises de services et groupes.
+> Slogan : Ingénierie et précision. L’exécution chirurgicale des ventes.
 
-## Pages
+> OBM System, agence de conseil 360° à Rabat (Maroc), depuis 2018. Nous concevons des systèmes de croissance digitale pour les PME, groupes et marques au Maroc et à l'international : stratégie et audit, sites et e-commerce codés sur mesure, media buying Meta, Google et TikTok Ads, tracking côté serveur et mesure des conversions, référencement Google et AEO, community management, création de contenu et copywriting, CRM, automatisation WhatsApp et IA. Offre d'entrée : le Diagnostic de croissance (30 minutes, visio ou téléphone).
 
-- [Accueil](https://obm-system.com/): présentation, aperçu des services, réalisations, journal
-- [Services](https://obm-system.com/services/): sites web, publicité, référencement, réseaux sociaux, en détail
-- [Méthode](https://obm-system.com/methode/): les six étapes d'un projet et les questions fréquentes
-- [Contact](https://obm-system.com/contact/): rendez-vous, WhatsApp, formulaire
-- [Offre Site + Réseaux](https://obm-system.com/site-reseaux/): le site web et les réseaux sociaux gérés par la même équipe, visuels et vidéos produits chaque mois
-- [Réalisations](https://obm-system.com/cas-clients/): projets livrés, avec le périmètre et les choix de conception
-- [Journal](https://obm-system.com/blog/): articles pratiques sur les sites web, la publicité, le référencement et WhatsApp
+## Offre d'entrée
+- [Diagnostic de croissance](https://obm-system.com/diagnostic-de-croissance/) : 30 minutes pour lire le dispositif actuel, clarifier les objectifs et identifier les leviers prioritaires. Réservation : https://calendly.com/admin-obm-system/30min
 
-## Services
-
-- **Sites web et boutiques en ligne** : site vitrine, e-commerce ou plateforme, maquettes validées avant le développement, en français, arabe ou anglais.
-- **Publicité Facebook, Instagram et Google** : campagnes, visuels et vidéos, suivi des demandes jusqu'à la vente.
-- **Référencement Google** : fiche Google Business, pages par service ou par zone, corrections techniques, articles.
-- **Réseaux sociaux** : ligne éditoriale, visuels, carrousels, reels et stories, réponses aux commentaires et messages, bilan mensuel.
-- **Aussi** : suivi des conversions (Google Analytics, Meta, TikTok) et relances automatiques sur WhatsApp.
+## Les couches
+- Stratégie : [diagnostic de croissance](https://obm-system.com/diagnostic-de-croissance/), audit, feuille de route, copywriting
+- Conception : [création de sites](https://obm-system.com/services/creation-site-web/), [e-commerce](https://obm-system.com/services/e-commerce/)
+- Acquisition : [media buying Meta, Google et TikTok Ads](https://obm-system.com/services/publicite-meta-google-ads/)
+- Mesure : [tracking server-side, GA4, API Conversions Meta](https://obm-system.com/services/tracking-server-side/)
+- Visibilité : [SEO et AEO](https://obm-system.com/services/seo-aeo/)
+- Activation : [réseaux sociaux](https://obm-system.com/services/reseaux-sociaux/), [IA et automatisation](https://obm-system.com/services/ia-automatisation/)
 
 ## Méthode
-
-1. Appel de cadrage de 30 minutes
+1. Diagnostic de croissance (30 min)
 2. Proposition écrite : périmètre, délai et prix
 3. Maquettes validées avant le code
-4. Développement et installation du suivi
-5. Mise en ligne, prise en main du site, statistiques sur le compte du client
-6. Suivi des résultats et plan d'actions
+4. Développement et marquage (GTM, GA4, Meta)
+5. Mise en ligne sur les comptes du client
+6. Pilotage des résultats
 
 ## Réalisations
-
-- [Pharmacie Gare Hay Riad](https://obm-system.com/cas-clients/pharmacie-gare-hay-riad/) (Rabat) : boutique en ligne de près de 700 produits, réseaux sociaux, fiche Google, publicité, référencement local.
-- [Cerafas Logistics](https://obm-system.com/cas-clients/cerafas-logistics/) (Maroc, Afrique, Europe) : plateforme trilingue reliant chargeurs et transporteurs vérifiés.
-- [Éléganza](https://obm-system.com/cas-clients/eleganza/) (Canada) : boutique Shopify bilingue de plus de 10 000 produits.
-- [La7daFan](https://obm-system.com/cas-clients/la7dafan/) (Maroc) : galerie de photographies d'art en édition limitée.
-- [Nassihacom](https://obm-system.com/cas-clients/nassihacom/) (Rabat) : site bilingue d'un cabinet de conseil aux entreprises.
+- [Cerafas Logistics](https://obm-system.com/cas-clients/cerafas-logistics/) : plateforme trilingue (FR, EN, AR en RTL) reliant chargeurs et transporteurs vérifiés ; conception, développement, référencement.
+- [Nassihacom](https://obm-system.com/cas-clients/nassihacom/) : site bilingue FR / EN d'un cabinet de conseil à Rabat.
+- [La7daFan](https://obm-system.com/cas-clients/la7dafan/) : e-commerce de photographies d'art en édition limitée, avec configurateur et « Voir sur mon mur ».
+- [Pharmacie Gare Hay Riad](https://obm-system.com/cas-clients/pharmacie-gare-hay-riad/) : boutique en ligne, réseaux sociaux, fiche Google, publicité (Rabat).
+- [Éléganza](https://obm-system.com/cas-clients/eleganza/) : e-commerce bilingue (Canada).
 
 ## Contact
-
-- Site : https://obm-system.com
-- Instagram : https://www.instagram.com/obm_system/
-- E-mail : Admin@obm-system.com
+- E-mail : admin@obm-system.com
 - Téléphone et WhatsApp : +212 7 12 34 80 34
-- Ville : Rabat, Maroc
+- Rabat, Maroc
+- Instagram : https://www.instagram.com/obm_system/ · Facebook : https://www.facebook.com/obmsystem · TikTok : https://www.tiktok.com/@obm_system · LinkedIn : https://www.linkedin.com/company/obm-system/

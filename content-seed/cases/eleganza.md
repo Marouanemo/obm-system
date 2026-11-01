@@ -13,6 +13,9 @@ services:
   - "Community management"
   - "Publicité Meta et Google"
   - "Référencement naturel"
+next:
+  slug: "cerafas-logistics"
+  title: "Cerafas Logistics"
 published: true
 ---
 

@@ -1,32 +1,39 @@
 ---
 title: "Nassihacom"
+headline: "Nassihacom : anatomie du site d’un cabinet de conseil"
 date: "2026-10-08"
 category: "Conseil aux entreprises"
 location: "Rabat"
-excerpt: "Le site d’un cabinet qui accompagne la création de sociétés, le financement de projets et les démarches administratives, partout au Maroc."
+excerpt: "Le site d’un cabinet qui accompagne la création de sociétés, le financement de projets et les démarches administratives. Objectif : qu’un dirigeant puisse joindre le cabinet à tout moment, sans chercher."
 image: "/assets/img/realisations/nassihacom-desktop.webp"
 mobileImage: "/assets/img/realisations/nassihacom-mobile.webp"
 site: "https://www.nassihacom.ma/"
 services:
-  - "Conception du site"
+  - "Conception"
   - "Développement"
+decisions:
+  - fonction: "Conversion"
+    titre: "Appel, WhatsApp et contact accessibles sur chaque écran."
+    texte: "Un dirigeant pressé n’a jamais à chercher comment joindre le cabinet."
+    spec: "barre fixe · 3 actions directes"
+  - fonction: "Parcours"
+    titre: "Deux chemins dès l’accueil."
+    texte: "Parler de son projet tout de suite, ou d’abord explorer les expertises : chacun avance à son rythme."
+    spec: "2 chemins : projet · expertises"
+  - fonction: "Pédagogie"
+    titre: "Le parcours du dossier, dessiné au fil du défilement."
+    texte: "Le futur client comprend les étapes de l’accompagnement avant même d’appeler."
+  - fonction: "Architecture"
+    titre: "Une page par expertise, pour chaque besoin."
+    texte: "Le visiteur trouve directement ce qui le concerne, et Google aussi."
+  - fonction: "International"
+    titre: "Un site bilingue, français et anglais."
+    texte: "Le cabinet s’adresse aussi aux clients qui ne lisent pas le français."
+    spec: "FR · EN"
+next:
+  slug: "la7dafan"
+  title: "La7daFan"
 published: true
 ---
 
-## Le projet
-
-Nassihacom est un cabinet de conseil établi à Rabat. Il accompagne les entreprises sur la création de société, le financement de projets, les autorisations et les démarches administratives. Nous avons conçu et développé son site.
-
-## Les choix qui comptent
-
-Un site se juge aux décisions qui le font vendre. Voici les cinq principales, et ce qu’elles apportent au cabinet.
-
-**Le contact sur chaque écran.** Appel, WhatsApp et formulaire restent accessibles partout. Un dirigeant pressé n’a jamais à chercher comment joindre le cabinet.
-
-**Deux chemins dès l’accueil.** Parler de son projet tout de suite, ou d’abord explorer les expertises. Chacun avance à son rythme.
-
-**Le parcours d’un dossier, expliqué.** Les étapes d’un accompagnement se dessinent au fil du défilement. Le futur client comprend ce qui va se passer avant même d’appeler.
-
-**Une page par expertise.** Chaque besoin a sa page : le visiteur trouve directement ce qui le concerne, et Google aussi.
-
-**Français et anglais.** Le site est bilingue, pour s’adresser aussi aux clients qui ne lisent pas le français.
+Le détail du levier mobilisé : [création de sites sur mesure](/services/creation-site-web/).

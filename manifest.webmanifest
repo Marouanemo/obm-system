@@ -1,7 +1,7 @@
 {
-  "name": "OBM System, agence digitale à Rabat",
-  "short_name": "OBM SYSTEM",
-  "description": "Sites web, boutiques en ligne, publicité, référencement et réseaux sociaux.",
+  "name": "OBM System",
+  "short_name": "OBM System",
+  "description": "Agence de conseil 360° · Sites sur mesure, e-commerce, Meta & Google Ads, tracking, SEO, AEO, réseaux sociaux et IA.",
   "lang": "fr-MA",
   "dir": "ltr",
   "start_url": "/?source=pwa",
@@ -23,47 +23,46 @@
   ],
   "icons": [
     {
-      "src": "/assets/img/favicon.svg",
-      "type": "image/svg+xml",
-      "sizes": "any",
-      "purpose": "any"
+      "src": "/assets/img/icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png"
     },
     {
-      "src": "/assets/img/favicon.svg",
-      "type": "image/svg+xml",
-      "sizes": "any",
+      "src": "/assets/img/icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    },
+    {
+      "src": "/assets/img/icon-512-maskable.png",
+      "sizes": "512x512",
+      "type": "image/png",
       "purpose": "maskable"
-    },
-    {
-      "src": "/assets/img/apple-touch-icon.svg",
-      "type": "image/svg+xml",
-      "sizes": "180x180"
     }
   ],
   "shortcuts": [
     {
-      "name": "Offre Site + Réseaux",
-      "short_name": "Site + Réseaux",
-      "description": "Site web et réseaux sociaux gérés par la même équipe",
-      "url": "/site-reseaux/",
+      "name": "Diagnostic de croissance",
+      "short_name": "Diagnostic",
+      "description": "Réserver un diagnostic de croissance",
+      "url": "/diagnostic-de-croissance/",
       "icons": [
         {
-          "src": "/assets/img/favicon.svg",
-          "sizes": "any",
-          "type": "image/svg+xml"
+          "src": "/assets/img/icon-192.png",
+          "sizes": "192x192",
+          "type": "image/png"
         }
       ]
     },
     {
       "name": "Contact rapide",
       "short_name": "Contact",
-      "description": "Prendre rendez-vous",
-      "url": "/#contact",
+      "description": "Réserver un diagnostic de croissance",
+      "url": "/contact/#diagnostic",
       "icons": [
         {
-          "src": "/assets/img/favicon.svg",
-          "sizes": "any",
-          "type": "image/svg+xml"
+          "src": "/assets/img/icon-192.png",
+          "sizes": "192x192",
+          "type": "image/png"
         }
       ]
     }

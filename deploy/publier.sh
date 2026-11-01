@@ -31,12 +31,12 @@ echo "==> 1/4 Sauvegarde : /root/backup-obm-$STAMP.tgz"
 ssh "$HOST" "tar czf /root/backup-obm-$STAMP.tgz $PUBLIC $ADMIN/content $ADMIN/services $ADMIN/views /etc/nginx/sites-enabled/obm-system.com 2>/dev/null; ls -lh /root/backup-obm-$STAMP.tgz"
 
 echo "==> 2/4 Site statique"
-scp -q -r index.html site-reseaux services methode contact assets robots.txt sitemap.xml manifest.webmanifest llms.txt llms-full.txt humans.txt "$HOST:$PUBLIC/"
-ssh "$HOST" "rm -rf $PUBLIC/blog/meta-ads-cabinets-dentaires-erreurs $PUBLIC/blog/whatsapp-automation-cabinets-dentaires $PUBLIC/cas-clients/cabinet-facettes-rabat $PUBLIC/cas-clients/cabinet-implants-casablanca $PUBLIC/assets/css/styles.css $PUBLIC/assets/js/script.js $PUBLIC/assets/img/og-cover.svg"
+scp -q -r index.html 404.html favicon.ico site-reseaux services methode contact diagnostic-de-croissance a-propos mentions-legales confidentialite assets .well-known robots.txt sitemap.xml manifest.webmanifest llms.txt llms-full.txt humans.txt "$HOST:$PUBLIC/"
+ssh "$HOST" "rm -rf $PUBLIC/blog/meta-ads-cabinets-dentaires-erreurs $PUBLIC/blog/whatsapp-automation-cabinets-dentaires $PUBLIC/cas-clients/cabinet-facettes-rabat $PUBLIC/cas-clients/cabinet-implants-casablanca $PUBLIC/assets/css/styles.css $PUBLIC/assets/js/script.js $PUBLIC/assets/img/og-cover.svg $PUBLIC/assets/img/favicon.svg $PUBLIC/assets/img/apple-touch-icon.svg $PUBLIC/assets/img/og-site-reseaux.png"
 
 echo "==> 3/4 Back-office"
-scp -q admin/services/generator.js admin/services/content.js admin/services/pages.js admin/services/landing-seo.js "$HOST:$ADMIN/services/"
-scp -q admin/views/editor.ejs admin/views/pages-edit.ejs "$HOST:$ADMIN/views/"
+scp -q admin/services/layout.js admin/services/generator.js admin/services/content.js admin/services/pages.js admin/services/landing-seo.js "$HOST:$ADMIN/services/"
+scp -q admin/views/*.ejs "$HOST:$ADMIN/views/"
 
 echo "==> 4/4 Contenus"
 ssh "$HOST" "mkdir -p $ADMIN/content-archive-$STAMP && cd $ADMIN/content && \
@@ -46,7 +46,7 @@ scp -q content-seed/blog/*.md "$HOST:$ADMIN/content/blog/"
 scp -q content-seed/cases/*.md "$HOST:$ADMIN/content/cases/"
 scp -q content-seed/pages/*.json "$HOST:$ADMIN/content/pages/"
 # Version des assets : même valeur que la valeur par défaut du générateur (le .env du serveur prime sinon)
-CACHE_V=$(grep -o "CACHE_V || '[^']*'" admin/services/generator.js | cut -d"'" -f2)
+CACHE_V=$(grep -o "CACHE_V || '[^']*'" admin/services/layout.js | cut -d"'" -f2)
 echo "    CACHE_V=$CACHE_V"
 ssh "$HOST" "cd $ADMIN && cp .env .env.bak-$STAMP && (grep -q '^CACHE_V=' .env && sed -i 's/^CACHE_V=.*/CACHE_V=$CACHE_V/' .env || echo 'CACHE_V=$CACHE_V' >> .env) && pm2 restart obm-admin --update-env >/dev/null && npm run --silent generate && chown -R www-data:www-data $PUBLIC"
 

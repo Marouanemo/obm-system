@@ -144,3 +144,13 @@ nginx met en cache CSS et JS pendant 30 jours. Après chaque modification de `as
 
 - dans les pages statiques (`index.html`, `services/`, `methode/`, `contact/`, `site-reseaux/`) ;
 - dans `CACHE_V` du fichier `/var/www/obm-admin/.env` sur le serveur (il prime sur la valeur par défaut de `admin/services/generator.js`), puis `npm run generate`.
+
+## Pages statiques et gabarit commun
+
+En-tête, menu, pied de page, bandeau cookies et données structurées sont dans `admin/services/layout.js`, partagé par le générateur du back-office (journal, réalisations) et par les pages statiques (`admin/static/*.js`). Pour reconstruire tout le site en local :
+
+```bash
+cd admin && PUBLIC_DIR=".." node scripts/build-static.js && CONTENT_DIR="../content-seed" PUBLIC_DIR=".." node scripts/generate-all.js
+```
+
+La version des assets (`CACHE_V`) se change dans `admin/services/layout.js` ; `deploy/publier.sh` la reporte dans le `.env` du serveur.

@@ -1,5 +1,6 @@
 /* ============================================================
-   OBM System — navigation, apparitions au défilement, formulaires LeadFlow.
+   OBM System — navigation, apparitions au défilement, consentement,
+   mesure des intentions de contact et des réservations, formulaires LeadFlow.
    ============================================================ */
 
 (() => {
@@ -8,15 +9,52 @@
   const reducedMotion = matchMedia('(prefers-reduced-motion: reduce)').matches;
 
   // ------------------------------------------------------------
-  // GTM + GA4 — même convention que l'ancien site : un push {event}
-  // pour GTM, un gtag('event') pour GA4, sans doublon.
+  // GTM + GA4 : un push {event} pour GTM, un gtag('event') pour GA4.
+  // Tant que le gtag codé en dur est conservé (conteneur GTM non vérifié),
+  // on garde les deux envois.
   // ------------------------------------------------------------
   window.dataLayer = window.dataLayer || [];
+  const path = location.pathname;
+  const PAGE_TYPE = path === '/' ? 'home'
+    : path.startsWith('/diagnostic-de-croissance') ? 'diagnostic'
+    : path.startsWith('/services/') && path !== '/services/' ? 'pillar'
+    : path.startsWith('/cas-clients/') && path !== '/cas-clients/' ? 'case'
+    : path.startsWith('/blog/') && path !== '/blog/' ? 'article'
+    : path.startsWith('/contact') ? 'contact'
+    : 'page';
+
   function track(name, params) {
+    const p = Object.assign({ page_type: PAGE_TYPE }, params || {});
     try {
-      window.dataLayer.push(Object.assign({ event: name }, params || {}));
-      if (typeof window.gtag === 'function') window.gtag('event', name, params || {});
+      window.dataLayer.push(Object.assign({ event: name }, p));
+      if (typeof window.gtag === 'function') window.gtag('event', name, p);
     } catch (e) { /* l'analytics ne doit jamais casser la page */ }
+  }
+
+  // ------------------------------------------------------------
+  // Consentement (Consent Mode v2 : défaut « refusé » posé dans le <head>)
+  // ------------------------------------------------------------
+  const box = document.getElementById('consent');
+  if (box) {
+    let saved = null;
+    try { saved = localStorage.getItem('obm_consent'); } catch (e) { /* stockage indisponible */ }
+    if (!saved) box.hidden = false;
+    box.addEventListener('click', (e) => {
+      const choice = e.target.getAttribute('data-consent');
+      if (!choice) return;
+      try { localStorage.setItem('obm_consent', choice); } catch (err) { /* stockage indisponible */ }
+      if (choice === 'granted' && typeof window.gtag === 'function') {
+        window.gtag('consent', 'update', { ad_storage: 'granted', ad_user_data: 'granted', ad_personalization: 'granted', analytics_storage: 'granted' });
+      }
+      if (choice === 'denied' && typeof window.gtag === 'function') {
+        window.gtag('consent', 'update', { ad_storage: 'denied', ad_user_data: 'denied', ad_personalization: 'denied', analytics_storage: 'denied' });
+      }
+      window.dataLayer.push({ event: 'consent_update', consent: choice });
+      box.hidden = true;
+    });
+    document.addEventListener('click', (e) => {
+      if (e.target.closest('[data-open-consent]')) { e.preventDefault(); box.hidden = false; }
+    });
   }
 
   // ------------------------------------------------------------
@@ -68,10 +106,26 @@
     const a = e.target.closest('a');
     if (!a) return;
     const href = a.getAttribute('href') || '';
-    if (href.includes('wa.me')) track('whatsapp_click', { location: a.dataset.loc || 'page' });
-    else if (href.includes('calendly.com')) track('booking_click', { location: a.dataset.loc || 'page' });
-    else if (href.startsWith('tel:')) track('phone_click', { location: a.dataset.loc || 'page' });
-    else if (a.classList.contains('work__link')) track('case_click', { case: a.dataset.case || '' });
+    const p = { location: a.dataset.loc || 'page', cta_label: (a.textContent || '').trim().slice(0, 80) };
+    if (href.includes('wa.me')) track('whatsapp_click', p);
+    else if (href.includes('calendly.com') || href.startsWith('/diagnostic-de-croissance')) track('booking_click', p);
+    else if (href.startsWith('tel:')) track('phone_click', p);
+    else if (a.dataset.case) track('case_click', Object.assign(p, { case: a.dataset.case }));
+  });
+
+  // ------------------------------------------------------------
+  // Réservations Calendly (widget intégré sur /diagnostic-de-croissance/)
+  // ------------------------------------------------------------
+  let bookingViewed = false; // Calendly envoie event_type_viewed plusieurs fois
+  addEventListener('message', (e) => {
+    if (e.origin !== 'https://calendly.com' || !e.data || !e.data.event) return;
+    if (e.data.event === 'calendly.event_type_viewed' && !bookingViewed) {
+      bookingViewed = true;
+      track('booking_view', { tool: 'calendly' });
+    }
+    if (e.data.event === 'calendly.event_scheduled') {
+      track('booking_completed', { tool: 'calendly', offer: 'diagnostic_croissance' });
+    }
   });
 
   // ------------------------------------------------------------
@@ -93,6 +147,10 @@
     }
     form.addEventListener('submit', async (e) => {
       e.preventDefault();
+      const d = new FormData(form);
+      const get = (k) => (d.get(k) || '').toString().trim();
+      // Champ piège : rempli seulement par les robots. On n'envoie rien.
+      if (get('_honey')) { form.hidden = true; if (ok) ok.hidden = false; return; }
       if (!form.checkValidity()) { form.reportValidity(); return; }
       const btn = form.querySelector('button[type="submit"]');
       const label = btn ? btn.querySelector('span') : null;
@@ -100,12 +158,11 @@
       if (btn) btn.disabled = true;
       if (label) label.textContent = 'Envoi en cours…';
 
-      const d = new FormData(form);
-      const get = (k) => (d.get(k) || '').toString().trim();
       const notes = [
         `[${form.dataset.lead}]`,
         get('Entreprise') && `> Entreprise\n  ${get('Entreprise')}`,
         get('Besoin') && `> Besoin\n  ${get('Besoin')}`,
+        get('Demarrage') && `> Demarrage souhaite\n  ${get('Demarrage')}`,
         get('Message') && `> Message\n  ${get('Message')}`,
       ].filter(Boolean).join('\n\n');
 
@@ -124,7 +181,7 @@
         });
         if (!res.ok) throw new Error('LeadFlow ' + res.status);
         const result = await res.json().catch(() => ({}));
-        track('form_submitted', { form_source: form.dataset.lead, besoin: get('Besoin'), duplicate: !!result.duplicate });
+        track('form_submitted', { form_source: form.dataset.lead, besoin: get('Besoin'), demarrage: get('Demarrage'), duplicate: !!result.duplicate });
         form.hidden = true;
         if (ok) { ok.hidden = false; ok.focus(); }
       } catch (err) {
@@ -139,7 +196,4 @@
       }
     });
   });
-
-  const y = document.getElementById('year');
-  if (y) y.textContent = new Date().getFullYear();
 })();

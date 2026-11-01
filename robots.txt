@@ -1,12 +1,10 @@
 # ============================================================
-# OBM SYSTEM — robots.txt
+# OBM System · robots.txt
 # ============================================================
 
 # --- Crawlers généraux ---
 User-agent: *
 Allow: /
-Disallow: /docs/
-Disallow: /deploy/
 
 # --- Crawlers IA : autorisés (visibilité dans ChatGPT, Claude, Perplexity, etc.) ---
 User-agent: GPTBot

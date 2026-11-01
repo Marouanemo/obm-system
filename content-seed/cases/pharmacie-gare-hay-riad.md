@@ -15,6 +15,9 @@ services:
   - "Community management"
   - "Publicité Meta et Google"
   - "Référencement local"
+next:
+  slug: "eleganza"
+  title: "Éléganza"
 published: true
 ---
 

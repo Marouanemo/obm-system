@@ -1,29 +1,40 @@
 ---
 title: "Cerafas Logistics"
+headline: "Cerafas Logistics : anatomie d’une plateforme logistique"
 date: "2026-10-11"
 category: "Plateforme logistique"
 location: "Maroc, Afrique et Europe"
-excerpt: "Une plateforme qui met en relation des chargeurs et des transporteurs vérifiés, en français, en arabe et en anglais."
+excerpt: "Une plateforme qui relie chargeurs et transporteurs vérifiés, au Maroc, en Afrique et en Europe. Objectif : qu’une entreprise confie sa marchandise à un transporteur qu’elle ne connaît pas, en toute confiance."
 image: "/assets/img/realisations/cerafas-desktop.webp"
 mobileImage: "/assets/img/realisations/cerafas-mobile.webp"
 site: "https://cerafas.ma/fr"
 services:
-  - "Conception de la plateforme"
+  - "Conception"
   - "Développement"
   - "Référencement naturel"
+decisions:
+  - fonction: "Confiance"
+    titre: "Aucun transporteur visible sans trois pièces vérifiées."
+    texte: "Registre de commerce, licence de transport et attestation d’assurance sont contrôlés avant toute mise en ligne. Le chargeur confie sa marchandise en confiance."
+    spec: "RC · LIC · ASS : 3/3 vérifiées"
+  - fonction: "Parcours"
+    titre: "Deux publics, deux portes d’entrée dès l’accueil."
+    texte: "« J’ai une marchandise à transporter » ou « Je suis transporteur » : chacun trouve son chemin en un geste."
+    spec: "2 parcours : chargeur · transporteur"
+  - fonction: "Marché"
+    titre: "L’arabe natif, lu de droite à gauche."
+    texte: "Aux côtés du français et de l’anglais, pour une plateforme crédible sur tout le marché."
+    spec: "<html lang=\"ar\" dir=\"rtl\">"
+  - fonction: "Visibilité"
+    titre: "Une page par corridor de transport."
+    texte: "Chaque trajet devient une page trouvable sur Google."
+    spec: "/fr/corridors/casablanca-tanger"
+next:
+  slug: "nassihacom"
+  title: "Nassihacom"
 published: true
 ---
 
-## Le projet
+Un site se juge aux décisions qui le font vendre. Pour Cerafas Logistics, chaque choix de conception sert le même objectif : rendre la confiance visible, dès la première page.
 
-Cerafas Logistics met en relation des entreprises qui ont des marchandises à expédier (les chargeurs) et des transporteurs, au Maroc, en Afrique et en Europe. Nous avons conçu et développé la plateforme, et travaillé son référencement.
-
-## Les choix qui comptent
-
-**La confiance d’abord.** Aucun transporteur n’est visible sur la plateforme tant que trois documents n’ont pas été vérifiés : le registre de commerce, la licence de transport et l’attestation d’assurance. Le site refuse donc des transporteurs, volontairement. C’est ce qui permet au chargeur de confier sa marchandise sans crainte.
-
-**Deux publics, deux portes d’entrée.** Dès l’accueil, le visiteur choisit : « J’ai une marchandise à transporter » ou « Je suis transporteur ». Chacun arrive ensuite sur un parcours qui lui correspond.
-
-**Trois langues, dont l’arabe.** La plateforme est en français, en anglais et en arabe, avec un affichage de droite à gauche pour l’arabe.
-
-**Une page par trajet.** Chaque corridor de transport a sa propre page. Une entreprise qui cherche un transporteur entre deux villes peut tomber directement sur la bonne page depuis Google.
+Le détail des leviers mobilisés : [création de sites sur mesure](/services/creation-site-web/) et [référencement Google](/services/seo-aeo/).
