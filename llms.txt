@@ -10,10 +10,13 @@
 ## Les couches
 - Stratégie : [diagnostic de croissance](https://obm-system.com/diagnostic-de-croissance/), audit, feuille de route, copywriting
 - Conception : [création de sites](https://obm-system.com/services/creation-site-web/), [e-commerce](https://obm-system.com/services/e-commerce/)
-- Acquisition : [media buying Meta, Google et TikTok Ads](https://obm-system.com/services/publicite-meta-google-ads/)
+- Acquisition : [media buying Meta, Google et TikTok Ads](https://obm-system.com/services/publicite-meta-google-ads/), [Google Ads](https://obm-system.com/services/google-ads/)
 - Mesure : [tracking server-side, GA4, API Conversions Meta](https://obm-system.com/services/tracking-server-side/)
 - Visibilité : [SEO et AEO](https://obm-system.com/services/seo-aeo/)
 - Activation : [réseaux sociaux](https://obm-system.com/services/reseaux-sociaux/), [IA et automatisation](https://obm-system.com/services/ia-automatisation/)
+
+## Casablanca
+- [Agence marketing digital à Casablanca](https://obm-system.com/agence-marketing-digital-casablanca/) et [création de site web à Casablanca](https://obm-system.com/services/creation-site-web/casablanca/) : rendez-vous sur place, suivi à distance depuis Rabat.
 
 ## Méthode
 1. Diagnostic de croissance (30 min)
@@ -31,6 +34,18 @@
 - [Éléganza](https://obm-system.com/cas-clients/eleganza/) : e-commerce bilingue (Canada).
 
 ## Journal (analyses)
+- [Prix d’un site web au Maroc : ce qui fait varier le devis](https://obm-system.com/blog/prix-site-web-maroc/)
+- [Prix d’un site e-commerce au Maroc : ce qui fait varier le budget](https://obm-system.com/blog/prix-site-e-commerce-maroc/)
+- [Prix de la publicité Facebook et Instagram au Maroc](https://obm-system.com/blog/prix-publicite-facebook-maroc/)
+- [Google Ads au Maroc : coût par clic et budget](https://obm-system.com/blog/prix-google-ads-maroc/)
+- [Prix du référencement naturel au Maroc](https://obm-system.com/blog/prix-referencement-naturel-maroc/)
+- [Tarif d’un community manager au Maroc : freelance ou agence ?](https://obm-system.com/blog/tarif-community-manager-maroc/)
+- [WhatsApp Business API : prix et mise en place au Maroc](https://obm-system.com/blog/whatsapp-business-api-prix/)
+- [CRM au Maroc : prix et choix pour une PME](https://obm-system.com/blog/crm-maroc-prix/)
+- [Site sur mesure, WordPress ou Wix : que choisir au Maroc ?](https://obm-system.com/blog/site-sur-mesure-wordpress-wix/)
+- [Shopify ou boutique sur mesure : que choisir au Maroc ?](https://obm-system.com/blog/shopify-ou-sur-mesure-maroc/)
+- [Paiement en ligne au Maroc : les options pour une boutique en ligne](https://obm-system.com/blog/paiement-en-ligne-maroc/)
+- [Référencement IA : être cité par ChatGPT, Perplexity et Google](https://obm-system.com/blog/referencement-ia-chatgpt/)
 - [Safari ITP : votre serveur de tracking survit-il à 7 jours ?](https://obm-system.com/blog/safari-itp-tracking-server-side/)
 - [Meta, GA4, la caisse : quel chiffre piloter ?](https://obm-system.com/blog/meta-ga4-caisse-quel-chiffre-piloter/)
 - [Google Analytics : 6 réglages à contrôler avant d’analyser](https://obm-system.com/blog/ga4-6-reglages/)

@@ -2,7 +2,7 @@
 // Static HTML generator
 // Reads markdown content + frontmatter, renders pages into /public/.
 // Also regenerates the blog/cas-clients index pages and sitemap.xml.
-// Gabarit commun : ./layout.js (aussi utilisé par scripts/build-static.js)
+// Gabarit commun : ./layout.js
 // ============================================================
 const fs = require('fs/promises');
 const path = require('path');
@@ -49,6 +49,20 @@ const AUTHOR_BOX = `<aside class="author" aria-label="Auteur">
           <p>Fondateur d’OBM System, agence de conseil 360° à Rabat. Il pilote chaque projet, du diagnostic de croissance au pilotage des résultats.</p>
           <p><a class="link" href="https://www.linkedin.com/in/oualidbenamara/" target="_blank" rel="noopener">Profil LinkedIn</a></p>
         </aside>`;
+
+// Liens du cocon sémantique vers les 7 pages services (texte de la v8)
+const SERVICES_BLOG = `<section class="section section--rule" aria-labelledby="j7-t">
+      <div class="wrap narrow prose">
+        <h2 class="h2" id="j7-t" style="margin-bottom:1.5rem">Les sept services derrière ces articles</h2>
+        <ul class="checklist"><li><a href="/services/creation-site-web/">un site codé sur mesure</a> : Sites vitrines, e-commerce et plateformes codés sur mesure, livrés avec un back-office simple.</li><li><a href="/services/e-commerce/">vendre en ligne au Maroc</a> : Catalogue, paiement en ligne ou à la livraison, retrait en magasin et suivi des ventes.</li><li><a href="/services/publicite-meta-google-ads/">la publicité en ligne reliée aux ventes</a> : Campagnes Facebook, Instagram et Google pilotées par les demandes et les ventes réelles.</li><li><a href="/services/tracking-server-side/">GA4 et API Conversions bien configurés</a> : GTM, GA4 et API Conversions de Meta, avec un serveur de mesure sur votre domaine.</li><li><a href="/services/seo-aeo/">votre visibilité sur Google et les IA</a> : Pages par intention de recherche, fiche Google, données structurées et présence dans les moteurs IA.</li><li><a href="/services/reseaux-sociaux/">l’animation de vos réseaux</a> : Ligne éditoriale, création de contenus, publication et modération, reliées à vos objectifs.</li><li><a href="/services/ia-automatisation/">le suivi automatique des demandes</a> : Relances WhatsApp, CRM connecté et assistants IA, pour qu’aucune demande ne reste sans suite.</li></ul>
+      </div>
+    </section>`;
+const SERVICES_CASES = `<section class="section section--rule" aria-labelledby="c7-t">
+      <div class="wrap narrow prose">
+        <h2 class="h2" id="c7-t" style="margin-bottom:1.5rem">Les sept services mobilisés dans ces projets</h2>
+        <ul class="checklist"><li><a href="/services/creation-site-web/">nos créations de sites web</a> : Sites vitrines, e-commerce et plateformes codés sur mesure, livrés avec un back-office simple.</li><li><a href="/services/e-commerce/">nos boutiques en ligne</a> : Catalogue, paiement en ligne ou à la livraison, retrait en magasin et suivi des ventes.</li><li><a href="/services/publicite-meta-google-ads/">nos campagnes publicitaires</a> : Campagnes Facebook, Instagram et Google pilotées par les demandes et les ventes réelles.</li><li><a href="/services/tracking-server-side/">le suivi des conversions côté serveur</a> : GTM, GA4 et API Conversions de Meta, avec un serveur de mesure sur votre domaine.</li><li><a href="/services/seo-aeo/">le référencement de votre site</a> : Pages par intention de recherche, fiche Google, données structurées et présence dans les moteurs IA.</li><li><a href="/services/reseaux-sociaux/">nos community managers</a> : Ligne éditoriale, création de contenus, publication et modération, reliées à vos objectifs.</li><li><a href="/services/ia-automatisation/">nos automatisations WhatsApp et CRM</a> : Relances WhatsApp, CRM connecté et assistants IA, pour qu’aucune demande ne reste sans suite.</li></ul>
+      </div>
+    </section>`;
 
 // ------------------------------------------------------------
 // Article du Journal
@@ -237,6 +251,7 @@ function renderBlogIndexHtml(posts, pageSeo) {
 ${cards}
       </div>
     </section>
+    ${SERVICES_BLOG}
     ${L.ctaBand({ loc: 'blog-band' })}
 `,
   });
@@ -279,6 +294,7 @@ function renderCasesIndexHtml(cases, pageSeo) {
 ${cards}
       </div>
     </section>
+    ${SERVICES_CASES}
     ${L.ctaBand({ loc: 'cases-band' })}
 `,
   });

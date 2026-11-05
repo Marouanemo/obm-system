@@ -7,8 +7,9 @@
 #   bash deploy/publier.sh mon-hote
 #
 # Garde-fous :
-#   - les articles et réglages du back-office (content/blog, content/pages) ne sont JAMAIS
-#     écrasés : ils sont édités en ligne. Pour les récupérer : bash deploy/recuperer-contenus.sh
+#   - les articles et réglages du back-office (content/blog, content/pages) ne sont pas écrasés,
+#     sauf import explicite (IMPORT_CONTENUS=1) : ils sont édités en ligne.
+#     Pour les récupérer : bash deploy/recuperer-contenus.sh
 #   - aucune suppression dans la racine web, /assets/uploads/ n'est pas touché
 #   - la config nginx n'est pas modifiée ici (voir deploy/nginx.conf)
 # ============================================================
@@ -30,7 +31,7 @@ ssh "$HOST" "tar czf /root/backup-obm-$STAMP.tgz --exclude=assets/uploads $PUBLI
 
 echo "==> 2/4 Site statique (sans suppression)"
 tar czf - index.html 404.html favicon.ico e48c30133e89edf66822bbebc5640e7b.txt site-reseaux services methode contact \
-  diagnostic-de-croissance a-propos mentions-legales confidentialite assets .well-known robots.txt \
+  agence-marketing-digital-casablanca diagnostic-de-croissance a-propos mentions-legales confidentialite assets .well-known robots.txt \
   manifest.webmanifest llms.txt llms-full.txt humans.txt \
   | ssh "$HOST" "tar xzf - -C $PUBLIC"
 
@@ -38,6 +39,13 @@ echo "==> 3/4 Back-office"
 scp -q admin/services/layout.js admin/services/org.json admin/services/generator.js admin/services/content.js admin/services/pages.js admin/services/landing-seo.js "$HOST:$ADMIN/services/"
 scp -q admin/views/*.ejs "$HOST:$ADMIN/views/"
 scp -q content-seed/cases/*.md "$HOST:$ADMIN/content/cases/"
+if [ "${IMPORT_CONTENUS:-0}" = 1 ]; then
+  # Import exceptionnel (nouvelle version du site) : remplace les articles et réglages du serveur par content-seed/.
+  # Ne jamais l'utiliser sans avoir lancé deploy/recuperer-contenus.sh juste avant.
+  echo "    Import des articles et réglages de content-seed/"
+  scp -q content-seed/blog/*.md "$HOST:$ADMIN/content/blog/"
+  scp -q content-seed/pages/*.json "$HOST:$ADMIN/content/pages/"
+fi
 
 echo "==> 4/4 Génération (articles, réalisations, sitemap, flux RSS)"
 CACHE_V=$(grep -o "CACHE_V || '[^']*'" admin/services/layout.js | cut -d"'" -f2)

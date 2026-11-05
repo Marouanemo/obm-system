@@ -43,3 +43,5 @@ Nous avons pris en charge l’ensemble du lancement digital, de la boutique aux 
 **Le conseil avant l’achat.** La pharmacie conseille sur WhatsApp avant la commande. Le client n’achète pas seul un produit dont il n’est pas sûr, et la pharmacie garde son rôle de conseil.
 
 **Un seul message partout.** La boutique, la fiche Google et les réseaux sociaux ont été conçus ensemble, par la même équipe. Ils présentent la pharmacie de la même façon, et les publications peuvent renvoyer directement vers les produits de la boutique.
+
+Le détail des leviers mobilisés : [création de site e-commerce](/services/e-commerce/), [publicité Facebook et Instagram](/services/publicite-meta-google-ads/), [référencement local et fiche Google](/services/seo-aeo/) et [community management à Rabat](/services/reseaux-sociaux/).

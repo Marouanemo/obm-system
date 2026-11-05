@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
-"""Contrôle du site en ligne par rapport au paquet v7.
-Usage (depuis le dossier obm-system-v7/) : python3 serveur/verifier-en-ligne.py   [ou : python3 serveur/verifier-en-ligne.py chemin/vers/site]
+"""Contrôle du site en ligne par rapport au paquet v8.
+Usage (depuis le dossier obm-system-v8/) : python3 serveur/verifier-en-ligne.py /root/obm-v8-reference/site
+(copie datée écrite par deployer-v8.sh ; sans argument : le dossier site/ du paquet, dates non remplacées)
 Sortie : un tableau OK / !! par contrôle, puis la liste des pages qui diffèrent du paquet."""
 import hashlib
 import json
@@ -38,37 +39,92 @@ def check(label, ok, detail=''):
 
 
 # 1. Pages HTML
-diff_pages, same = [], 0
+SIGN_OK = 'Designed &amp; Engineered by Webotic'
+SIGN_KO = 'Conçu et développé par OBM System'
+diff_pages, same, signed, status = [], 0, 0, {}
 for f in sorted(PKG.rglob('index.html')):
     rel = f.relative_to(PKG).as_posix()
     url = BASE + '/' + rel[:-len('index.html')]
     body, code = get(url)
     if code != '200':
-        check(f'HTTP {url}', False, code)
+        status[rel] = (False, f'HTTP {code}')
         continue
+    if SIGN_OK in body and SIGN_KO not in body:
+        signed += 1
     expected = f.read_text(encoding='utf-8')
     if norm(body) == norm(expected):
         same += 1
+        status[rel] = (True, 'identique au paquet')
         continue
-    essentials = all(s in body for s in ['site.css?v=7', 'site.js?v=7', 'G-JGDV0VS9B9'])
+    essentials = bool(re.search(r'site(\.[0-9a-f]{6,})?\.css', body) and re.search(r'site(\.[0-9a-f]{6,})?\.js', body)) and 'G-JGDV0VS9B9' in body
+    if '__DATE_' in body: essentials = False
     gtm = 'GTM-TTPCSLV9' in body
-    diff_pages.append((rel, 'gabarit back-office' if BACKOFFICE.match(rel) else 'DIFFÉRENT DU PAQUET', essentials, gtm))
-check('Pages identiques au paquet', same > 0, f'{same} pages identiques, {len(diff_pages)} différentes')
-for rel, kind, essentials, gtm in diff_pages:
-    check(f'  {rel} ({kind})', essentials and not gtm and kind != 'DIFFÉRENT DU PAQUET',
-          ('v7 ok' if essentials else 'v7 absente') + (' · GTM vide encore présent' if gtm else ''))
+    kind = 'gabarit back-office' if BACKOFFICE.match(rel) else 'DIFFÉRENT DU PAQUET'
+    diff_pages.append(rel)
+    status[rel] = (essentials and not gtm and kind != 'DIFFÉRENT DU PAQUET',
+                   kind + ' · ' + ('v8 ok' if essentials else 'v8 absente ou date non remplacée') + (' · GTM vide encore présent' if gtm else ''))
+total = len(status)
+# Un contrôle par page : le total reste fixe quel que soit l'état du site
+for rel, (ok_, detail) in status.items():
+    check(f'Page /{rel[:-len("index.html")]}', ok_, detail)
+check('Crédit Webotic sur toutes les pages', signed == total, f'{signed}/{total}')
+home, _ = get(BASE + '/')
+want = re.search(r'<meta name="description" content="([^"]*)"', (PKG / 'index.html').read_text(encoding='utf-8')).group(1)
+got = re.search(r'<meta name="description" content="([^"]*)"', home)
+want_t = re.search(r'<title>([^<]*)</title>', (PKG / 'index.html').read_text(encoding='utf-8')).group(1)
+got_t = re.search(r'<title>([^<]*)</title>', home)
+check('Title de l’accueil v8', got_t is not None and got_t.group(1) == want_t, got_t.group(1) if got_t else '')
+check('Description de l’accueil (153 caractères)', got is not None and got.group(1) == want,
+      'ancienne description du back-office' if got and got.group(1) != want else '')
 
-# 2. Fichiers statiques
-for path in ['assets/css/site.css', 'assets/js/site.js', 'blog/feed.xml', 'llms.txt', 'sitemap.xml',
+# 2. Fichiers statiques (copiés tels quels)
+for path in ['assets/css/site.css', 'assets/js/site.js', 'llms.txt',
              'e48c30133e89edf66822bbebc5640e7b.txt', '.well-known/security.txt', 'manifest.webmanifest']:
-    body, code = get(f'{BASE}/{path}?v=7' if path.startswith('assets/') else f'{BASE}/{path}')
+    if path.startswith('assets/'):   # URL réelle lue sur l'accueil (?v=7, ou nom haché après l'étape 5)
+        m = re.search(r'(?:href|src)="(/assets/(?:css|js)/site[^"]*\.' + path.rsplit('.', 1)[1] + r'[^"]*)"', home)
+        url = BASE + (m.group(1) if m else '/' + path)
+        body, code = get(url)
+        hashed = m is not None and '?v=' not in m.group(1)
+        local = (PKG / path).read_text(encoding='utf-8')
+        check(f'Fichier {path}', code == '200' and (hashed or norm(body) == norm(local)), code + (' · nom haché (étape 5)' if hashed else ''))
+        continue
+    body, code = get(f'{BASE}/{path}')
     local = (PKG / path).read_text(encoding='utf-8')
     check(f'Fichier {path}', code == '200' and norm(body) == norm(local), code)
-js, _ = get(f'{BASE}/assets/js/site.js?v=7')
+
+# 2 bis. Fichiers générés par le back-office : contenu attendu, pas l'identité au paquet
+import xml.etree.ElementTree as ET
+NS = {'s': 'http://www.sitemaps.org/schemas/sitemap/0.9'}
+body, code = get(f'{BASE}/sitemap.xml')
+try:
+    live_locs = [e.text.strip() for e in ET.fromstring(body.encode()).findall('.//s:loc', NS)]
+    live_mods = [e.text.strip() for e in ET.fromstring(body.encode()).findall('.//s:lastmod', NS)]
+except ET.ParseError:
+    live_locs, live_mods = [], []
+pkg_locs = [e.text.strip() for e in ET.parse(PKG / 'sitemap.xml').getroot().findall('.//s:loc', NS)]
+# Le back-office ajoute les pages créées en phase 6 : toutes les URL du paquet doivent être en ligne, les nouvelles sont admises.
+check('sitemap.xml : toutes les URL du paquet présentes', code == '200' and set(pkg_locs) <= set(live_locs),
+      f'{len(live_locs)} URL en ligne dont {len(set(live_locs) - set(pkg_locs))} nouvelles, {len(set(pkg_locs) - set(live_locs))} manquantes')
+import datetime
+today = datetime.date.today().isoformat()
+check('sitemap.xml : une date lastmod par URL, aucune dans le futur',
+      len(live_mods) == len(live_locs) and all(m[:10] <= today for m in live_mods),
+      f'{len(live_mods)} dates pour {len(live_locs)} URL')
+body, code = get(f'{BASE}/blog/feed.xml')
+try:
+    items = ET.fromstring(body.encode()).findall('.//item')
+    links = sorted(i.findtext('link', '').strip() for i in items)
+except ET.ParseError:
+    items, links = [], []
+pkg_links = sorted(i.findtext('link', '').strip() for i in ET.parse(PKG / 'blog/feed.xml').getroot().findall('.//item'))
+check('blog/feed.xml : XML valide et tous les articles du paquet', code == '200' and set(pkg_links) <= set(links), f'{len(items)} articles en ligne')
+_m = re.search(r'src="(/assets/js/site[^"]*)"', home)
+js, _ = get(BASE + (_m.group(1) if _m else '/assets/js/site.js'))
 check('Aucune clé API dans site.js', 'apikey' not in js.lower() and '1b5bb9' not in js)
 
 # 3. Images de partage
-for img in ['assets/img/og/og-cerafas.jpg', 'assets/uploads/og-ga4-6-reglages-mvzabpln.jpg']:
+NEW_OG = sorted(p.relative_to(PKG).as_posix() for p in (PKG / 'assets/img/og').glob('og-*.jpg'))
+for img in NEW_OG + ['assets/uploads/og-ga4-6-reglages-mvzabpln.jpg']:
     _, code = get(f'{BASE}/{img}')
     check(f'Image {img}', code == '200', code)
 

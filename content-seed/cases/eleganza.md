@@ -39,3 +39,5 @@ Nous avons pris en charge la boutique, puis le contenu, les réseaux sociaux, la
 **Les avis visibles.** La boutique affiche une note de 4,7 sur 5, issue de plus de 6 000 avis clients. Pour un nouveau visiteur, c’est souvent ce qui décide.
 
 **Deux langues, une seule boutique.** Le client choisit sa langue, et retrouve les mêmes produits, les mêmes promotions et le même service.
+
+Le détail des leviers mobilisés : [boutique en ligne sur mesure](/services/e-commerce/), [campagnes Meta pilotées par les ventes](/services/publicite-meta-google-ads/), [référencement naturel d’une boutique en ligne](/services/seo-aeo/) et [contenus et gestion des réseaux sociaux](/services/reseaux-sociaux/).
