@@ -65,7 +65,7 @@ function applySeoToHtml(html, seo) {
 
   const ogTitle = seo.ogTitle || seo.title;
   const ogDescription = seo.ogDescription || description;
-  const ogImage = absUrl(seo.ogImage || '/assets/img/og-cover.svg');
+  const ogImage = absUrl(seo.ogImage || '/assets/img/og-obm-system.png');
 
   const twTitle = seo.twitterTitle || ogTitle;
   const twDesc = seo.twitterDescription || ogDescription;
@@ -74,7 +74,9 @@ function applySeoToHtml(html, seo) {
   let out = html;
   out = replaceTitleTag(out, seo.title);
   out = replaceMetaName(out, 'description', description);
-  out = replaceMetaName(out, 'keywords', seo.keywords || '');
+  out = seo.keywords
+    ? replaceMetaName(out, 'keywords', seo.keywords)
+    : out.replace(/\s*<meta\s+name="keywords"\s+content="[^"]*"\s*\/?>/i, '');
   out = replaceMetaName(out, 'robots', robots);
 
   out = replaceMetaProperty(out, 'og:title', ogTitle);

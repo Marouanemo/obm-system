@@ -1,59 +1,239 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
-        xmlns:image="http://www.google.com/schemas/sitemap-image/1.1"
-        xmlns:xhtml="http://www.w3.org/1999/xhtml">
-
+        xmlns:image="http://www.google.com/schemas/sitemap-image/1.1">
   <url>
     <loc>https://obm-system.com/</loc>
-    <lastmod>2026-05-18</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>1.0</priority>
-    <image:image>
-      <image:loc>https://obm-system.com/assets/img/og-cover.svg</image:loc>
-      <image:title>OBM SYSTEM — Système d'acquisition pour cabinets dentaires au Maroc</image:title>
-    </image:image>
+    <lastmod>2026-11-05</lastmod>
+    <image:image><image:loc>https://obm-system.com/assets/img/og-obm-system.png</image:loc></image:image>
   </url>
-
+  <url>
+    <loc>https://obm-system.com/diagnostic-de-croissance/</loc>
+    <lastmod>2026-11-05</lastmod>
+    
+  </url>
+  <url>
+    <loc>https://obm-system.com/services/</loc>
+    <lastmod>2026-11-05</lastmod>
+    
+  </url>
+  <url>
+    <loc>https://obm-system.com/services/creation-site-web/</loc>
+    <lastmod>2026-11-05</lastmod>
+    
+  </url>
+  <url>
+    <loc>https://obm-system.com/services/e-commerce/</loc>
+    <lastmod>2026-11-05</lastmod>
+    
+  </url>
+  <url>
+    <loc>https://obm-system.com/services/creation-site-web/casablanca/</loc>
+    <lastmod>2026-11-05</lastmod>
+    
+  </url>
+  <url>
+    <loc>https://obm-system.com/services/publicite-meta-google-ads/</loc>
+    <lastmod>2026-11-05</lastmod>
+    
+  </url>
+  <url>
+    <loc>https://obm-system.com/services/google-ads/</loc>
+    <lastmod>2026-11-05</lastmod>
+    
+  </url>
+  <url>
+    <loc>https://obm-system.com/services/tracking-server-side/</loc>
+    <lastmod>2026-11-05</lastmod>
+    
+  </url>
+  <url>
+    <loc>https://obm-system.com/services/seo-aeo/</loc>
+    <lastmod>2026-11-05</lastmod>
+    
+  </url>
+  <url>
+    <loc>https://obm-system.com/services/reseaux-sociaux/</loc>
+    <lastmod>2026-11-05</lastmod>
+    
+  </url>
+  <url>
+    <loc>https://obm-system.com/services/ia-automatisation/</loc>
+    <lastmod>2026-11-05</lastmod>
+    
+  </url>
+  <url>
+    <loc>https://obm-system.com/site-reseaux/</loc>
+    <lastmod>2026-11-05</lastmod>
+    
+  </url>
+  <url>
+    <loc>https://obm-system.com/agence-marketing-digital-casablanca/</loc>
+    <lastmod>2026-11-05</lastmod>
+    
+  </url>
+  <url>
+    <loc>https://obm-system.com/methode/</loc>
+    <lastmod>2026-11-05</lastmod>
+    
+  </url>
+  <url>
+    <loc>https://obm-system.com/a-propos/</loc>
+    <lastmod>2026-11-05</lastmod>
+    
+  </url>
+  <url>
+    <loc>https://obm-system.com/contact/</loc>
+    <lastmod>2026-11-05</lastmod>
+    
+  </url>
+  <url>
+    <loc>https://obm-system.com/mentions-legales/</loc>
+    <lastmod>2026-11-05</lastmod>
+    
+  </url>
+  <url>
+    <loc>https://obm-system.com/confidentialite/</loc>
+    <lastmod>2026-11-05</lastmod>
+    
+  </url>
   <url>
     <loc>https://obm-system.com/cas-clients/</loc>
-    <lastmod>2026-05-18</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.8</priority>
+    <lastmod>2026-11-02</lastmod>
+    
   </url>
-
   <url>
-    <loc>https://obm-system.com/cas-clients/cabinet-implants-casablanca/</loc>
-    <lastmod>2026-04-22</lastmod>
-    <changefreq>yearly</changefreq>
-    <priority>0.7</priority>
+    <loc>https://obm-system.com/cas-clients/pharmacie-gare-hay-riad/</loc>
+    <lastmod>2026-11-02</lastmod>
+    <image:image><image:loc>https://obm-system.com/assets/img/og/og-pharmacie.jpg</image:loc></image:image>
   </url>
-
   <url>
-    <loc>https://obm-system.com/cas-clients/cabinet-facettes-rabat/</loc>
-    <lastmod>2026-05-02</lastmod>
-    <changefreq>yearly</changefreq>
-    <priority>0.7</priority>
+    <loc>https://obm-system.com/cas-clients/cerafas-logistics/</loc>
+    <lastmod>2026-11-02</lastmod>
+    <image:image><image:loc>https://obm-system.com/assets/img/og/og-cerafas.jpg</image:loc></image:image>
   </url>
-
+  <url>
+    <loc>https://obm-system.com/cas-clients/eleganza/</loc>
+    <lastmod>2026-11-02</lastmod>
+    <image:image><image:loc>https://obm-system.com/assets/img/og/og-eleganza.jpg</image:loc></image:image>
+  </url>
+  <url>
+    <loc>https://obm-system.com/cas-clients/la7dafan/</loc>
+    <lastmod>2026-11-02</lastmod>
+    <image:image><image:loc>https://obm-system.com/assets/img/og/og-la7dafan.jpg</image:loc></image:image>
+  </url>
+  <url>
+    <loc>https://obm-system.com/cas-clients/nassihacom/</loc>
+    <lastmod>2026-11-02</lastmod>
+    <image:image><image:loc>https://obm-system.com/assets/img/og/og-nassihacom.jpg</image:loc></image:image>
+  </url>
   <url>
     <loc>https://obm-system.com/blog/</loc>
-    <lastmod>2026-05-18</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.8</priority>
+    <lastmod>2026-11-05</lastmod>
+    
   </url>
-
   <url>
-    <loc>https://obm-system.com/blog/meta-ads-cabinets-dentaires-erreurs/</loc>
-    <lastmod>2026-05-15</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.7</priority>
+    <loc>https://obm-system.com/blog/prix-site-web-maroc/</loc>
+    <lastmod>2026-11-05</lastmod>
+    <image:image><image:loc>https://obm-system.com/assets/img/og/og-prix-site-web-maroc.jpg</image:loc></image:image>
   </url>
-
   <url>
-    <loc>https://obm-system.com/blog/whatsapp-automation-cabinets-dentaires/</loc>
-    <lastmod>2026-05-08</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.7</priority>
+    <loc>https://obm-system.com/blog/prix-site-e-commerce-maroc/</loc>
+    <lastmod>2026-11-05</lastmod>
+    <image:image><image:loc>https://obm-system.com/assets/img/og/og-prix-site-e-commerce-maroc.jpg</image:loc></image:image>
   </url>
-
+  <url>
+    <loc>https://obm-system.com/blog/prix-publicite-facebook-maroc/</loc>
+    <lastmod>2026-11-05</lastmod>
+    <image:image><image:loc>https://obm-system.com/assets/img/og/og-prix-publicite-facebook-maroc.jpg</image:loc></image:image>
+  </url>
+  <url>
+    <loc>https://obm-system.com/blog/prix-google-ads-maroc/</loc>
+    <lastmod>2026-11-05</lastmod>
+    <image:image><image:loc>https://obm-system.com/assets/img/og/og-prix-google-ads-maroc.jpg</image:loc></image:image>
+  </url>
+  <url>
+    <loc>https://obm-system.com/blog/prix-referencement-naturel-maroc/</loc>
+    <lastmod>2026-11-05</lastmod>
+    <image:image><image:loc>https://obm-system.com/assets/img/og/og-prix-referencement-naturel-maroc.jpg</image:loc></image:image>
+  </url>
+  <url>
+    <loc>https://obm-system.com/blog/tarif-community-manager-maroc/</loc>
+    <lastmod>2026-11-05</lastmod>
+    <image:image><image:loc>https://obm-system.com/assets/img/og/og-tarif-community-manager-maroc.jpg</image:loc></image:image>
+  </url>
+  <url>
+    <loc>https://obm-system.com/blog/whatsapp-business-api-prix/</loc>
+    <lastmod>2026-11-05</lastmod>
+    <image:image><image:loc>https://obm-system.com/assets/img/og/og-whatsapp-business-api-prix.jpg</image:loc></image:image>
+  </url>
+  <url>
+    <loc>https://obm-system.com/blog/crm-maroc-prix/</loc>
+    <lastmod>2026-11-05</lastmod>
+    <image:image><image:loc>https://obm-system.com/assets/img/og/og-crm-maroc-prix.jpg</image:loc></image:image>
+  </url>
+  <url>
+    <loc>https://obm-system.com/blog/site-sur-mesure-wordpress-wix/</loc>
+    <lastmod>2026-11-05</lastmod>
+    <image:image><image:loc>https://obm-system.com/assets/img/og/og-site-sur-mesure-wordpress-wix.jpg</image:loc></image:image>
+  </url>
+  <url>
+    <loc>https://obm-system.com/blog/shopify-ou-sur-mesure-maroc/</loc>
+    <lastmod>2026-11-05</lastmod>
+    <image:image><image:loc>https://obm-system.com/assets/img/og/og-shopify-ou-sur-mesure-maroc.jpg</image:loc></image:image>
+  </url>
+  <url>
+    <loc>https://obm-system.com/blog/paiement-en-ligne-maroc/</loc>
+    <lastmod>2026-11-05</lastmod>
+    <image:image><image:loc>https://obm-system.com/assets/img/og/og-paiement-en-ligne-maroc.jpg</image:loc></image:image>
+  </url>
+  <url>
+    <loc>https://obm-system.com/blog/referencement-ia-chatgpt/</loc>
+    <lastmod>2026-11-05</lastmod>
+    <image:image><image:loc>https://obm-system.com/assets/img/og/og-referencement-ia-chatgpt.jpg</image:loc></image:image>
+  </url>
+  <url>
+    <loc>https://obm-system.com/blog/crm-meta-api-conversions/</loc>
+    <lastmod>2026-11-02</lastmod>
+    <image:image><image:loc>https://obm-system.com/assets/uploads/og-crm-meta-api-conversions-mvzabplg.jpg</image:loc></image:image>
+  </url>
+  <url>
+    <loc>https://obm-system.com/blog/ga4-6-reglages/</loc>
+    <lastmod>2026-11-02</lastmod>
+    <image:image><image:loc>https://obm-system.com/assets/uploads/og-ga4-6-reglages-mvzabpln.jpg</image:loc></image:image>
+  </url>
+  <url>
+    <loc>https://obm-system.com/blog/meta-ga4-caisse-quel-chiffre-piloter/</loc>
+    <lastmod>2026-11-02</lastmod>
+    <image:image><image:loc>https://obm-system.com/assets/uploads/og-meta-ga4-caisse-quel-chiffre-piloter-mvzabplo.jpg</image:loc></image:image>
+  </url>
+  <url>
+    <loc>https://obm-system.com/blog/safari-itp-tracking-server-side/</loc>
+    <lastmod>2026-11-02</lastmod>
+    <image:image><image:loc>https://obm-system.com/assets/uploads/og-safari-itp-tracking-server-side-mvzabpls.jpg</image:loc></image:image>
+  </url>
+  <url>
+    <loc>https://obm-system.com/blog/erreurs-meta-ads/</loc>
+    <lastmod>2026-11-02</lastmod>
+    <image:image><image:loc>https://obm-system.com/assets/uploads/og-erreurs-meta-ads-mvzabpli.jpg</image:loc></image:image>
+  </url>
+  <url>
+    <loc>https://obm-system.com/blog/site-vitrine-ecommerce-plateforme/</loc>
+    <lastmod>2026-11-02</lastmod>
+    <image:image><image:loc>https://obm-system.com/assets/uploads/og-site-vitrine-ecommerce-plateforme-mvzabplt.jpg</image:loc></image:image>
+  </url>
+  <url>
+    <loc>https://obm-system.com/blog/relances-whatsapp-guide/</loc>
+    <lastmod>2026-11-02</lastmod>
+    <image:image><image:loc>https://obm-system.com/assets/uploads/og-relances-whatsapp-guide-mvzabplq.jpg</image:loc></image:image>
+  </url>
+  <url>
+    <loc>https://obm-system.com/blog/fiche-google-6-reglages/</loc>
+    <lastmod>2026-11-05</lastmod>
+    <image:image><image:loc>https://obm-system.com/assets/uploads/og-fiche-google-6-reglages-mvzabplk.jpg</image:loc></image:image>
+  </url>
+  <url>
+    <loc>https://obm-system.com/blog/refonte-site-5-questions/</loc>
+    <lastmod>2026-11-02</lastmod>
+    <image:image><image:loc>https://obm-system.com/assets/uploads/og-refonte-site-5-questions-mvzabplq.jpg</image:loc></image:image>
+  </url>
 </urlset>

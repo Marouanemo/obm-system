@@ -31,7 +31,7 @@ Write-Host "==> Ensuring remote directory exists..."
 
 # Upload site files (exclude deploy/ and .git/)
 Write-Host "==> Uploading site files..."
-$files = @("index.html", "robots.txt", "sitemap.xml", ".gitignore", "README.md")
+$files = @("index.html", "robots.txt", "sitemap.xml", "manifest.webmanifest", "llms.txt", "llms-full.txt", "humans.txt", ".gitignore", "README.md")
 foreach ($f in $files) {
   $path = Join-Path $ProjectRoot $f
   if (Test-Path $path) {
@@ -43,13 +43,14 @@ foreach ($f in $files) {
 Write-Host "==> Uploading assets/ ..."
 & scp @scpArgs -r (Join-Path $ProjectRoot "assets") "$User@${ServerIp}:$RemotePath/"
 
-# Upload nginx config
-Write-Host "==> Uploading nginx config..."
-& scp @scpArgs (Join-Path $PSScriptRoot "nginx.conf") "$User@${ServerIp}:/etc/nginx/sites-available/obm-system.com"
+# Upload hand-written pages (blog/ and cas-clients/ are generated on the server by the admin)
+foreach ($d in @("site-reseaux", "services", "methode", "contact")) {
+  Write-Host "==> Uploading $d/ ..."
+  & scp @scpArgs -r (Join-Path $ProjectRoot $d) "$User@${ServerIp}:$RemotePath/"
+}
 
-# Reload nginx
-Write-Host "==> Reloading nginx..."
-& ssh @sshArgs "$User@$ServerIp" "ln -sf /etc/nginx/sites-available/obm-system.com /etc/nginx/sites-enabled/obm-system.com && nginx -t && systemctl reload nginx"
+# nginx : la config active est /etc/nginx/sites-enabled/obm-system.com (fichier réel).
+# deploy/nginx.conf en est une copie de référence ; elle n'est pas envoyée automatiquement.
 
 Write-Host ""
 Write-Host "==> Deployment complete." -ForegroundColor Green

@@ -1,6 +1,6 @@
 # OBM SYSTEM — Landing Page
 
-> Système d'acquisition et d'automatisation conçu pour les cabinets dentaires ambitieux au Maroc.
+> Agence digitale à Rabat — « Strategic Growth Architecture ». Sites, publicité, SEO, réseaux sociaux pour PME et groupes.
 
 Landing page premium, statique, optimisée pour la conversion. Construite sans framework — HTML/CSS/JS pur — pour un chargement quasi-instantané et une maintenance simple.
 
@@ -13,7 +13,7 @@ Landing page premium, statique, optimisée pour la conversion. Construite sans f
 - **HTML5** sémantique avec balisage SEO + Schema.org
 - **CSS3** bespoke (variables, clamp, grid, container queries)
 - **Vanilla JS** (IntersectionObserver, requestAnimationFrame)
-- **Fonts** : Clash Display + Switzer + JetBrains Mono (via Fontshare)
+- **Fonts** : Switzer + JetBrains Mono, auto-hébergées dans `assets/fonts/`
 - **Hébergement** : Nginx sur Hetzner Cloud
 - **TLS** : Let's Encrypt (renouvellement auto via certbot)
 
@@ -25,12 +25,13 @@ Aucune dépendance npm, aucun build step. Tout fonctionne en ouvrant `index.html
 
 ```
 obm-system/
-├── index.html              # Page principale
+├── index.html              # Page principale (assets/css/site.css + assets/js/site.js)
+├── site-reseaux/           # Page de l'offre Site + Réseaux
 ├── robots.txt              # SEO crawl rules
 ├── sitemap.xml             # SEO sitemap
 ├── assets/
-│   ├── css/styles.css      # Stylesheet bespoke
-│   ├── js/script.js        # Animations + interactions
+│   ├── css/site.css        # Feuille de style unique (accueil, offre, journal, réalisations)
+│   ├── js/site.js          # Navigation, apparitions, formulaires LeadFlow
 │   └── img/                # Logos, favicon, OG image
 └── deploy/
     ├── nginx.conf          # Config nginx production
@@ -126,3 +127,29 @@ Re-déployer après modification :
 ---
 
 © OBM SYSTEM — Tous droits réservés.
+
+## Contenu du journal et des réalisations
+
+Les articles (`content-seed/blog/`) et les réalisations (`content-seed/cases/`) sont en Markdown. Pour régénérer les pages en local :
+
+```bash
+cd admin && CONTENT_DIR="../content-seed" PUBLIC_DIR=".." node scripts/generate-all.js
+```
+
+Sur le serveur, copier ces fichiers dans le dossier `content/` du back-office puis lancer `npm run generate`.
+
+## Version des assets (cache)
+
+nginx met en cache CSS et JS pendant 30 jours. Après chaque modification de `assets/css/site.css` ou `assets/js/site.js`, augmenter le numéro `?v=` :
+
+- dans les pages statiques (`index.html`, `services/`, `methode/`, `contact/`, `site-reseaux/`) ;
+- dans `CACHE_V` du fichier `/var/www/obm-admin/.env` sur le serveur (il prime sur la valeur par défaut de `admin/services/generator.js`), puis `npm run generate`.
+
+## Pages statiques et gabarit commun
+
+Depuis la v7, les pages statiques (accueil, services, méthode, contact, à propos, diagnostic, offre, pages légales, 404) sont du HTML édité directement. Le journal et les réalisations sont générés par le back-office, avec le gabarit `admin/services/layout.js` et les données d'organisation de `admin/services/org.json`.
+
+Le crédit « Designed & Engineered by Webotic » reste dans le pied de page : c'est une décision de Webotic, qui prime sur le cahier v7.
+
+Les articles sont édités en ligne dans le back-office : `deploy/publier.sh` ne les écrase jamais. Pour les récupérer : `bash deploy/recuperer-contenus.sh`. Cahier de référence : `docs/CAHIER-DEVELOPPEUR-FINAL.md`.
+

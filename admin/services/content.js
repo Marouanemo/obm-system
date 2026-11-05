@@ -39,14 +39,19 @@ async function list(type) {
       date: data.date || '',
       category: data.category || '',
       published: data.published !== false,
+      order: data.order || 0,
       excerpt: data.excerpt || '',
       readTime: data.readTime || '',
       updatedAt: data.updatedAt || data.date || '',
+      location: data.location || '',
+      image: data.image || '',
+      mobileImage: data.mobileImage || '',
+      site: data.site || '',
       type,
     });
   }
   // newest first
-  items.sort((a, b) => String(b.date).localeCompare(String(a.date)));
+  items.sort((a, b) => String(b.date).localeCompare(String(a.date)) || a.order - b.order);
   return items;
 }
 
@@ -62,13 +67,30 @@ async function read(type, slug) {
   }
 }
 
+async function readRaw(file) {
+  try { return matter(await fs.readFile(file, 'utf8')); } catch { return null; }
+}
+
+// Compare deux frontmatters, sans updatedAt ni les champs vides absents d'un côté
+function same(a, b) {
+  const val = (v) => (v instanceof Date ? v.toISOString().slice(0, 10) : v);
+  const clean = (o) => JSON.stringify(Object.keys(o)
+    .filter((k) => k !== 'updatedAt' && o[k] !== '' && o[k] != null && o[k] !== false && !(Array.isArray(o[k]) && !o[k].length))
+    .sort().map((k) => [k, val(o[k])]));
+  return clean(a) === clean(b);
+}
+
 async function write(type, slug, data, content) {
   const dir = dirFor(type);
   await fs.mkdir(dir, { recursive: true });
   const file = fileFor(type, slug);
 
-  // Stamp updatedAt
-  const merged = { ...data, updatedAt: new Date().toISOString().slice(0, 10) };
+  // Les champs absents du formulaire (décisions, services, site, ordre…) sont conservés.
+  // La date de mise à jour ne change que si quelque chose change.
+  const before = await readRaw(file);
+  const next = { ...(before ? before.data : {}), ...data };
+  const unchanged = before && same(before.data, next) && before.content.replace(/\r\n/g, '\n').trim() === String(content || '').replace(/\r\n/g, '\n').trim();
+  const merged = { ...next, updatedAt: unchanged ? before.data.updatedAt : new Date().toISOString().slice(0, 10) };
 
   const md = matter.stringify(content || '', merged);
   await fs.writeFile(file, md, 'utf8');
