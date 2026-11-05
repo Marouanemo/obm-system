@@ -9,7 +9,7 @@ import re
 import subprocess
 import sys
 
-PKG = pathlib.Path(sys.argv[1]) if len(sys.argv) > 1 else pathlib.Path(__file__).resolve().parent.parent / 'site'
+PKG = pathlib.Path(sys.argv[1]) if len(sys.argv) > 1 else pathlib.Path(__file__).resolve().parent.parent
 BASE = 'https://obm-system.com'
 # Pages réécrites par le back-office : on accepte des écarts de gabarit, on contrôle seulement l'essentiel
 BACKOFFICE = re.compile(r'^(blog/|cas-clients/|index\.html$)')
