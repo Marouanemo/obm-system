@@ -3,226 +3,162 @@
         xmlns:image="http://www.google.com/schemas/sitemap-image/1.1">
   <url>
     <loc>https://obm-system.com/</loc>
-    <lastmod>2026-11-01</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>1.0</priority>
+    <lastmod>2026-11-05</lastmod>
     <image:image><image:loc>https://obm-system.com/assets/img/og-obm-system.png</image:loc></image:image>
   </url>
   <url>
     <loc>https://obm-system.com/diagnostic-de-croissance/</loc>
-    <lastmod>2026-11-01</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.9</priority>
+    <lastmod>2026-11-05</lastmod>
     
   </url>
   <url>
     <loc>https://obm-system.com/services/</loc>
-    <lastmod>2026-11-01</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.9</priority>
+    <lastmod>2026-11-05</lastmod>
     
   </url>
   <url>
     <loc>https://obm-system.com/services/creation-site-web/</loc>
-    <lastmod>2026-11-01</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.8</priority>
+    <lastmod>2026-11-05</lastmod>
     
   </url>
   <url>
     <loc>https://obm-system.com/services/e-commerce/</loc>
-    <lastmod>2026-11-01</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.8</priority>
+    <lastmod>2026-11-05</lastmod>
     
   </url>
   <url>
     <loc>https://obm-system.com/services/publicite-meta-google-ads/</loc>
-    <lastmod>2026-11-01</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.8</priority>
+    <lastmod>2026-11-05</lastmod>
     
   </url>
   <url>
     <loc>https://obm-system.com/services/tracking-server-side/</loc>
-    <lastmod>2026-11-01</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.8</priority>
+    <lastmod>2026-11-05</lastmod>
     
   </url>
   <url>
     <loc>https://obm-system.com/services/seo-aeo/</loc>
-    <lastmod>2026-11-01</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.8</priority>
+    <lastmod>2026-11-05</lastmod>
     
   </url>
   <url>
     <loc>https://obm-system.com/services/reseaux-sociaux/</loc>
-    <lastmod>2026-11-01</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.8</priority>
+    <lastmod>2026-11-05</lastmod>
     
   </url>
   <url>
     <loc>https://obm-system.com/services/ia-automatisation/</loc>
-    <lastmod>2026-11-01</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.8</priority>
+    <lastmod>2026-11-05</lastmod>
     
   </url>
   <url>
     <loc>https://obm-system.com/site-reseaux/</loc>
-    <lastmod>2026-11-01</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.7</priority>
+    <lastmod>2026-11-05</lastmod>
     
   </url>
   <url>
     <loc>https://obm-system.com/methode/</loc>
-    <lastmod>2026-11-01</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.7</priority>
+    <lastmod>2026-11-05</lastmod>
     
   </url>
   <url>
     <loc>https://obm-system.com/a-propos/</loc>
-    <lastmod>2026-11-01</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.7</priority>
+    <lastmod>2026-11-05</lastmod>
     
   </url>
   <url>
     <loc>https://obm-system.com/contact/</loc>
-    <lastmod>2026-11-01</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
+    <lastmod>2026-11-05</lastmod>
     
   </url>
   <url>
     <loc>https://obm-system.com/mentions-legales/</loc>
-    <lastmod>2026-11-01</lastmod>
-    <changefreq>yearly</changefreq>
-    <priority>0.2</priority>
+    <lastmod>2026-11-05</lastmod>
     
   </url>
   <url>
     <loc>https://obm-system.com/confidentialite/</loc>
-    <lastmod>2026-11-01</lastmod>
-    <changefreq>yearly</changefreq>
-    <priority>0.2</priority>
+    <lastmod>2026-11-05</lastmod>
     
   </url>
   <url>
     <loc>https://obm-system.com/cas-clients/</loc>
-    <lastmod>2026-11-01</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.8</priority>
+    <lastmod>2026-11-02</lastmod>
     
   </url>
   <url>
     <loc>https://obm-system.com/cas-clients/pharmacie-gare-hay-riad/</loc>
-    <lastmod>2026-10-12</lastmod>
-    <changefreq>yearly</changefreq>
-    <priority>0.7</priority>
-    <image:image><image:loc>https://obm-system.com/assets/img/realisations/pharmacie-desktop.webp</image:loc></image:image>
+    <lastmod>2026-11-02</lastmod>
+    <image:image><image:loc>https://obm-system.com/assets/img/og/og-pharmacie.jpg</image:loc></image:image>
   </url>
   <url>
     <loc>https://obm-system.com/cas-clients/cerafas-logistics/</loc>
-    <lastmod>2026-10-11</lastmod>
-    <changefreq>yearly</changefreq>
-    <priority>0.7</priority>
-    <image:image><image:loc>https://obm-system.com/assets/img/realisations/cerafas-desktop.webp</image:loc></image:image>
+    <lastmod>2026-11-02</lastmod>
+    <image:image><image:loc>https://obm-system.com/assets/img/og/og-cerafas.jpg</image:loc></image:image>
   </url>
   <url>
     <loc>https://obm-system.com/cas-clients/eleganza/</loc>
-    <lastmod>2026-10-10</lastmod>
-    <changefreq>yearly</changefreq>
-    <priority>0.7</priority>
-    <image:image><image:loc>https://obm-system.com/assets/img/realisations/eleganza-desktop.webp</image:loc></image:image>
+    <lastmod>2026-11-02</lastmod>
+    <image:image><image:loc>https://obm-system.com/assets/img/og/og-eleganza.jpg</image:loc></image:image>
   </url>
   <url>
     <loc>https://obm-system.com/cas-clients/la7dafan/</loc>
-    <lastmod>2026-10-09</lastmod>
-    <changefreq>yearly</changefreq>
-    <priority>0.7</priority>
-    <image:image><image:loc>https://obm-system.com/assets/img/realisations/la7dafan-desktop.webp</image:loc></image:image>
+    <lastmod>2026-11-02</lastmod>
+    <image:image><image:loc>https://obm-system.com/assets/img/og/og-la7dafan.jpg</image:loc></image:image>
   </url>
   <url>
     <loc>https://obm-system.com/cas-clients/nassihacom/</loc>
-    <lastmod>2026-10-08</lastmod>
-    <changefreq>yearly</changefreq>
-    <priority>0.7</priority>
-    <image:image><image:loc>https://obm-system.com/assets/img/realisations/nassihacom-desktop.webp</image:loc></image:image>
+    <lastmod>2026-11-02</lastmod>
+    <image:image><image:loc>https://obm-system.com/assets/img/og/og-nassihacom.jpg</image:loc></image:image>
   </url>
   <url>
     <loc>https://obm-system.com/blog/</loc>
-    <lastmod>2026-11-01</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.8</priority>
+    <lastmod>2026-11-02</lastmod>
     
   </url>
   <url>
     <loc>https://obm-system.com/blog/crm-meta-api-conversions/</loc>
-    <lastmod>2026-11-01</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.7</priority>
-    
+    <lastmod>2026-11-02</lastmod>
+    <image:image><image:loc>https://obm-system.com/assets/uploads/og-crm-meta-api-conversions-mvzabplg.jpg</image:loc></image:image>
   </url>
   <url>
     <loc>https://obm-system.com/blog/ga4-6-reglages/</loc>
-    <lastmod>2026-11-01</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.7</priority>
-    
+    <lastmod>2026-11-02</lastmod>
+    <image:image><image:loc>https://obm-system.com/assets/uploads/og-ga4-6-reglages-mvzabpln.jpg</image:loc></image:image>
   </url>
   <url>
     <loc>https://obm-system.com/blog/meta-ga4-caisse-quel-chiffre-piloter/</loc>
-    <lastmod>2026-11-01</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.7</priority>
-    
+    <lastmod>2026-11-02</lastmod>
+    <image:image><image:loc>https://obm-system.com/assets/uploads/og-meta-ga4-caisse-quel-chiffre-piloter-mvzabplo.jpg</image:loc></image:image>
   </url>
   <url>
     <loc>https://obm-system.com/blog/safari-itp-tracking-server-side/</loc>
-    <lastmod>2026-11-01</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.7</priority>
-    
+    <lastmod>2026-11-02</lastmod>
+    <image:image><image:loc>https://obm-system.com/assets/uploads/og-safari-itp-tracking-server-side-mvzabpls.jpg</image:loc></image:image>
   </url>
   <url>
     <loc>https://obm-system.com/blog/erreurs-meta-ads/</loc>
-    <lastmod>2026-10-27</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.7</priority>
-    
+    <lastmod>2026-11-02</lastmod>
+    <image:image><image:loc>https://obm-system.com/assets/uploads/og-erreurs-meta-ads-mvzabpli.jpg</image:loc></image:image>
   </url>
   <url>
     <loc>https://obm-system.com/blog/site-vitrine-ecommerce-plateforme/</loc>
-    <lastmod>2026-10-24</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.7</priority>
-    
+    <lastmod>2026-11-02</lastmod>
+    <image:image><image:loc>https://obm-system.com/assets/uploads/og-site-vitrine-ecommerce-plateforme-mvzabplt.jpg</image:loc></image:image>
   </url>
   <url>
     <loc>https://obm-system.com/blog/relances-whatsapp-guide/</loc>
-    <lastmod>2026-10-20</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.7</priority>
-    
+    <lastmod>2026-11-02</lastmod>
+    <image:image><image:loc>https://obm-system.com/assets/uploads/og-relances-whatsapp-guide-mvzabplq.jpg</image:loc></image:image>
   </url>
   <url>
     <loc>https://obm-system.com/blog/fiche-google-6-reglages/</loc>
-    <lastmod>2026-10-18</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.7</priority>
-    
+    <lastmod>2026-11-02</lastmod>
+    <image:image><image:loc>https://obm-system.com/assets/uploads/og-fiche-google-6-reglages-mvzabplk.jpg</image:loc></image:image>
   </url>
   <url>
     <loc>https://obm-system.com/blog/refonte-site-5-questions/</loc>
-    <lastmod>2026-10-14</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.7</priority>
-    
+    <lastmod>2026-11-02</lastmod>
+    <image:image><image:loc>https://obm-system.com/assets/uploads/og-refonte-site-5-questions-mvzabplq.jpg</image:loc></image:image>
   </url>
 </urlset>

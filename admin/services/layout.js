@@ -5,8 +5,10 @@
 // et par scripts/build-static.js (pages statiques).
 // ============================================================
 
+const ORG_DATA = require('./org.json');
+
 const SITE_URL = (process.env.SITE_URL || 'https://obm-system.com').replace(/\/$/, '');
-const CACHE_V = process.env.CACHE_V || 'v=5';
+const CACHE_V = process.env.CACHE_V || 'v=7';
 
 const BRAND = {
   name: 'OBM System',
@@ -15,7 +17,7 @@ const BRAND = {
   trade: 'Stratégie digitale. Conception. Développement.',
   email: 'admin@obm-system.com',
   phone: '+212712348034',
-  phoneLabel: '+212 7 12 34 80 34',
+  phoneLabel: '+212\u00a07\u00a012\u00a034\u00a080\u00a034',
   calendly: 'https://calendly.com/admin-obm-system/30min',
   diagnostic: '/diagnostic-de-croissance/',
   whatsapp: 'https://wa.me/212712348034',
@@ -63,7 +65,32 @@ const MONTHS_FR = ['janvier', 'février', 'mars', 'avril', 'mai', 'juin', 'juill
 function formatDateFr(d) {
   const dt = new Date(d);
   if (Number.isNaN(+dt)) return d;
-  return `${dt.getDate()} ${MONTHS_FR[dt.getMonth()]} ${dt.getFullYear()}`;
+  const day = dt.getDate() === 1 ? '1er' : dt.getDate();
+  return `${day} ${MONTHS_FR[dt.getMonth()]} ${dt.getFullYear()}`;
+}
+
+// Typographie française, sur le texte uniquement (balises, script, style, code intacts)
+const NNBSP = '\u202f';
+const NBSP = '\u00a0';
+const TYPO_SKIP = /(<(script|style|pre|code|textarea)\b[\s\S]*?<\/\2\s*>|<!--[\s\S]*?-->|<[^>]+>)/gi;
+
+function typoText(t) {
+  return t
+    .replace(/[ \u00a0\u202f]+([;!?])/g, `${NNBSP}$1`)
+    .replace(/[ \u00a0\u202f]+:(?=\s|$)/g, `${NBSP}:`)
+    .replace(/«[ \u00a0\u202f]*/g, `«${NNBSP}`)
+    .replace(/[ \u00a0\u202f]*»/g, `${NNBSP}»`)
+    .replace(/[ \u00a0]+·[ \u00a0]+/g, `${NBSP}· `);
+}
+
+function typoFr(html) {
+  let out = '';
+  let pos = 0;
+  for (const m of html.matchAll(TYPO_SKIP)) {
+    out += typoText(html.slice(pos, m.index)) + m[0];
+    pos = m.index + m[0].length;
+  }
+  return out + typoText(html.slice(pos));
 }
 
 function absUrl(url) {
@@ -78,64 +105,12 @@ function absUrl(url) {
 const ORG_ID = `${SITE_URL}/#org`;
 const PERSON_ID = `${SITE_URL}/a-propos/#oualid`;
 
-function orgGraph() {
-  return {
-    '@context': 'https://schema.org',
-    '@graph': [
-      {
-        '@type': 'ProfessionalService',
-        '@id': ORG_ID,
-        name: BRAND.name,
-        alternateName: `${BRAND.name} · ${BRAND.descriptor}`,
-        slogan: BRAND.slogan,
-        url: `${SITE_URL}/`,
-        logo: `${SITE_URL}/assets/img/logo-obm-system.png`,
-        image: absUrl(OG_DEFAULT),
-        description: "Agence de conseil 360° à Rabat : stratégie et audit, sites sur mesure, e-commerce, Meta, Google et TikTok Ads, tracking server-side, SEO et AEO, community management, contenu, CRM et IA pour les PME, groupes et marques au Maroc et à l'international.",
-        foundingDate: '2018',
-        founder: { '@id': PERSON_ID },
-        telephone: BRAND.phone,
-        email: BRAND.email,
-        address: { '@type': 'PostalAddress', addressLocality: 'Rabat', addressCountry: 'MA' },
-        areaServed: [{ '@type': 'Country', name: 'Maroc' }, 'International'],
-        sameAs: BRAND.social.map(([, u]) => u),
-        knowsAbout: ['Stratégie digitale', 'Audit marketing', 'Création de site web sur mesure', 'E-commerce', 'Meta Ads', 'Google Ads', 'TikTok Ads', 'Media buying', 'Copywriting', 'Création de contenu',
-          'Google Tag Manager', 'Google Analytics 4', 'API Conversions Meta', 'Tracking côté serveur',
-          'Référencement naturel', 'Answer Engine Optimization', 'Google Business Profile',
-          'Community management', 'Automatisation WhatsApp', 'Intelligence artificielle'],
-        makesOffer: {
-          '@type': 'Offer',
-          url: `${SITE_URL}${BRAND.diagnostic}`,
-          itemOffered: {
-            '@type': 'Service',
-            name: 'Diagnostic de croissance',
-            description: '30 minutes en visio ou par téléphone pour lire votre dispositif actuel, clarifier vos objectifs et identifier les leviers de croissance à activer en priorité.',
-          },
-        },
-      },
-      personNode(),
-      {
-        '@type': 'WebSite',
-        '@id': `${SITE_URL}/#website`,
-        url: `${SITE_URL}/`,
-        name: BRAND.name,
-        inLanguage: 'fr-MA',
-        publisher: { '@id': ORG_ID },
-      },
-    ],
-  };
+function orgNode() {
+  return { '@context': 'https://schema.org', ...ORG_DATA.org };
 }
 
 function personNode() {
-  return {
-    '@type': 'Person',
-    '@id': PERSON_ID,
-    name: 'Oualid Benamara',
-    jobTitle: 'Fondateur',
-    url: `${SITE_URL}/a-propos/`,
-    worksFor: { '@id': ORG_ID },
-    sameAs: ['https://www.linkedin.com/in/oualidbenamara/', 'https://www.linkedin.com/company/obm-system/', 'https://www.instagram.com/obm_system/', 'https://www.facebook.com/obmsystem', 'https://www.tiktok.com/@obm_system'],
-  };
+  return { ...ORG_DATA.person };
 }
 
 // items : [['Accueil', '/'], ['Services', '/services/'], ['Tracking', null]]
@@ -191,15 +166,7 @@ function head(o) {
     } catch (e) {}
   </script>
 
-  <!-- Google Tag Manager -->
-  <script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
-  new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
-  j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
-  'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
-  })(window,document,'script','dataLayer','GTM-TTPCSLV9');</script>
-  <!-- End Google Tag Manager -->
-
-  <!-- Google tag (gtag.js) : GA4 direct, conservé tant que le conteneur GTM n'est pas vérifié -->
+  <!-- Google tag (gtag.js) : GA4, chargé une seule fois -->
   <script async src="https://www.googletagmanager.com/gtag/js?id=G-JGDV0VS9B9"></script>
   <script>
     gtag('js', new Date());
@@ -216,14 +183,16 @@ function head(o) {
   ${o.noindex && !o.canonical ? '' : `<link rel="canonical" href="${canonical}" />`}
 
   <meta property="og:type" content="${o.type || 'website'}" />
-  <meta property="og:locale" content="fr_MA" />
+  <meta property="og:locale" content="fr_FR" />
   <meta property="og:url" content="${canonical}" />
   <meta property="og:title" content="${escapeHtml(ogTitle)}" />
   <meta property="og:description" content="${escapeHtml(ogDescription)}" />
   <meta property="og:site_name" content="${BRAND.name}" />
   <meta property="og:image" content="${ogImage}" />
+  ${o.ogImageType ? `<meta property="og:image:type" content="${o.ogImageType}" />` : ''}
   <meta property="og:image:width" content="1200" />
   <meta property="og:image:height" content="630" />
+  ${o.ogImageAlt ? `<meta property="og:image:alt" content="${escapeHtml(o.ogImageAlt)}" />` : ''}
   ${o.publishedTime ? `<meta property="article:published_time" content="${o.publishedTime}" />` : ''}
   ${o.section ? `<meta property="article:section" content="${escapeHtml(o.section)}" />` : ''}
 
@@ -238,6 +207,7 @@ function head(o) {
   <link rel="apple-touch-icon" href="/assets/img/apple-touch-icon.png" />
   <link rel="manifest" href="/manifest.webmanifest" />
   <link rel="alternate" type="text/plain" title="LLM-friendly content" href="/llms.txt" />
+  <link rel="alternate" type="application/rss+xml" title="Journal OBM System" href="https://obm-system.com/blog/feed.xml" />
 
   <link rel="preload" href="/assets/fonts/switzer-600.woff2" as="font" type="font/woff2" crossorigin />
   <link rel="preload" href="/assets/fonts/switzer-400.woff2" as="font" type="font/woff2" crossorigin />
@@ -258,7 +228,7 @@ const NAV_ITEMS = [
   ['apropos', '/a-propos/', 'À propos'],
 ];
 
-const LOGO_IMG = (size = 44) => `<img src="/assets/img/logo-obm-system-88.webp" srcset="/assets/img/logo-obm-system-88.webp 88w, /assets/img/logo-obm-system-176.webp 176w" sizes="${size}px" width="${size}" height="${size}" alt="OBM System" />`;
+const LOGO_IMG = (size = 44) => `<img src="/assets/img/logo-obm-system-88.webp" srcset="/assets/img/logo-obm-system-88.webp 88w, /assets/img/logo-obm-system-176.webp 176w" sizes="${size}px" width="${size}" height="${size}" alt="" />`;
 
 function nav(current) {
   const links = NAV_ITEMS.map(([k, h, l]) => `<a href="${h}"${k === current ? ' aria-current="page"' : ''}>${l}</a>`).join('\n        ');
@@ -277,6 +247,8 @@ function nav(current) {
     ${mlinks}
     <a href="/contact/">Contact</a>
     <a class="btn" href="${BRAND.diagnostic}" data-loc="nav-mobile">Réserver mon diagnostic (30 min)</a>
+    <a href="tel:${BRAND.phone}" data-loc="nav-mobile">Appeler le ${BRAND.phoneLabel}</a>
+    <a href="${BRAND.whatsapp}" target="_blank" rel="noopener" data-loc="nav-mobile">Écrire sur WhatsApp</a>
   </nav>`;
 }
 
@@ -357,12 +329,18 @@ function footer() {
     </div>
   </footer>
 
+  <nav class="mbar" aria-label="Contact rapide">
+    <a class="mbar__main" href="${BRAND.diagnostic}" data-loc="mbar">Réserver mon diagnostic</a>
+    <a href="${BRAND.whatsapp}" target="_blank" rel="noopener" data-loc="mbar" aria-label="Écrire à OBM System sur WhatsApp">WhatsApp</a>
+    <a href="tel:${BRAND.phone}" data-loc="mbar" aria-label="Appeler OBM System">Appeler</a>
+  </nav>
+
   <a class="wa" href="${BRAND.whatsapp}?text=${WA_TEXT}" target="_blank" rel="noopener" aria-label="Écrire à OBM System sur WhatsApp" data-loc="float">
     <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2a10 10 0 0 0-8.6 15.1L2 22l5-1.3A10 10 0 1 0 12 2zm5.3 14.2c-.2.6-1.3 1.2-1.8 1.2-.5.1-1 .2-3.3-.7-2.8-1.1-4.5-4-4.7-4.2-.1-.2-1.1-1.5-1.1-2.9s.7-2.1 1-2.4c.3-.3.6-.3.8-.3h.6c.2 0 .4 0 .6.5l.9 2.1c.1.2.1.4 0 .6l-.4.6-.4.5c-.1.1-.3.3-.1.6.2.3.8 1.3 1.6 2 1.1 1 2 1.3 2.3 1.4.3.1.5.1.6-.1l.9-1.1c.2-.3.4-.2.7-.1l2 1c.3.1.5.2.6.3.1.2.1.8-.2 1.4z"/></svg>
     <span aria-hidden="true">WhatsApp</span>
   </a>
 
-  <div class="consent" id="consent" hidden role="dialog" aria-live="polite" aria-label="Cookies">
+  <div class="consent" id="consent" hidden role="region" aria-label="Cookies">
     <p>Nous utilisons des cookies de mesure et de publicité pour améliorer le site et nos campagnes. <a href="/confidentialite/#cookies">En savoir plus</a></p>
     <div class="consent__actions">
       <button type="button" class="btn btn--line" data-consent="denied">Refuser</button>
@@ -374,13 +352,12 @@ function footer() {
 }
 
 function page({ headHtml, current, main }) {
-  return `<!DOCTYPE html>
+  return typoFr(`<!DOCTYPE html>
 <html lang="fr-MA">
 <head>
   ${headHtml}
 </head>
 <body>
-  <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-TTPCSLV9" height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
   <a class="skip" href="#main">Aller au contenu</a>
 
   ${nav(current)}
@@ -390,24 +367,24 @@ function page({ headHtml, current, main }) {
   ${footer()}
 </body>
 </html>
-`;
+`);
 }
 
 // Capture encadrée (desktop, avec téléphone en option)
-function shot({ key, host, alt, phone = false, lazy = true, priority = false }) {
+function shot({ key, host, alt, phone = false, lazy = true, priority = false, sizes = '(max-width: 900px) 92vw, 380px' }) {
   const lz = lazy ? ' loading="lazy" decoding="async"' : '';
   const pr = priority ? ' fetchpriority="high"' : '';
-  const mob = phone ? `<div class="shot__mobile"><img src="/assets/img/realisations/${key}-mobile-260.webp" srcset="/assets/img/realisations/${key}-mobile-260.webp 260w, /assets/img/realisations/${key}-mobile.webp 520w" sizes="(max-width: 600px) 26vw, 180px" width="520" height="1126"${lz} alt="" /></div>` : '';
+  const mob = phone ? `<div class="shot__mobile"><img src="/assets/img/realisations/${key}-mobile-260.webp" srcset="/assets/img/realisations/${key}-mobile-260.webp 260w, /assets/img/realisations/${key}-mobile.webp 520w" sizes="(max-width: 600px) 26vw, 180px" width="520" height="1125"${lz} alt="" /></div>` : '';
   return `<figure class="shot${phone ? ' shot--phone' : ''}">
               <div class="shot__frame">
                 <div class="shot__bar"><i></i><i></i><i></i><span>${escapeHtml(host)}</span></div>
-                <img src="/assets/img/realisations/${key}-desktop.webp" width="1200" height="750"${lz}${pr} alt="${escapeHtml(alt)}" />
+                <img src="/assets/img/realisations/${key}-desktop.webp" srcset="/assets/img/realisations/${key}-desktop-600.webp 600w, /assets/img/realisations/${key}-desktop-900.webp 900w, /assets/img/realisations/${key}-desktop.webp 1200w" sizes="${sizes}" width="1200" height="750"${lz}${pr} alt="${escapeHtml(alt)}" />
               </div>${mob}
             </figure>`;
 }
 
 module.exports = {
   SITE_URL, CACHE_V, BRAND, WA_TEXT, OG_DEFAULT, STATIC_PAGES, ORG_ID, PERSON_ID,
-  escapeHtml, formatDateFr, absUrl, orgGraph, personNode, breadcrumbSchema, breadcrumbHtml,
+  escapeHtml, formatDateFr, typoFr, absUrl, orgNode, personNode, breadcrumbSchema, breadcrumbHtml,
   head, nav, ctaBand, footer, page, shot,
 };

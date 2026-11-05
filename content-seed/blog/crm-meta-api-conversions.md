@@ -1,44 +1,58 @@
 ---
-title: "CRM → Meta : renvoyer chaque étape du pipeline via l’API Conversions"
-date: "2026-11-01"
-category: "Mesure"
-readTime: "8 min de lecture"
-excerpt: "Meta optimise sur ce qu’il voit. Si vous ne lui transmettez que des formulaires remplis, il vous trouve des gens qui remplissent des formulaires. En renvoyant les étapes de votre CRM via l’API Conversions, vous lui apprenez à trouver des clients."
-keywords: "API Conversions Meta CRM, conversion leads Meta, lead_id Meta, event_source crm, tracking CRM Meta Ads"
-sources:
-  - title: "Meta for Developers : API Conversions"
-    url: "https://developers.facebook.com/docs/marketing-api/conversions-api"
-  - title: "Meta for Developers : intégration CRM pour l’optimisation des leads de conversion"
-    url: "https://developers.facebook.com/docs/marketing-api/conversions-api/conversion-leads-integration"
-  - title: "Meta for Developers : paramètres de l’API Conversions"
-    url: "https://developers.facebook.com/docs/marketing-api/conversions-api/parameters"
+title: "CRM → Meta\_: renvoyer chaque étape du pipeline via l’API Conversions"
+date: '2026-11-01'
+category: Mesure
+excerpt: >-
+  Meta optimise sur ce qu’il voit. Si vous ne lui transmettez que des
+  formulaires remplis, il vous trouve des gens qui remplissent des formulaires.
+  En renvoyant les étapes de votre CRM via l’API Conversions, vous lui apprenez
+  à trouver des clients.
+readTime: 4 min de lecture
+tag: ''
+image: /assets/uploads/og-crm-meta-api-conversions-mvzabplg.jpg
+metaTitle: "CRM → Meta\_: l’API Conversions par étape\_· OBM System"
+seoDescription: >-
+  Si Meta ne reçoit que des formulaires remplis, il trouve des gens qui
+  remplissent des formulaires. Renvoyez les étapes de votre CRM via l’API
+  Conversions.
+keywords: >-
+  API Conversions Meta CRM, conversion leads Meta, lead_id Meta, event_source
+  crm, tracking CRM Meta Ads
+canonical: ''
+noindex: false
+nofollow: false
+ogTitle: ''
+ogDescription: ''
+twitterTitle: ''
+twitterDescription: ''
+twitterImage: ''
 published: true
+updatedAt: '2026-11-02'
 ---
-
-**En bref.** Une campagne Meta apprend à partir des événements qu’elle reçoit. Si le seul événement transmis est le formulaire rempli, l’algorithme cherche des profils qui remplissent des formulaires. En renvoyant depuis votre CRM les étapes suivantes (demande qualifiée, rendez-vous, vente), via l’API Conversions, vous lui donnez le signal qui compte vraiment : qui devient client.
+**En bref.** Une campagne Meta apprend à partir des événements qu’elle reçoit. Si le seul événement transmis est le formulaire rempli, l’algorithme cherche des profils qui remplissent des formulaires. En renvoyant depuis votre CRM les étapes suivantes (demande qualifiée, rendez-vous, vente), via l’API Conversions, vous lui donnez le signal qui compte vraiment : qui devient client.
 
 ## Pourquoi le formulaire ne suffit pas
 
-Le pixel Meta voit ce qui se passe sur votre site : une page vue, un formulaire envoyé. Il ne voit pas ce qui se passe ensuite dans votre équipe commerciale. Or c’est là que se joue la différence entre une demande et un client.
+Le pixel Meta voit ce qui se passe sur votre site : une page vue, un formulaire envoyé. Il ne voit pas ce qui se passe ensuite dans votre équipe commerciale. Or c’est là que se joue la différence entre une demande et un client.
 
 Sans information sur la suite, Meta optimise sur la seule étape qu’il connaît. Le coût par demande peut alors baisser, pendant que la proportion de demandes qui aboutissent diminue.
 
 ## Le principe
 
-Chaque fois qu’une demande change d’étape dans votre CRM, le CRM (ou un petit service intermédiaire) envoie un événement à l’API Conversions de Meta. Cet événement décrit :
+Chaque fois qu’une demande change d’étape dans votre CRM, le CRM (ou un petit service intermédiaire) envoie un événement à l’API Conversions de Meta. Cet événement décrit :
 
-- **ce qui s’est passé** : le nom de l’étape, par exemple « Demande qualifiée », « Rendez-vous », « Vente » ;
-- **quand** : la date et l’heure du changement d’étape ;
-- **pour qui** : un identifiant qui permet à Meta de rattacher l’événement à la personne qui a vu ou cliqué sur la publicité ;
-- **d’où vient l’information** : le CRM, et non le site.
+- **ce qui s’est passé** : le nom de l’étape, par exemple « Demande qualifiée », « Rendez-vous », « Vente » ;
+- **quand** : la date et l’heure du changement d’étape ;
+- **pour qui** : un identifiant qui permet à Meta de rattacher l’événement à la personne qui a vu ou cliqué sur la publicité ;
+- **d’où vient l’information** : le CRM, et non le site.
 
 ## Les champs qui comptent
 
 Pour les demandes issues des **formulaires instantanés Meta** (publicités à formulaire), le plus fiable est le `lead_id` que Meta attribue à chaque demande. Il est récupéré avec le lead, stocké dans le CRM, puis renvoyé à chaque étape.
 
-Pour les demandes issues de **votre site**, on transmet les données de correspondance captées au moment de l’envoi du formulaire : e-mail et téléphone hachés, et les identifiants de clic et de navigateur Meta (`fbc`, `fbp`) quand ils sont disponibles. Ils doivent être enregistrés avec la demande dans le CRM, sinon ils sont perdus.
+Pour les demandes issues de **votre site**, on transmet les données de correspondance captées au moment de l’envoi du formulaire : e-mail et téléphone hachés, et les identifiants de clic et de navigateur Meta (`fbc`, `fbp`) quand ils sont disponibles. Ils doivent être enregistrés avec la demande dans le CRM, sinon ils sont perdus.
 
-Les événements venant du CRM se déclarent comme tels : `action_source` indique qu’ils proviennent d’un système interne, et les données personnalisées précisent `event_source = crm` ainsi que le nom de votre CRM (`lead_event_source`), comme le décrit la documentation de Meta.
+Les événements venant du CRM se déclarent comme tels : `action_source` indique qu’ils proviennent d’un système interne, et les données personnalisées précisent `event_source = crm` ainsi que le nom de votre CRM (`lead_event_source`), comme le décrit la documentation de Meta.
 
 ## La mise en place, étape par étape
 
@@ -57,4 +71,17 @@ Les événements venant du CRM se déclarent comme tels : `action_source` indiqu
 
 ## Ce qu’il faut retenir
 
-L’API Conversions ne sert pas seulement à compenser les pertes du pixel. Branchée sur votre CRM, elle transmet à Meta la seule information qui compte : quelles demandes deviennent des clients. C’est l’un des leviers que nous installons dans le cadre du [tracking server-side](/services/tracking-server-side/).
+L’API Conversions ne sert pas seulement à compenser les pertes du pixel. Branchée sur votre CRM, elle transmet à Meta la seule information qui compte : quelles demandes deviennent des clients. C’est l’un des leviers que nous installons dans le cadre du [tracking server-side](/services/tracking-server-side/).
+
+## Sources
+
+- [Meta for Developers : API Conversions](https://developers.facebook.com/documentation/ads-commerce/conversions-api)
+- [Meta for Developers : intégration CRM pour l’optimisation des leads de conversion](https://developers.facebook.com/documentation/ads-commerce/conversions-api/conversion-leads-integration)
+- [Meta for Developers : paramètres de l’API Conversions](https://developers.facebook.com/documentation/ads-commerce/conversions-api/parameters)
+
+## À lire ensuite
+
+- [Meta, GA4, la caisse : quel chiffre piloter ?](/blog/meta-ga4-caisse-quel-chiffre-piloter/)
+- [Safari ITP : votre serveur de tracking survit-il à 7 jours ?](/blog/safari-itp-tracking-server-side/)
+
+Pour aller plus loin, découvrez notre accompagnement sur [le tracking server-side et la mesure des conversions](/services/tracking-server-side/).

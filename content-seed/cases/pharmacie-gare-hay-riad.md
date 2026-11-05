@@ -18,6 +18,8 @@ services:
 next:
   slug: "eleganza"
   title: "Éléganza"
+seoDescription: "Le lancement digital d’une pharmacie et parapharmacie de Hay Riad : boutique en ligne, réseaux sociaux, fiche Google, publicité et référencement local."
+updatedAt: "2026-11-02"
 published: true
 ---
 
@@ -36,8 +38,8 @@ Nous avons pris en charge l’ensemble du lancement digital, de la boutique aux 
 
 ## Les choix qui comptent
 
-**Deux façons de recevoir sa commande.** Le retrait en pharmacie, prêt en 30 minutes, ou la livraison à Rabat. Le client choisit selon son urgence.
+**Deux façons de recevoir sa commande.** Le retrait en pharmacie, prêt en 30 minutes, ou la livraison à Hay Riad. Le client choisit selon son urgence.
 
-**Le conseil avant l’achat.** Une pharmacienne répond sur WhatsApp avant la commande. Le client n’achète pas seul un produit dont il n’est pas sûr, et la pharmacie garde son rôle de conseil.
+**Le conseil avant l’achat.** La pharmacie conseille sur WhatsApp avant la commande. Le client n’achète pas seul un produit dont il n’est pas sûr, et la pharmacie garde son rôle de conseil.
 
-**Un seul message partout.** La boutique, la fiche Google et les réseaux sociaux ont été construits en même temps, par la même équipe. Ils présentent la pharmacie de la même façon, et les publications peuvent renvoyer directement vers les produits de la boutique.
+**Un seul message partout.** La boutique, la fiche Google et les réseaux sociaux ont été conçus ensemble, par la même équipe. Ils présentent la pharmacie de la même façon, et les publications peuvent renvoyer directement vers les produits de la boutique.

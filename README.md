@@ -147,10 +147,9 @@ nginx met en cache CSS et JS pendant 30 jours. Après chaque modification de `as
 
 ## Pages statiques et gabarit commun
 
-En-tête, menu, pied de page, bandeau cookies et données structurées sont dans `admin/services/layout.js`, partagé par le générateur du back-office (journal, réalisations) et par les pages statiques (`admin/static/*.js`). Pour reconstruire tout le site en local :
+Depuis la v7, les pages statiques (accueil, services, méthode, contact, à propos, diagnostic, offre, pages légales, 404) sont du HTML édité directement. Le journal et les réalisations sont générés par le back-office, avec le gabarit `admin/services/layout.js` et les données d'organisation de `admin/services/org.json`.
 
-```bash
-cd admin && PUBLIC_DIR=".." node scripts/build-static.js && CONTENT_DIR="../content-seed" PUBLIC_DIR=".." node scripts/generate-all.js
-```
+Le crédit « Designed & Engineered by Webotic » reste dans le pied de page : c'est une décision de Webotic, qui prime sur le cahier v7.
 
-La version des assets (`CACHE_V`) se change dans `admin/services/layout.js` ; `deploy/publier.sh` la reporte dans le `.env` du serveur.
+Les articles sont édités en ligne dans le back-office : `deploy/publier.sh` ne les écrase jamais. Pour les récupérer : `bash deploy/recuperer-contenus.sh`. Cahier de référence : `docs/CAHIER-DEVELOPPEUR-FINAL.md`.
+

@@ -1,16 +1,38 @@
 ---
-title: "Relances WhatsApp : le guide pour les entreprises au Maroc"
-date: "2026-10-20"
-category: "Relation client"
-readTime: "9 min de lecture"
-excerpt: "Au Maroc, WhatsApp est le canal où vos clients répondent. C’est aussi là que beaucoup de demandes se perdent. Voici les quatre séquences de messages à mettre en place, l’outillage nécessaire et les règles pour ne pas devenir envahissant."
-keywords: "WhatsApp Business API Maroc, relance client WhatsApp, automatisation WhatsApp entreprise, rappel rendez-vous WhatsApp"
+title: "Relances WhatsApp\_: le guide pour les entreprises au Maroc"
+date: '2026-10-20'
+category: Relation client
+excerpt: >-
+  Au Maroc, WhatsApp est le canal où vos clients répondent. C’est aussi là que
+  beaucoup de demandes se perdent. Voici les quatre séquences de messages à
+  mettre en place, l’outillage nécessaire et les règles pour ne pas devenir
+  envahissant.
+readTime: 5 min de lecture
+tag: ''
+image: /assets/uploads/og-relances-whatsapp-guide-mvzabplq.jpg
+metaTitle: "Relances WhatsApp au Maroc\_: le guide\_· OBM System"
+seoDescription: >-
+  Au Maroc, vos clients répondent sur WhatsApp, et beaucoup de demandes s’y
+  perdent. Les quatre séquences de relance, l’outillage et les règles à suivre.
+keywords: >-
+  WhatsApp Business API Maroc, relance client WhatsApp, automatisation WhatsApp
+  entreprise, rappel rendez-vous WhatsApp
+canonical: ''
+noindex: false
+nofollow: false
+ogTitle: ''
+ogDescription: ''
+twitterTitle: ''
+twitterDescription: ''
+twitterImage: ''
 published: true
+updatedAt: '2026-11-02'
 ---
+**En bref.** Quatre séquences WhatsApp évitent de perdre des demandes : confirmer chaque demande immédiatement, relancer au maximum trois fois les personnes qui n’ont pas donné suite, confirmer et rappeler les rendez-vous, puis reprendre contact avec les anciennes demandes quand vous avez une vraie raison. L’application WhatsApp Business suffit pour démarrer ; l’API devient nécessaire pour automatiser les envois et répondre à plusieurs.
 
-Au Maroc, la plupart de vos clients préfèrent écrire sur WhatsApp plutôt qu’envoyer un e-mail ou appeler. C’est une chance : un message WhatsApp est lu, souvent dans les minutes qui suivent. C’est aussi un risque, car une demande qui arrive sur un téléphone personnel, un soir ou un week-end, peut facilement rester sans réponse.
+Au Maroc, la plupart de vos clients préfèrent écrire sur WhatsApp plutôt qu’envoyer un e-mail ou appeler. C’est une chance : un message WhatsApp est lu, souvent dans les minutes qui suivent. C’est aussi un risque, car une demande qui arrive sur un téléphone personnel, un soir ou un week-end, peut facilement rester sans réponse.
 
-Ce guide présente quatre séquences de messages simples. Elles conviennent à la plupart des entreprises qui reçoivent des demandes : commerces, cabinets, agences, entreprises de services.
+Ce guide présente quatre séquences de messages simples. Elles conviennent à la plupart des entreprises qui reçoivent des demandes : commerces, cabinets, agences, entreprises de services.
 
 ## Les quatre séquences à mettre en place
 
@@ -19,9 +41,9 @@ Ce guide présente quatre séquences de messages simples. Elles conviennent à l
 **Quand :** dès qu’une demande arrive (formulaire du site, publicité Facebook ou Instagram, Google).
 **Pourquoi :** la personne sait que sa demande est bien reçue et qu’on va la rappeler. Elle a moins de raisons d’aller voir ailleurs.
 
-Exemple :
+Exemple :
 
-> Bonjour Salma, nous avons bien reçu votre demande concernant la rénovation de votre cuisine. Notre équipe vous appelle aujourd’hui avant 18 h. En attendant, voici quelques réalisations récentes : [lien]
+> Bonjour Salma, nous avons bien reçu votre demande concernant la rénovation de votre cuisine. Notre équipe vous appelle aujourd’hui avant 18 h. En attendant, voici quelques réalisations récentes : [lien]
 
 ### 2. Relancer les personnes qui n’ont pas donné suite
 
@@ -40,7 +62,7 @@ Après ce dernier message, on arrête. Insister davantage abîme votre image et 
 **Pourquoi :** les rendez-vous oubliés coûtent cher, surtout quand le créneau aurait pu servir à quelqu’un d’autre.
 
 - **À la prise du rendez-vous :** la date, l’heure, l’adresse avec un lien Google Maps, la durée prévue, ce qu’il faut apporter.
-- **La veille :** un rappel, avec la possibilité de répondre « REPORTER » si besoin.
+- **La veille :** un rappel, avec la possibilité de répondre « REPORTER » si besoin.
 - **Quelques heures avant :** un message très court.
 
 C’est souvent la séquence la plus rentable, et la plus simple à justifier auprès de l’équipe.
@@ -50,7 +72,7 @@ C’est souvent la séquence la plus rentable, et la plus simple à justifier au
 **Quand :** pour les demandes de plus de deux mois, sans échange récent.
 **Rythme :** un message tous les trois mois au maximum.
 
-Ne relancez que si vous avez une vraie raison : un nouveau service, une nouvelle adresse, une période de l’année qui correspond au besoin (rentrée, été, Ramadan, fêtes), ou une réalisation qui ressemble à leur projet.
+Ne relancez que si vous avez une vraie raison : un nouveau service, une nouvelle adresse, une période de l’année qui correspond au besoin (rentrée, été, Ramadan, fêtes), ou une réalisation qui ressemble à leur projet.
 
 ## L’outillage
 
@@ -60,17 +82,17 @@ Gratuite, sur smartphone. Elle permet un message d’accueil, des réponses rapi
 
 ### L’API WhatsApp Business
 
-Payante, via un fournisseur partenaire de Meta. Elle devient nécessaire dès que vous voulez :
+Payante, via un fournisseur partenaire de Meta. Elle devient nécessaire dès que vous voulez :
 
-- envoyer des messages automatiques déclenchés par un formulaire ou un outil de suivi des clients ;
-- répondre à plusieurs depuis le même numéro ;
+- envoyer des messages automatiques déclenchés par un formulaire ou un outil de suivi des clients ;
+- répondre à plusieurs depuis le même numéro ;
 - garder l’historique des échanges dans votre outil de suivi.
 
-Plusieurs fournisseurs existent, avec des modes de facturation différents (par message ou par abonnement). Le bon choix dépend de votre volume et de vos outils ; nous le décidons avec vous.
+Plusieurs fournisseurs existent, avec des modes de facturation différents (par message ou par abonnement). Le bon choix dépend de votre volume et de vos outils ; nous le décidons avec vous.
 
 ### Les modèles validés par Meta
 
-Avec l’API, tout message que vous envoyez en premier (confirmation, rappel, relance) doit utiliser un modèle approuvé par Meta. Les modèles purement promotionnels sont souvent refusés. Ceux qui apportent une information utile (confirmation, rappel, suivi) passent sans difficulté. Une fois que le client vous répond, vous pouvez lui écrire librement pendant 24 heures.
+Avec l’API, vous ne pouvez écrire qu’aux personnes qui ont accepté de recevoir vos messages. Tout message que vous envoyez en premier, ou plus de 24 heures après le dernier message du client, doit utiliser un modèle validé par Meta. Chaque modèle est classé dans une catégorie : utilitaire (confirmation ou suivi d’une commande, d’une demande ou d’un rendez-vous, sans contenu promotionnel), marketing (offres, promotions, relances commerciales) ou authentification (codes de vérification). Un modèle qui mêle information et promotion est classé marketing, et WhatsApp limite le nombre de messages marketing qu’une même personne peut recevoir. Dès que le client vous écrit, une fenêtre de 24 heures s’ouvre : vous pouvez lui répondre librement, sans modèle.
 
 ## Ce qu’il faut suivre
 
@@ -89,9 +111,23 @@ Avec l’API, tout message que vous envoyez en premier (confirmation, rappel, re
 
 ## Par où commencer
 
-1. Les confirmations et rappels de rendez-vous : le gain se voit vite.
+1. Les confirmations et rappels de rendez-vous : le gain se voit vite.
 2. La confirmation immédiate des nouvelles demandes.
 3. Les relances des personnes qui n’ont pas donné suite.
 4. Enfin, la reprise de contact avec les anciennes demandes.
 
 Comptez quelques semaines pour mettre l’ensemble en place proprement, modèles Meta compris. Si vous voulez qu’on regarde ce qui serait utile chez vous, [parlons-en](/contact/).
+
+## Sources
+
+- [Meta for Developers : notions de base sur les modèles WhatsApp](https://developers.facebook.com/documentation/business-messaging/whatsapp/templates/overview)
+- [Meta for Developers : catégories des modèles WhatsApp](https://developers.facebook.com/documentation/business-messaging/whatsapp/templates/template-categorization)
+- [Meta for Developers : limite de messages marketing par utilisateur](https://developers.facebook.com/documentation/business-messaging/whatsapp/templates/marketing-templates/per-user-limits/)
+- [WhatsApp : politique commerciale](https://whatsappbusiness.com/policy/)
+
+## À lire ensuite
+
+- [Publicité Facebook et Instagram : 5 erreurs qui coûtent cher](/blog/erreurs-meta-ads/)
+- [CRM → Meta : renvoyer chaque étape du pipeline via l’API Conversions](/blog/crm-meta-api-conversions/)
+
+Pour aller plus loin, découvrez notre accompagnement sur [l’automatisation WhatsApp, CRM et IA](/services/ia-automatisation/).

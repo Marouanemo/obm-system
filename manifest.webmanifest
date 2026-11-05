@@ -56,8 +56,8 @@
     {
       "name": "Contact rapide",
       "short_name": "Contact",
-      "description": "Réserver un diagnostic de croissance",
-      "url": "/contact/#diagnostic",
+      "description": "Écrire à OBM System",
+      "url": "/contact/",
       "icons": [
         {
           "src": "/assets/img/icon-192.png",

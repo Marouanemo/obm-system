@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+<channel>
+<title>Journal · OBM System</title>
+<link>https://obm-system.com/blog/</link>
+<description>Analyses mesure, acquisition et visibilité, par OBM System, agence de conseil 360° à Rabat.</description>
+<language>fr</language>
+<atom:link href="https://obm-system.com/blog/feed.xml" rel="self" type="application/rss+xml" />
+<lastBuildDate>Sun, 01 Nov 2026 00:00:00 +0000</lastBuildDate>
+<item>
+<title>CRM → Meta : renvoyer chaque étape du pipeline via l’API Conversions</title>
+<link>https://obm-system.com/blog/crm-meta-api-conversions/</link>
+<guid isPermaLink="true">https://obm-system.com/blog/crm-meta-api-conversions/</guid>
+<pubDate>Sun, 01 Nov 2026 00:00:00 +0000</pubDate>
+<description>Meta optimise sur ce qu’il voit. Si vous ne lui transmettez que des formulaires remplis, il vous trouve des gens qui remplissent des formulaires. En renvoyant les étapes de votre CRM via l’API Conversions, vous lui apprenez à trouver des clients.</description>
+</item>
+<item>
+<title>Google Analytics : 6 réglages à contrôler avant d’analyser</title>
+<link>https://obm-system.com/blog/ga4-6-reglages/</link>
+<guid isPermaLink="true">https://obm-system.com/blog/ga4-6-reglages/</guid>
+<pubDate>Sun, 01 Nov 2026 00:00:00 +0000</pubDate>
+<description>Une propriété GA4 installée avec ses réglages par défaut donne des chiffres incomplets ou faussés. Six réglages à contrôler avant de tirer la moindre conclusion de vos rapports.</description>
+</item>
+<item>
+<title>Meta, GA4, la caisse : quel chiffre piloter ?</title>
+<link>https://obm-system.com/blog/meta-ga4-caisse-quel-chiffre-piloter/</link>
+<guid isPermaLink="true">https://obm-system.com/blog/meta-ga4-caisse-quel-chiffre-piloter/</guid>
+<pubDate>Sun, 01 Nov 2026 00:00:00 +0000</pubDate>
+<description>Meta annonce un nombre de ventes, Google Analytics un autre, votre caisse un troisième. Aucun n’est faux : chacun compte selon ses propres règles. La méthode consiste à choisir une source de vérité et à suivre l’écart avec chaque outil.</description>
+</item>
+<item>
+<title>Safari ITP : votre serveur de tracking survit-il à 7 jours ?</title>
+<link>https://obm-system.com/blog/safari-itp-tracking-server-side/</link>
+<guid isPermaLink="true">https://obm-system.com/blog/safari-itp-tracking-server-side/</guid>
+<pubDate>Sun, 01 Nov 2026 00:00:00 +0000</pubDate>
+<description>Safari limite la durée de vie des cookies de mesure. Un serveur de tracking prolonge cette durée, à une condition que beaucoup de mises en place oublient : partager l’infrastructure du site. Voici ce que Safari limite, et comment servir la mesure depuis votre propre domaine.</description>
+</item>
+<item>
+<title>Publicité Facebook et Instagram : 5 erreurs qui coûtent cher</title>
+<link>https://obm-system.com/blog/erreurs-meta-ads/</link>
+<guid isPermaLink="true">https://obm-system.com/blog/erreurs-meta-ads/</guid>
+<pubDate>Tue, 27 Oct 2026 00:00:00 +0000</pubDate>
+<description>Les annonces tournent, les demandes arrivent, mais les ventes ne suivent pas. Voici les cinq erreurs que nous retrouvons le plus souvent quand nous reprenons un compte publicitaire Meta, et comment les corriger.</description>
+</item>
+<item>
+<title>Site vitrine, e-commerce ou plateforme : lequel vous faut-il ?</title>
+<link>https://obm-system.com/blog/site-vitrine-ecommerce-plateforme/</link>
+<guid isPermaLink="true">https://obm-system.com/blog/site-vitrine-ecommerce-plateforme/</guid>
+<pubDate>Sat, 24 Oct 2026 00:00:00 +0000</pubDate>
+<description>Le bon format dépend de ce que votre client doit pouvoir faire en ligne sans vous appeler. Quatre formats, à quoi ils servent, et comment choisir.</description>
+</item>
+<item>
+<title>Relances WhatsApp : le guide pour les entreprises au Maroc</title>
+<link>https://obm-system.com/blog/relances-whatsapp-guide/</link>
+<guid isPermaLink="true">https://obm-system.com/blog/relances-whatsapp-guide/</guid>
+<pubDate>Tue, 20 Oct 2026 00:00:00 +0000</pubDate>
+<description>Au Maroc, WhatsApp est le canal où vos clients répondent. C’est aussi là que beaucoup de demandes se perdent. Voici les quatre séquences de messages à mettre en place, l’outillage nécessaire et les règles pour ne pas devenir envahissant.</description>
+</item>
+<item>
+<title>Fiche Google : 6 réglages que beaucoup d’entreprises oublient</title>
+<link>https://obm-system.com/blog/fiche-google-6-reglages/</link>
+<guid isPermaLink="true">https://obm-system.com/blog/fiche-google-6-reglages/</guid>
+<pubDate>Sun, 18 Oct 2026 00:00:00 +0000</pubDate>
+<description>Votre fiche Google est souvent la première chose qu’un client voit de vous, avant même votre site. Six réglages à vérifier aujourd’hui.</description>
+</item>
+<item>
+<title>Avant de refaire votre site, posez-vous ces 5 questions</title>
+<link>https://obm-system.com/blog/refonte-site-5-questions/</link>
+<guid isPermaLink="true">https://obm-system.com/blog/refonte-site-5-questions/</guid>
+<pubDate>Wed, 14 Oct 2026 00:00:00 +0000</pubDate>
+<description>Une refonte réussie sert un objectif précis. Elle ne se limite pas à changer le design. Cinq questions à vous poser avant votre prochain rendez-vous avec une agence.</description>
+</item>
+</channel>
+</rss>

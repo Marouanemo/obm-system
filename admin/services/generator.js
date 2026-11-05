@@ -38,12 +38,17 @@ function seoHead(data, base) {
 }
 
 function render({ head, schema, crumbs, current, main }) {
-  const schemas = [].concat(schema || [], crumbs ? [L.breadcrumbSchema(crumbs)] : []);
+  const schemas = [].concat(schema || [], crumbs ? [L.breadcrumbSchema(crumbs)] : [], [L.orgNode()]);
   const headHtml = L.head({ ...head, schema: schemas });
   return L.page({ headHtml, current, main: main(crumbs ? L.breadcrumbHtml(crumbs) : '') });
 }
 
 const AUTHOR_HTML = `<div class="byline">Par <a href="/a-propos/#oualid" rel="author">Oualid Benamara</a>, fondateur d’OBM System</div>`;
+const AUTHOR_BOX = `<aside class="author" aria-label="Auteur">
+          <p class="author__name">Oualid Benamara</p>
+          <p>Fondateur d’OBM System, agence de conseil 360° à Rabat. Il pilote chaque projet, du diagnostic de croissance au pilotage des résultats.</p>
+          <p><a class="link" href="https://www.linkedin.com/in/oualidbenamara/" target="_blank" rel="noopener">Profil LinkedIn</a></p>
+        </aside>`;
 
 // ------------------------------------------------------------
 // Article du Journal
@@ -74,6 +79,8 @@ function renderBlogPostHtml({ slug, data, content }) {
       type: 'article',
       publishedTime: data.date ? new Date(data.date).toISOString() : null,
       section: data.category,
+      ogImageType: data.image ? 'image/jpeg' : '',
+      ogImageAlt: data.image ? `${data.title} · Journal OBM System` : '',
     }),
     schema: [schema, L.personNode()],
     crumbs: [['Accueil', '/'], ['Journal', '/blog/'], [data.title, null]],
@@ -95,8 +102,9 @@ function renderBlogPostHtml({ slug, data, content }) {
         </div>
       </header>
       <div class="wrap narrow prose">
-        ${marked.parse(content || '')}
+        ${marked.parse(content || '').replace('<p><strong>En bref.', '<p class="tldr"><strong>En bref.')}
         ${sources.length ? `<aside class="sources"><h2>Sources</h2><ul>${sources.map(s => `<li><a href="${escapeHtml(s.url)}" target="_blank" rel="noopener">${escapeHtml(s.title)}</a></li>`).join('')}</ul></aside>` : ''}
+        ${AUTHOR_BOX}
       </div>
     </article>
     ${L.ctaBand({ loc: `article-${slug}` })}
@@ -116,11 +124,11 @@ function hostOf(site) {
 
 function renderCasePageHtml({ slug, data, content }) {
   const url = `/cas-clients/${slug}/`;
-  const image = data.image || L.OG_DEFAULT;
+  const key = caseKey(data.image);
+  const image = data.ogImage || (key ? `/assets/img/og/og-${key}.jpg` : L.OG_DEFAULT);
   const services = Array.isArray(data.services) ? data.services : [];
   const decisions = Array.isArray(data.decisions) ? data.decisions : [];
   const host = hostOf(data.site);
-  const key = caseKey(data.image);
   const schema = {
     '@context': 'https://schema.org',
     '@type': 'Article',
@@ -133,6 +141,7 @@ function renderCasePageHtml({ slug, data, content }) {
     datePublished: data.date ? new Date(data.date).toISOString().slice(0, 10) : undefined,
     mainEntityOfPage: `${SITE_URL}${url}`,
     inLanguage: 'fr-MA',
+    dateModified: (data.updatedAt || data.date) ? new Date(data.updatedAt || data.date).toISOString().slice(0, 10) : undefined,
   };
   const facts = [
     data.category && ['Secteur', escapeHtml(data.category)],
@@ -169,7 +178,7 @@ function renderCasePageHtml({ slug, data, content }) {
         </div>
       </header>
       <div class="wrap">
-        <div class="case-shot">${key ? L.shot({ key, host, alt: `Site ${data.title}`, phone: !!data.mobileImage, lazy: false, priority: true }) : ''}</div>
+        <div class="case-shot">${key ? L.shot({ key, host, alt: `Site ${data.title}`, phone: !!data.mobileImage, lazy: false, priority: true, sizes: '(max-width: 900px) 92vw, 1000px' }) : ''}</div>
       </div>
       <div class="wrap narrow prose">
         ${decisions.length ? `<h2>${decisions.length} décisions de conception</h2>
@@ -218,11 +227,12 @@ function renderBlogIndexHtml(posts, pageSeo) {
       <div class="wrap">
         ${crumbs}
         <span class="kicker">Journal</span>
-        <h1 class="h1">Analyses</h1>
+        <h1 class="h1">Journal : mesure, publicité, référencement et sites web</h1>
         <p class="lead">Mesure, acquisition, visibilité : ce que nous appliquons, expliqué avec précision.</p>
       </div>
     </section>
     <section class="section" style="padding-top:0">
+      <h2 class="sr-only">Tous les articles</h2>
       <div class="wrap posts">
 ${cards}
       </div>
@@ -260,7 +270,7 @@ function renderCasesIndexHtml(cases, pageSeo) {
       <div class="wrap">
         ${crumbs}
         <span class="kicker">Réalisations</span>
-        <h1 class="h1">Anatomie d’un système</h1>
+        <h1 class="h1">Réalisations : l’anatomie de nos projets</h1>
         <p class="lead">Un site se juge aux décisions qui le font vendre. Pour chaque projet, nous montrons les choix de conception et ce qu’ils apportent au business.</p>
       </div>
     </section>
@@ -275,25 +285,42 @@ ${cards}
 }
 
 // ------------------------------------------------------------
-// Sitemap
+// Sitemap et flux RSS
 // ------------------------------------------------------------
+const day = (d) => (d ? new Date(d).toISOString().slice(0, 10) : '');
+const latest = (dates) => dates.filter(Boolean).sort().pop() || '';
+
+async function fileDate(urlPath) {
+  try {
+    const st = await fs.stat(path.join(PUBLIC_DIR, urlPath, 'index.html'));
+    return day(st.mtime);
+  } catch { return ''; }
+}
+
 async function regenerateSitemap() {
   const posts = (await list('blog')).filter(p => p.published);
   const cases = (await list('cases')).filter(c => c.published);
-  const today = new Date().toISOString().slice(0, 10);
+  const postDate = (p) => day(p.updatedAt || p.date);
+
+  const staticUrls = [];
+  for (const p of L.STATIC_PAGES) {
+    const file = await fileDate(p.path);
+    staticUrls.push({
+      loc: `${SITE_URL}${p.path}`,
+      lastmod: p.path === '/' ? latest([file, ...posts.map(x => day(x.date))]) : file,
+      image: p.path === '/' ? absUrl(L.OG_DEFAULT) : '',
+    });
+  }
 
   const urls = [
-    ...L.STATIC_PAGES.map(p => ({
-      loc: `${SITE_URL}${p.path}`,
-      lastmod: today,
-      changefreq: p.changefreq,
-      priority: p.priority,
-      image: p.path === '/' ? absUrl(L.OG_DEFAULT) : '',
-    })),
-    { loc: `${SITE_URL}/cas-clients/`, lastmod: today, changefreq: 'monthly', priority: '0.8' },
-    ...cases.map(c => ({ loc: `${SITE_URL}/cas-clients/${c.slug}/`, lastmod: c.updatedAt || c.date || '', changefreq: 'yearly', priority: '0.7', image: c.image ? absUrl(c.image) : '' })),
-    { loc: `${SITE_URL}/blog/`, lastmod: today, changefreq: 'weekly', priority: '0.8' },
-    ...posts.map(p => ({ loc: `${SITE_URL}/blog/${p.slug}/`, lastmod: p.updatedAt || p.date || '', changefreq: 'monthly', priority: '0.7' })),
+    ...staticUrls,
+    { loc: `${SITE_URL}/cas-clients/`, lastmod: latest(cases.map(postDate)) },
+    ...cases.map(c => {
+      const key = caseKey(c.image);
+      return { loc: `${SITE_URL}/cas-clients/${c.slug}/`, lastmod: postDate(c), image: key ? absUrl(`/assets/img/og/og-${key}.jpg`) : '' };
+    }),
+    { loc: `${SITE_URL}/blog/`, lastmod: latest(posts.map(postDate)) },
+    ...posts.map(p => ({ loc: `${SITE_URL}/blog/${p.slug}/`, lastmod: postDate(p), image: p.image ? absUrl(p.image) : '' })),
   ];
 
   const xml = `<?xml version="1.0" encoding="UTF-8"?>
@@ -302,13 +329,38 @@ async function regenerateSitemap() {
 ${urls.map(u => `  <url>
     <loc>${u.loc}</loc>
     ${u.lastmod ? `<lastmod>${u.lastmod}</lastmod>` : ''}
-    <changefreq>${u.changefreq}</changefreq>
-    <priority>${u.priority}</priority>
     ${u.image ? `<image:image><image:loc>${u.image}</image:loc></image:image>` : ''}
   </url>`).join('\n')}
 </urlset>
 `;
   await fs.writeFile(path.join(PUBLIC_DIR, 'sitemap.xml'), xml, 'utf8');
+}
+
+async function regenerateFeed() {
+  const posts = (await list('blog')).filter(p => p.published);
+  const rfc = (d) => new Date(d).toUTCString().replace('GMT', '+0000');
+  const items = posts.map(p => `<item>
+<title>${escapeHtml(p.title)}</title>
+<link>${SITE_URL}/blog/${p.slug}/</link>
+<guid isPermaLink="true">${SITE_URL}/blog/${p.slug}/</guid>
+<pubDate>${rfc(p.date)}</pubDate>
+<description>${escapeHtml(p.excerpt)}</description>
+</item>`).join('\n');
+  const xml = `<?xml version="1.0" encoding="UTF-8"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+<channel>
+<title>Journal · OBM System</title>
+<link>${SITE_URL}/blog/</link>
+<description>Analyses mesure, acquisition et visibilité, par OBM System, agence de conseil 360° à Rabat.</description>
+<language>fr</language>
+<atom:link href="${SITE_URL}/blog/feed.xml" rel="self" type="application/rss+xml" />
+<lastBuildDate>${posts.length ? rfc(posts[0].date) : rfc(Date.now())}</lastBuildDate>
+${items}
+</channel>
+</rss>
+`;
+  await fs.mkdir(path.join(PUBLIC_DIR, 'blog'), { recursive: true });
+  await fs.writeFile(path.join(PUBLIC_DIR, 'blog', 'feed.xml'), xml, 'utf8');
 }
 
 // ------------------------------------------------------------
@@ -348,6 +400,7 @@ async function pageSeo(id) {
 
 async function regenerateBlogIndex() {
   await writePage(['blog'], renderBlogIndexHtml(await list('blog'), await pageSeo('blog-index')));
+  await regenerateFeed();
 }
 
 async function regenerateCasesIndex() {

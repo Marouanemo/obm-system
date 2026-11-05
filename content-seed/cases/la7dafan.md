@@ -29,6 +29,8 @@ decisions:
 next:
   slug: "pharmacie-gare-hay-riad"
   title: "Pharmacie Gare Hay Riad"
+seoDescription: "Une galerie en ligne de photographies d’art en édition limitée, encadrées au Maroc, pensée pour qu’on achète une œuvre sans l’avoir vue en vrai."
+updatedAt: "2026-11-02"
 published: true
 ---
 

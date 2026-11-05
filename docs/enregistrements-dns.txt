@@ -1,0 +1,36 @@
+obm-system.com : authentification des e-mails (zone DNS hébergée chez Genious)
+==============================================================================
+État au 2 novembre 2026. Zone : clients.genious.net > Domaines > obm-system.com > Gestion DNS > Manage TXT Records.
+
+1. SPF (autorise Google Workspace à envoyer pour le domaine) ............ FAIT le 02/11/2026
+   Hôte : @ (obm-system.com)      Type : TXT
+   Valeur : v=spf1 include:_spf.google.com ~all
+   Si un autre outil envoie un jour des e-mails « de » @obm-system.com (CRM, outil d'e-mailing),
+   ajouter son include ici, sans jamais créer un second enregistrement v=spf1.
+
+2. DKIM (signature des e-mails) ......................................... FAIT le 02/11/2026
+   Hôte : google._domainkey      Type : TXT      Valeur : clé publique 2048 bits générée dans Google Admin
+   L'ancien TXT « v=DKIM1;k=rsa;p=... » publié par erreur sur @ est à supprimer (il ne sert à rien à cet endroit).
+   Dernière étape : Google Admin > Applications > Google Workspace > Gmail > Authentifier les e-mails
+   > « Démarrer l'authentification » (une fois l'enregistrement visible dans le DNS public).
+
+3. DMARC (politique et rapports) ........................................ FAIT le 02/11/2026
+   Hôte : _dmarc      Type : TXT
+   Valeur : v=DMARC1; p=none; rua=mailto:admin@obm-system.com; fo=1
+   - p=none : observation, aucun e-mail bloqué. Les rapports XML quotidiens arrivent sur admin@.
+   - Après 3 à 4 semaines de rapports propres (100 % des envois légitimes alignés) :
+     v=DMARC1; p=quarantine; pct=100; rua=mailto:admin@obm-system.com; fo=1
+     puis p=reject.
+   - Alignement laissé en mode « relaxed » (par défaut) : plus tolérant si un outil tiers envoie
+     depuis un sous-domaine.
+
+4. CAA (facultatif) : l'interface Genious ne propose pas ce type d'enregistrement. À demander au
+   support Genious si souhaité : obm-system.com  CAA  0 issue "letsencrypt.org"
+
+5. Ne pas toucher : A (@ et www → 89.167.92.61), MX Google Workspace, NS, TXT google-site-verification
+   (validation Search Console).
+
+Contrôle :
+- https://dns.google/query?name=google._domainkey.obm-system.com&rr_type=TXT (idem pour obm-system.com et _dmarc.obm-system.com)
+- Envoyer un e-mail de admin@obm-system.com vers une adresse Gmail > « Afficher l'original » :
+  SPF, DKIM et DMARC doivent être PASS.

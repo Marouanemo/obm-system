@@ -32,6 +32,8 @@ decisions:
 next:
   slug: "nassihacom"
   title: "Nassihacom"
+seoDescription: "Une plateforme trilingue qui relie chargeurs et transporteurs vérifiés au Maroc, en Afrique et en Europe, pour confier sa marchandise en toute confiance."
+updatedAt: "2026-11-02"
 published: true
 ---
 

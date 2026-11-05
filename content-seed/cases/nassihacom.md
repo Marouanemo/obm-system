@@ -33,6 +33,8 @@ decisions:
 next:
   slug: "la7dafan"
   title: "La7daFan"
+seoDescription: "Le site bilingue d’un cabinet de conseil à Rabat : création de sociétés, financement, démarches. Appel, WhatsApp et contact sur chaque écran."
+updatedAt: "2026-11-02"
 published: true
 ---
 

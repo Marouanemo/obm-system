@@ -30,6 +30,17 @@
 - [Pharmacie Gare Hay Riad](https://obm-system.com/cas-clients/pharmacie-gare-hay-riad/) : boutique en ligne, réseaux sociaux, fiche Google, publicité (Rabat).
 - [Éléganza](https://obm-system.com/cas-clients/eleganza/) : e-commerce bilingue (Canada).
 
+## Journal (analyses)
+- [Safari ITP : votre serveur de tracking survit-il à 7 jours ?](https://obm-system.com/blog/safari-itp-tracking-server-side/)
+- [Meta, GA4, la caisse : quel chiffre piloter ?](https://obm-system.com/blog/meta-ga4-caisse-quel-chiffre-piloter/)
+- [Google Analytics : 6 réglages à contrôler avant d’analyser](https://obm-system.com/blog/ga4-6-reglages/)
+- [CRM → Meta : renvoyer chaque étape du pipeline via l’API Conversions](https://obm-system.com/blog/crm-meta-api-conversions/)
+- [Publicité Facebook et Instagram : 5 erreurs qui coûtent cher](https://obm-system.com/blog/erreurs-meta-ads/)
+- [Site vitrine, e-commerce ou plateforme : lequel vous faut-il ?](https://obm-system.com/blog/site-vitrine-ecommerce-plateforme/)
+- [Relances WhatsApp : le guide pour les entreprises au Maroc](https://obm-system.com/blog/relances-whatsapp-guide/)
+- [Fiche Google : 6 réglages que beaucoup d’entreprises oublient](https://obm-system.com/blog/fiche-google-6-reglages/)
+- [Avant de refaire votre site, posez-vous ces 5 questions](https://obm-system.com/blog/refonte-site-5-questions/)
+
 ## Contact
 - E-mail : admin@obm-system.com
 - Téléphone et WhatsApp : +212 7 12 34 80 34
